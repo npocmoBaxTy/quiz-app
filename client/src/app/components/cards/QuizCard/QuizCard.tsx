@@ -1,6 +1,5 @@
 import { useStartQuiz } from "@/pages/QuizesListPage/hooks/useGetQuizzesList";
-import { formatQuizDate } from "@/pages/TeacherQuizesPage/hooks/formateDate";
-import type { Quiz } from "@/pages/TeacherQuizesPage/types";
+import type { Quiz } from "@/pages/QuizesListPage/types";
 import { Check, Clock, ScrollText } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -46,16 +45,7 @@ export const QuizesCard = ({ quiz, clickHandler }: Props) => {
         </div>
       </div>
 
-      <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <p className="text-[10px] uppercase font-bold text-slate-400">
-            {t("quizCard.deadline")}
-          </p>
-          <p className="text-sm font-bold text-slate-700">
-            {formatQuizDate(quiz.dueDate)}
-          </p>
-        </div>
-
+      <div className="pt-6 border-t border-slate-100 flex sm:justify-end gap-4">
         <button
           onClick={clickHandler}
           type="button"

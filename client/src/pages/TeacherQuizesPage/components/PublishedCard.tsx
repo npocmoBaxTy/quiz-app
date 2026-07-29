@@ -38,10 +38,6 @@ export const PublishedCard = ({ quiz }: { quiz: Quiz }) => {
           <ScrollText className="text-purple-500" size={15} />{" "}
           {quiz.questions_count} {t("quizCard.questions")}
         </div>
-        <div className="flex items-center gap-1.5">
-          <Check className="text-purple-500" size={15} /> {quiz.attempt_limit}{" "}
-          Попыток
-        </div>
       </div>
 
       <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

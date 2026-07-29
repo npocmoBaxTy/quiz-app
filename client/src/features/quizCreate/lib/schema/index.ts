@@ -55,7 +55,6 @@ export const quizPublishSchema = z.object({
   passing: z.number().min(1).max(100),
   published: z.boolean(),
   timeLimit: z.number().min(1).max(300),
-  attemptLimit: z.number().min(1).max(10),
   questionsLimit: z.number().min(1, "Минимум 1 вопрос"),
   questions: z
     .array(strictQuestionSchema)
@@ -67,12 +66,7 @@ export const baseQuizSchema = z
     title: z.string().min(1, "Введите название теста"),
     passing: z.number().min(1, "Минимум 1%").max(100, "Максимум 100%"),
     timeLimit: z.number().min(1, "Укажите время"),
-    attemptLimit: z.number().min(1, "Укажите количество попыток"),
     published: z.boolean(),
-    assignedGroups: z.array(z.string()).optional(),
-    assignedStudents: z.array(z.string()).optional(),
-    startDate: z.string().optional().nullable(),
-    dueDate: z.string().optional().nullable(),
     questionsLimit: z.number().min(1, "Минимум 1 вопрос"),
 
     questions: z.array(

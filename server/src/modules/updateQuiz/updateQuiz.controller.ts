@@ -16,13 +16,8 @@ export const updateQuiz = async (
   const {
     title,
     timeLimit,
-    attemptLimit,
     passing,
     published,
-    startDate,
-    dueDate,
-    assignedGroups,
-    assignedStudents,
     questions,
   } = req.body;
 
@@ -31,7 +26,7 @@ export const updateQuiz = async (
       // 1. Обновляем основные настройки самого теста
       const updateResult = await tx.quizzes.updateMany({
         where: { id: quizId, created_by: teacherId },
-        data: { title, time_limit: timeLimit, attempt_limit: attemptLimit, passing, published },
+        data: { title, time_limit: timeLimit, passing, published },
       });
 
       if (updateResult.count === 0) {
@@ -40,47 +35,7 @@ export const updateQuiz = async (
         );
       }
 
-      // 2. Обновляем назначения (quiz_assignments)
-      await tx.quiz_assignments.deleteMany({ where: { quiz_id: quizId } });
-
-      const assignmentsData: {
-        id: string;
-        quiz_id: string;
-        group_id?: string;
-        student_id?: string;
-        start_date: any;
-        due_date: any;
-      }[] = [];
-
-      if (Array.isArray(assignedGroups) && assignedGroups.length > 0) {
-        assignedGroups.forEach((groupId: string) => {
-          assignmentsData.push({
-            id: uuidv4(),
-            quiz_id: quizId,
-            group_id: groupId,
-            start_date: startDate || null,
-            due_date: dueDate || null,
-          });
-        });
-      }
-
-      if (Array.isArray(assignedStudents) && assignedStudents.length > 0) {
-        assignedStudents.forEach((studentId: string) => {
-          assignmentsData.push({
-            id: uuidv4(),
-            quiz_id: quizId,
-            student_id: studentId,
-            start_date: startDate || null,
-            due_date: dueDate || null,
-          });
-        });
-      }
-
-      if (assignmentsData.length > 0) {
-        await tx.quiz_assignments.createMany({ data: assignmentsData });
-      }
-
-      // 3. Обновляем вопросы
+      // 2. Обновляем вопросы
       // Удаляем только СВЯЗИ (quiz_questions), но НЕ сами вопросы из таблицы questions
       await tx.quiz_questions.deleteMany({ where: { quiz_id: quizId } });
 
@@ -198,7 +153,7 @@ export const getQuizForEdit = async (
     // 1. Ищем настройки теста
     const quiz = await prisma.quizzes.findFirst({
       where: { id: quizId, created_by: teacherId },
-      select: { id: true, title: true, passing: true, time_limit: true, attempt_limit: true, published: true },
+      select: { id: true, title: true, passing: true, time_limit: true, published: true },
     });
 
     if (!quiz) {
@@ -239,25 +194,10 @@ export const getQuizForEdit = async (
       })),
     }));
 
-    const assignments = await prisma.quiz_assignments.findMany({
-      where: { quiz_id: quizId },
-      select: { group_id: true, student_id: true, start_date: true, due_date: true },
-    });
-
-    const assignedGroups = assignments.map((a) => a.group_id).filter((id) => id !== null);
-    const assignedStudents = assignments.map((a) => a.student_id).filter((id) => id !== null);
-
-    const startDate = assignments[0]?.start_date ?? null;
-    const dueDate = assignments[0]?.due_date ?? null;
-
     res.json({
       success: true,
       quiz,
       questions,
-      assignedGroups,
-      assignedStudents,
-      start_date: startDate,
-      due_date: dueDate,
     });
   } catch (error: unknown) {
     console.error("Ошибка в getQuizForEdit:", error);

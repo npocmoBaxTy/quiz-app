@@ -1,36 +1,11 @@
 import type { Answer, Question, QuizFormValues } from "../types";
 
-const formatDateForInput = (dateValue: string | Date | null) => {
-  if (!dateValue) return null;
-
-  try {
-    const d = new Date(dateValue);
-
-    // Проверка на Invalid Date
-    if (isNaN(d.getTime())) return null;
-
-    // Сдвигаем время на ваш локальный часовой пояс
-    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-
-    // Обрезаем до миллисекунд и вытаскиваем первые 16 символов (YYYY-MM-DDTHH:mm)
-    return d.toISOString().slice(0, 16);
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
-};
-
 export const transformQuiz = (data: QuizFormValues, published: boolean) => ({
   title: data.title.trim(),
 
   passing: Number(data.passing) || 0,
   timeLimit: Number(data.timeLimit) || 0,
-  attemptLimit: Number(data.attemptLimit) || 0,
   published,
-  assignedGroups: data.assignedGroups || [],
-  assignedStudents: data.assignedStudents || [],
-  startDate: data.startDate || null,
-  dueDate: data.dueDate || null,
   questionsLimit: Number(data.questionsLimit),
 
   // Безопасный доступ к массиву вопросов
@@ -64,18 +39,9 @@ export const transformQuizToBackend = (
   return {
     title: data.title.trim(),
     timeLimit: Number(data.timeLimit),
-    attemptLimit: Number(data.attemptLimit),
     passing: Number(data.passing),
     published: published, // Берем статус прямо из формы!
     questionsLimit: data.questionsLimit,
-
-    // Даты: если строка пустая, отправляем null (чтобы БД не ругалась)
-    startDate: data.startDate || null,
-    dueDate: data.dueDate || null,
-
-    // Доступы
-    assignedGroups: data.assignedGroups || [],
-    assignedStudents: data.assignedStudents || [],
 
     // Вопросы
     questions: data.questions.map((q) => ({
@@ -100,7 +66,6 @@ export interface QuizBackendResponse {
     title: string;
     passing: number;
     time_limit: number; // 🔥 Змеиный регистр (как в БД)
-    attempt_limit: number; // 🔥 Змеиный регистр (как в БД)
     published: boolean;
     questionsLimit: number;
   };
@@ -116,10 +81,6 @@ export interface QuizBackendResponse {
       isCorrect: boolean;
     }>;
   }>;
-  assignedGroups: string[];
-  assignedStudents: string[];
-  start_date: string | null;
-  due_date: string | null;
 }
 
 export const transformBackendToForm = (
@@ -129,15 +90,8 @@ export const transformBackendToForm = (
     title: serverData.quiz.title,
     passing: Number(serverData.quiz.passing),
     timeLimit: serverData.quiz.time_limit, // snake_case -> camelCase
-    attemptLimit: serverData.quiz.attempt_limit, // snake_case -> camelCase
     published: serverData.quiz.published,
     questionsLimit: serverData.quiz.questionsLimit,
-
-    // Дата и группы (пока ставим пустые/null, если бэкенд их еще не отдает)
-    assignedGroups: serverData.assignedGroups || [],
-    assignedStudents: serverData.assignedStudents || [],
-    startDate: formatDateForInput(serverData.start_date),
-    dueDate: formatDateForInput(serverData.due_date),
 
     // Разворачиваем вопросы
     questions: (serverData.questions || []).map((q) => ({

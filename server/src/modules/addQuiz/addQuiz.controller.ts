@@ -6,16 +6,11 @@ export const createQuiz = async (req: Request, res: Response) => {
   try {
     const {
       title,
-      attemptLimit,
       published,
       passing,
       timeLimit,
       questionsLimit,
       questions,
-      assignedGroups,
-      assignedStudents,
-      startDate,
-      dueDate,
     } = req.body;
 
     const userId = req.user?.userId;
@@ -35,7 +30,6 @@ export const createQuiz = async (req: Request, res: Response) => {
           passing,
           created_by: userId,
           time_limit: timeLimit,
-          attempt_limit: attemptLimit,
           published,
           created_at: now,
           questions_limit: questionsLimit,
@@ -89,31 +83,6 @@ export const createQuiz = async (req: Request, res: Response) => {
 
       if (answersData.length > 0) {
         await tx.answer_options.createMany({ data: answersData });
-      }
-
-      // 4. МАССОВАЯ ВСТАВКА НАЗНАЧЕНИЙ (Группы и Студенты)
-      if (Array.isArray(assignedGroups) && assignedGroups.length > 0) {
-        await tx.quiz_assignments.createMany({
-          data: assignedGroups.map((groupId) => ({
-            id: uuidv4(),
-            quiz_id: quizId,
-            group_id: groupId,
-            start_date: startDate || null,
-            due_date: dueDate || null,
-          })),
-        });
-      }
-
-      if (Array.isArray(assignedStudents) && assignedStudents.length > 0) {
-        await tx.quiz_assignments.createMany({
-          data: assignedStudents.map((studentId) => ({
-            id: uuidv4(),
-            quiz_id: quizId,
-            student_id: studentId,
-            start_date: startDate || null,
-            due_date: dueDate || null,
-          })),
-        });
       }
     });
 

@@ -11,7 +11,6 @@ import {
   TabsContent,
   TabsTrigger,
 } from "@/app/components/ui/tabs";
-import { QuizAssigments } from "./components/QuizAssigments";
 import { useParams } from "react-router-dom";
 import { useGetQuizForEdit } from "./api/creatQuiz";
 import { transformBackendToForm } from "./utils/transformQuiz";
@@ -28,7 +27,6 @@ export const QuizBuilder = () => {
       title: "Новый Тест",
       passing: 60,
       timeLimit: 50,
-      attemptLimit: 1,
       published: false,
       questionsLimit: 1,
       questions: [
@@ -44,10 +42,6 @@ export const QuizBuilder = () => {
           ],
         },
       ],
-      assignedGroups: [],
-      assignedStudents: [],
-      startDate: null,
-      dueDate: null,
     },
     values: editData ? transformBackendToForm(editData) : undefined,
     resolver: zodResolver(baseQuizSchema),
@@ -95,7 +89,6 @@ export const QuizBuilder = () => {
                   quizId={quizId}
                 />
                 <QuizConfiger />
-                <QuizAssigments />
               </TabsContent>
             </form>
           </Tabs>

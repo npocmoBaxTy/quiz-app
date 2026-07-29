@@ -14,10 +14,7 @@ export type Quiz = {
   questions_count: number;
   creator_name: string;
   time_limit: number;
-  attempt_limit: number;
   avgScore: number;
-  dueDate: string | null;
-  startDate: string | null;
   attemptsCount: number;
 };
 

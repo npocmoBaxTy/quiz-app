@@ -43,7 +43,7 @@ export const QuizConfiger = () => {
             </div>
 
             <div className="flex gap-4 items-center">
-              <div className="quiz__time w-1/4">
+              <div className="quiz__time w-1/3">
                 <QuizDropdown
                   onSelect={(v) =>
                     setValue("timeLimit", Number(v), { shouldDirty: true })
@@ -54,7 +54,7 @@ export const QuizConfiger = () => {
                 />
               </div>
 
-              <div className="quiz__passing w-1/4">
+              <div className="quiz__passing w-1/3">
                 <QuizDropdown
                   onSelect={(v) =>
                     setValue("passing", Number(v), { shouldDirty: true })
@@ -65,19 +65,8 @@ export const QuizConfiger = () => {
                 />
               </div>
 
-              <div className="quiz__attempts w-1/4">
-                <QuizDropdown
-                  label="КОЛ-ВО ПОПЫТОК"
-                  items={["1", "2", "3", "4"]}
-                  onSelect={(v) => {
-                    setValue("attemptLimit", Number(v), { shouldDirty: true });
-                  }}
-                  value={watch("attemptLimit")}
-                />
-              </div>
-
               {/* 🔥 Новый блок для лимита вопросов вместо чекбокса перемешивания */}
-              <div className="quiz__questions-limit w-1/4">
+              <div className="quiz__questions-limit w-1/3">
                 <Controller
                   name="questionsLimit"
                   rules={{ required: true, min: 1 }}

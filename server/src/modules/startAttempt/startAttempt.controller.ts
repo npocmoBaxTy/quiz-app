@@ -4,7 +4,6 @@ import { prisma } from "../../db/prisma.js";
 
 type StartAttemptResult =
   | { kind: "not_found" }
-  | { kind: "limit_reached"; attemptLimit: number | null }
   | { kind: "ok"; attemptId: string };
 
 export const startQuizAttempt = async (
@@ -17,40 +16,28 @@ export const startQuizAttempt = async (
 
   try {
     const result = await prisma.$transaction(async (tx): Promise<StartAttemptResult> => {
-      // 1. Получаем настройки теста (лимит попыток)
+      // 1. Убеждаемся, что тест существует
       const quiz = await tx.quizzes.findUnique({
         where: { id: quizId },
-        select: { attempt_limit: true },
+        select: { id: true },
       });
 
       if (!quiz) {
         return { kind: "not_found" };
       }
 
-      const attemptLimit = quiz.attempt_limit;
-
-      // 2. Считаем, сколько раз студент УЖЕ проходил этот тест
-      const currentAttempts = await tx.attempts.count({
-        where: { quiz_id: quizId, student_id: studentId },
-      });
-
-      // 3. Защита: проверяем лимиты
-      if (attemptLimit !== null && currentAttempts >= attemptLimit) {
-        return { kind: "limit_reached", attemptLimit };
-      }
-
-      // 4. Защита от случайного обновления страницы
+      // 2. Защита от случайного обновления страницы —
+      // тесты общие и без лимита попыток, но незавершённую попытку не дублируем.
       const inProgress = await tx.attempts.findFirst({
         where: { quiz_id: quizId, student_id: studentId, status: "in_progress" },
         select: { id: true },
       });
 
       if (inProgress) {
-        // Если студент закрыл вкладку и вернулся, отдаем ему старую попытку.
         return { kind: "ok", attemptId: inProgress.id };
       }
 
-      // 5. Все проверки пройдены — создаем НОВУЮ попытку
+      // 3. Создаём НОВУЮ попытку
       const attemptId = uuidv4();
       await tx.attempts.create({
         data: {
@@ -67,14 +54,6 @@ export const startQuizAttempt = async (
 
     if (result.kind === "not_found") {
       res.status(404).json({ error: "Тест не найден" });
-      return;
-    }
-
-    if (result.kind === "limit_reached") {
-      res.status(403).json({
-        error: "Вы исчерпали лимит попыток для этого теста",
-        maxAttempts: result.attemptLimit,
-      });
       return;
     }
 

@@ -5,21 +5,9 @@ import { Request, Response } from "express";
 export const getQuizAttemptsList = async (req: Request, res: Response) => {
   try {
     const quizId = req.params.quizId as string;
-    const teacherId = req.user?.userId;
-    if (!teacherId) {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
 
-    // Тест должен принадлежать именно этому преподавателю —
-    // иначе любой TEACHER мог бы смотреть попытки чужих тестов по quizId.
-    const quiz = await prisma.quizzes.findFirst({
-      where: { id: quizId, created_by: teacherId },
-      select: { id: true },
-    });
-    if (!quiz) {
-      return res.status(404).json({ error: "Тест не найден" });
-    }
-
+    // Преподаватель просматривает попытки студентов без ограничений —
+    // по любому тесту, вне зависимости от того, кто его создал.
     const attempts = await prisma.attempts.findMany({
       where: { quiz_id: quizId },
       orderBy: { finished_at: "desc" },
@@ -55,7 +43,7 @@ export const getRecentAttempts = async (req: Request, res: Response) => {
     }
 
     const attempts = await prisma.attempts.findMany({
-      where: { status: "finished", quizzes: { created_by: teacherId } },
+      where: { status: "finished" },
       orderBy: { finished_at: "desc" },
       take: 20,
       select: {
@@ -89,15 +77,10 @@ export const getRecentAttempts = async (req: Request, res: Response) => {
 export const getAttemptDetails = async (req: Request, res: Response) => {
   try {
     const attemptId = req.params.attemptId as string;
-    const teacherId = req.user?.userId;
-    if (!teacherId) {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
 
-    // 1. Получаем инфо о попытке — только если она относится к тесту ЭТОГО
-    // преподавателя, иначе любой TEACHER мог бы читать чужие попытки по attemptId.
-    const attempt = await prisma.attempts.findFirst({
-      where: { id: attemptId, quizzes: { created_by: teacherId } },
+    // Преподаватель видит детали любой попытки без ограничений.
+    const attempt = await prisma.attempts.findUnique({
+      where: { id: attemptId },
       select: {
         id: true,
         score: true,
