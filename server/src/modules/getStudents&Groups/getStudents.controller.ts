@@ -59,6 +59,7 @@ export const updateStudent = async (req: Request, res: Response) => {
 
     const student = await prisma.users.findFirst({
       where: { id: studentId, role: "STUDENT" },
+      select: { id: true },
     });
     if (!student) {
       return res.status(404).json({ error: "Студент не найден" });
