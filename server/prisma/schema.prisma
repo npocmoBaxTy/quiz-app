@@ -1,0 +1,174 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model answer_options {
+  id              String            @id @db.Uuid
+  question_id     String?           @db.Uuid
+  text            String?
+  is_correct      Boolean?
+  questions       questions?        @relation(fields: [question_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  student_answers student_answers[]
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+model attempt_questions {
+  id          String    @id @db.Uuid
+  attempt_id  String    @db.Uuid
+  question_id String    @db.Uuid
+  order_index Int?
+  points      Int?
+  created_at  DateTime? @db.Timestamp(6)
+  attempts    attempts  @relation(fields: [attempt_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  questions   questions @relation(fields: [question_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+model attempts {
+  id                String              @id @db.Uuid
+  quiz_id           String?             @db.Uuid
+  student_id        String?             @db.Uuid
+  started_at        DateTime?           @db.Timestamp(6)
+  finished_at       DateTime?           @db.Timestamp(6)
+  score             Int?
+  status            String?             @db.VarChar
+  max_score         Int                 @default(50)
+  attempt_questions attempt_questions[]
+  quizzes           quizzes?            @relation(fields: [quiz_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users             users?              @relation(fields: [student_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  student_answers   student_answers[]
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+model group_students {
+  group_id   String @db.Uuid
+  student_id String @db.Uuid
+  groups     groups @relation(fields: [group_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users      users  @relation(fields: [student_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([group_id, student_id])
+}
+
+model groups {
+  id               String             @id @db.Uuid
+  name             String?            @db.VarChar
+  created_at       DateTime?          @db.Timestamp(6)
+  group_students   group_students[]
+  quiz_assignments quiz_assignments[]
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+model question_categories {
+  id                        String                @id @db.Uuid
+  name                      String?               @db.VarChar
+  parent_id                 String?               @db.Uuid
+  question_categories       question_categories?  @relation("question_categoriesToquestion_categories", fields: [parent_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  other_question_categories question_categories[] @relation("question_categoriesToquestion_categories")
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model questions {
+  id                String              @id @db.Uuid
+  text              String?
+  type              String?             @db.VarChar
+  created_by        String?             @db.Uuid
+  created_at        DateTime?           @db.Timestamp(6)
+  answer_options    answer_options[]
+  attempt_questions attempt_questions[]
+  users             users?              @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  quiz_questions    quiz_questions[]
+  student_answers   student_answers[]
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+model quiz_assignments {
+  id         String    @id @db.Uuid
+  quiz_id    String?   @db.Uuid
+  group_id   String?   @db.Uuid
+  start_date DateTime? @db.Timestamp(6)
+  due_date   DateTime? @db.Timestamp(6)
+  student_id String?   @db.Uuid
+  groups     groups?   @relation(fields: [group_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  quizzes    quizzes?  @relation(fields: [quiz_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users      users?    @relation(fields: [student_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model quiz_questions {
+  id          String     @id @db.Uuid
+  quiz_id     String?    @db.Uuid
+  question_id String?    @db.Uuid
+  points      Int?
+  order_index Int?
+  questions   questions? @relation(fields: [question_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  quizzes     quizzes?   @relation(fields: [quiz_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model quizzes {
+  id               String             @id @db.Uuid
+  title            String?            @db.VarChar
+  passing          Int?
+  created_by       String?            @db.Uuid
+  time_limit       Int?
+  attempt_limit    Int?
+  published        Boolean?
+  created_at       DateTime?          @db.Timestamp(6)
+  questions_limit  Int?
+  attempts         attempts[]
+  quiz_assignments quiz_assignments[]
+  quiz_questions   quiz_questions[]
+  users            users?             @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model refresh_tokens {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id    String?   @db.Uuid
+  token      String
+  expires_at DateTime  @db.Timestamptz(6)
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  users      users?    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+model student_answers {
+  id               String          @id @db.Uuid
+  attempt_id       String?         @db.Uuid
+  question_id      String?         @db.Uuid
+  answer_option_id String?         @db.Uuid
+  text_answer      String?
+  is_correct       Boolean?
+  points           Int?
+  answer_options   answer_options? @relation(fields: [answer_option_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  attempts         attempts?       @relation(fields: [attempt_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  questions        questions?      @relation(fields: [question_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([attempt_id, question_id, answer_option_id], map: "unique_attempt_question_option")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model users {
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  role             String?            @db.VarChar
+  created_at       DateTime?          @default(now()) @db.Timestamp(6)
+  email            String             @unique
+  full_name        String
+  password_hash    String
+  attempts         attempts[]
+  group_students   group_students[]
+  questions        questions[]
+  quiz_assignments quiz_assignments[]
+  quizzes          quizzes[]
+  refresh_tokens   refresh_tokens[]
+}

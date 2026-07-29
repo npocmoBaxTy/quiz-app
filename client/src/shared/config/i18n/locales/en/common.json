@@ -1,0 +1,61 @@
+{
+    "navigation": {
+        "dashboard": "Dashboard",
+        "welcome": "Welcome",
+        "span": "Select your role to sign in to the knowledge control system",
+        "quizes": "Quizes",
+        "students": "Students",
+        "settings": "Settings"
+    },
+    "buttons": {
+        "start": "Start",
+        "submit": "Submit",
+        "next": "Next",
+        "save": "Save"
+    },
+    "studentCard": {
+        "student": "I'm - Student",
+        "info": "Take the assigned test, review your results, and get feedback from your instructor.",
+        "sign": "Sign in to your account"
+    },
+    "teacherCard": {
+        "teacher": "I'm - Teacher",
+        "info": "Create tests, manage student groups, and analyze proctoring results in real-time.",
+        "sign": "Control Panel"
+    },
+    "sidebar" : {
+        "home": "Home",
+        "settings":"Settings",
+        "performance": "Performance",
+        "myQuizes": "My Quizes"
+    },
+    "quizesPage": {
+        "title": "Available quizes",
+        "search": "Search quizes",
+        "subtitle": "You have {{count}} quizes to complete",
+        "filters": {
+            "all" : "All",
+            "finished": "Finished",
+            "active": "Active"
+        }
+    },
+    "quizCard": {
+        "active": "Active",
+        "disabled": "Not available",
+        "available": "Will be available",
+        "finished": "Finished",
+        "time":"Min",
+        "questions": "Questions",
+        "deadline": "Deadline",
+        "start": "Start quiz",
+        "availableFrom": "Available from",
+        "closed": "Close",
+        "result": "Result",
+        "mistakes": "Show mistakes"
+    },
+    "auth": {
+        "login": "Login",
+        "password": "Password",
+        "logout": "Logout"
+    }
+}

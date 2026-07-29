@@ -1,0 +1,33 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ],
+  "compilerOptions": {
+    "paths": {
+      // 2. Добавлены ./ ко всем путям
+      "@/*": [
+        "./src/*"
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@hooks/*": [
+        "./src/hooks/*"
+      ],
+      "@app/*": ["./src/*"],
+      "@lib/*": ["./src/*"],
+      "@utils/*": [
+        "./src/utils/*"
+      ],
+      "@i18n/*": [
+        "./src/i18n/*"
+      ]
+    },
+  }
+}

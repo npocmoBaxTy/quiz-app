@@ -1,0 +1,61 @@
+{
+    "navigation": {
+        "dashboard": "Dashboard",
+        "quizes": "Testlar",
+        "students": "Students",
+        "welcome": "Xush kelibsiz",
+        "span": "Bilim nazorati tizimiga kirish uchun rolingizni tanlang",
+        "settings": "Settings"
+    },
+    "buttons": {
+        "start": "Start",
+        "submit": "Submit",
+        "next": "Next",
+        "save": "Save"
+    },
+    "studentCard": {
+        "student": "Men - Student",
+        "info": "Belgilangan testdan o‘ting, natijalaringizni ko‘rib chiqing va o‘qituvchidan fikr-mulohaza oling.",
+        "sign" : "Accountga kirish"
+    },
+    "teacherCard": {
+        "teacher": "Men - Ustoz",
+        "info": "Testlar yarating, talabalar guruhlarini boshqaring va real vaqt rejimida proktoring natijalarini tahlil qiling.",
+        "sign": "Boshqaruv paneli"
+    },
+    "sidebar" : {
+        "home": "Asosiy",
+        "settings":"Sozlamalar",
+        "performance": "O'zlashtirish",
+        "myQuizes": "Testlarim"
+    },
+    "quizesPage": {
+        "title": "Mavjud testlar",
+        "subtitle" : "Sizda topshirilishi kerak bo‘lgan {{count}} ta test bor",
+        "search": "Testlar qidirish",
+        "filters": {
+            "all" : "Hammasi",
+            "finished": "Yakunlangan",
+            "active": "Faol"
+        }
+    },
+    "quizCard": {
+        "active": "Faol",
+        "disabled": "Nofaol",
+        "available": "Mavjud bo‘ladi",
+        "finished": "Yakunlangan",
+        "time": "Daqiqa",
+        "questions": "Sorovlar",
+        "deadline": "Dedlain",
+        "start": "Boshlash",
+        "availableFrom": "Faol boladi",
+        "closed": "Yopiq",
+        "result": "Natija",
+        "mistakes": "Xatolarni ko‘rish"
+    },
+    "auth": {
+        "login": "Kirish",
+        "password": "Password",
+        "logout": "Chiqish"
+    }
+}
