@@ -37,9 +37,9 @@ export const createQuiz = async (req: Request, res: Response) => {
       });
 
       // 2. ПОДГОТОВКА ДАННЫХ
-      const questionsData: { id: string; text: string; type: string; created_by: string; created_at: Date }[] = [];
+      const questionsData: { id: string; text: string; type: string; created_by: string; created_at: Date; image_url: string | null }[] = [];
       const quizQuestionsData: { id: string; quiz_id: string; question_id: string; points: number; order_index: number }[] = [];
-      const answersData: { id: string; question_id: string; text: string; is_correct: boolean }[] = [];
+      const answersData: { id: string; question_id: string; text: string; is_correct: boolean; image_url: string | null }[] = [];
 
       questions.forEach((q: any, index: number) => {
         const questionId = uuidv4();
@@ -50,6 +50,7 @@ export const createQuiz = async (req: Request, res: Response) => {
           type: q.type || "multiple",
           created_by: userId,
           created_at: now,
+          image_url: q.imageUrl || null,
         });
 
         quizQuestionsData.push({
@@ -67,6 +68,7 @@ export const createQuiz = async (req: Request, res: Response) => {
               question_id: questionId,
               text: ans.text,
               is_correct: !!ans.isCorrect,
+              image_url: ans.imageUrl || null,
             });
           });
         }

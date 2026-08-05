@@ -1,7 +1,11 @@
 import express from "express"
 import cors from "cors"
+import path from "path"
+import { fileURLToPath } from "url"
 import router from "./src/routes/index.js";
 import cookieParser from "cookie-parser";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const app = express()
 
@@ -12,6 +16,7 @@ app.use(cors({
   credentials: true
 }))
 app.use(express.json())
+app.use("/uploads", express.static(path.join(__dirname, "uploads")))
 
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok" })

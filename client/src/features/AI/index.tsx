@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useGenerateQuestions, type GeneratedQuestion } from "./hooks/useAIQueries";
 import { Sparkles, CheckCircle2, Circle, Loader2, RotateCcw } from "lucide-react";
 
@@ -8,9 +9,10 @@ interface AiGeneratorProps {
 }
 
 export const AiQuestionGenerator = ({ onAddQuestions }: AiGeneratorProps) => {
+  const { t } = useTranslation();
   // Настройки запроса
   const [topic, setTopic] = useState("");
-  const [difficulty, setDifficulty] = useState("Средний");
+  const [difficulty, setDifficulty] = useState(t("quizBuilder.ai.difficulty.medium"));
   const [count, setCount] = useState(3);
 
   // Результаты
@@ -51,10 +53,10 @@ export const AiQuestionGenerator = ({ onAddQuestions }: AiGeneratorProps) => {
       <div className="mb-6">
         <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
           <Sparkles className="text-indigo-600" size={20} />
-          Создание вопросов с Gemini ИИ
+          {t("quizBuilder.ai.title")}
         </h2>
         <p className="text-sm text-slate-500 mt-1">
-          Укажите тему, и нейросеть сама придумает вопросы и варианты ответов.
+          {t("quizBuilder.ai.subtitle")}
         </p>
       </div>
 
@@ -62,31 +64,31 @@ export const AiQuestionGenerator = ({ onAddQuestions }: AiGeneratorProps) => {
       {generatedQuestions.length === 0 ? (
         <div className="space-y-5 max-w-3xl">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1.5">Тема вопросов</label>
-            <input 
-              type="text" 
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">{t("quizBuilder.ai.topicLabel")}</label>
+            <input
+              type="text"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
-              placeholder="Например: Основы React, хуки useEffect и useState"
+              placeholder={t("quizBuilder.ai.topicPlaceholder")}
               className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 outline-none transition-all"
             />
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Сложность</label>
-              <select 
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">{t("quizBuilder.ai.difficultyLabel")}</label>
+              <select
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value)}
                 className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-indigo-500 outline-none"
               >
-                <option value="Базовый">Базовый (Для новичков)</option>
-                <option value="Средний">Средний (Стандарт)</option>
-                <option value="Продвинутый">Продвинутый (С подвохом)</option>
+                <option value={t("quizBuilder.ai.difficulty.basic")}>{t("quizBuilder.ai.difficulty.basic")}</option>
+                <option value={t("quizBuilder.ai.difficulty.medium")}>{t("quizBuilder.ai.difficulty.medium")}</option>
+                <option value={t("quizBuilder.ai.difficulty.advanced")}>{t("quizBuilder.ai.difficulty.advanced")}</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Количество (макс. 10)</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">{t("quizBuilder.ai.countLabel")}</label>
               <input 
                 type="number" 
                 min="1" max="10"
@@ -97,7 +99,7 @@ export const AiQuestionGenerator = ({ onAddQuestions }: AiGeneratorProps) => {
             </div>
           </div>
 
-          {isError && <p className="text-red-500 text-sm">Ошибка при обращении к ИИ. Проверьте настройки бэкенда.</p>}
+          {isError && <p className="text-red-500 text-sm">{t("quizBuilder.ai.errorMessage")}</p>}
 
           <button 
             type="button"
@@ -106,7 +108,7 @@ export const AiQuestionGenerator = ({ onAddQuestions }: AiGeneratorProps) => {
             className="w-full sm:w-auto px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl flex items-center justify-center gap-2 transition disabled:opacity-50"
           >
             {isPending ? <Loader2 className="animate-spin" size={20} /> : <Sparkles size={20} />}
-            {isPending ? "Gemini генерирует..." : "Создать вопросы"}
+            {isPending ? t("quizBuilder.ai.generating") : t("quizBuilder.ai.generate")}
           </button>
         </div>
       ) : (
@@ -114,14 +116,14 @@ export const AiQuestionGenerator = ({ onAddQuestions }: AiGeneratorProps) => {
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-indigo-50/50 p-4 rounded-xl border border-indigo-100">
             <span className="text-sm font-medium text-indigo-800">
-              Сгенерировано {generatedQuestions.length} вопросов. Отметьте подходящие.
+              {t("quizBuilder.ai.generatedCount", { count: generatedQuestions.length })}
             </span>
-            <button 
+            <button
             type="button"
-              onClick={() => setGeneratedQuestions([])} 
+              onClick={() => setGeneratedQuestions([])}
               className="text-sm flex items-center gap-1.5 text-indigo-600 hover:text-indigo-800 font-medium transition"
             >
-              <RotateCcw size={16} /> Сбросить и начать заново
+              <RotateCcw size={16} /> {t("quizBuilder.ai.resetButton")}
             </button>
           </div>
           
@@ -170,7 +172,7 @@ export const AiQuestionGenerator = ({ onAddQuestions }: AiGeneratorProps) => {
               disabled={selectedIndices.size === 0}
               className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl flex items-center justify-center gap-2 transition disabled:opacity-50"
             >
-              Добавить в тест ({selectedIndices.size})
+              {t("quizBuilder.ai.addToQuiz", { count: selectedIndices.size })}
             </button>
           </div>
         </div>

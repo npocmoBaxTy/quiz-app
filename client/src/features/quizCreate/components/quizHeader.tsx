@@ -1,6 +1,7 @@
 import { useFormContext, type Path } from "react-hook-form";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 import { Button } from "@/app/components/ui/button";
 import { QuizBreadCrumbs } from "./BreadCrumbs";
@@ -19,12 +20,15 @@ export const QuizHeader = ({
   breadcrumbs = true,
   isEditMode,
   quizId,
+  onNeedsTab,
 }: {
   breadcrumbs?: boolean;
   isEditMode: boolean;
   quizId?: string;
+  onNeedsTab?: (tab: string) => void;
 }) => {
   const form = useFormContext<QuizFormValues>();
+  const { t } = useTranslation();
 
   // 2. ПОДКЛЮЧАЕМ МУТАЦИИ
   const createMutation = useCreateQuiz();
@@ -45,7 +49,7 @@ export const QuizHeader = ({
 
     if (!result.success) {
       console.error("Ошибки сохранения черновика:", result.error.format());
-      toast.error("Заполните название теста");
+      toast.error(t("quizBuilder.fillTitleError"));
       return;
     }
 
@@ -78,7 +82,16 @@ export const QuizHeader = ({
           message: err.message,
         });
       });
-      toast.error("Исправьте ошибки перед сохранением");
+
+      // Ошибка может относиться к полю на неактивной вкладке (она не
+      // отрендерена в DOM), поэтому переключаемся на нужную вкладку,
+      // чтобы пользователь увидел, что именно нужно исправить.
+      const firstIssue = result.error.issues[0];
+      const targetTab =
+        firstIssue.path[0] === "questions" ? "questions" : "settings";
+      onNeedsTab?.(targetTab);
+
+      toast.error(firstIssue.message || t("quizBuilder.fixErrorsError"));
       return;
     }
 
@@ -114,7 +127,7 @@ export const QuizHeader = ({
           onClick={() => setIsPreviewOpen(true)}
           className="text-xs px-3 py-px bg-transparent cursor-pointer border rounded-md border-black text-black hover:text-white"
         >
-          Предпросмотр
+          {t("quizBuilder.preview")}
         </Button>
 
         {/* КНОПКА ЧЕРНОВИКА */}
@@ -126,10 +139,10 @@ export const QuizHeader = ({
         >
           {isAnyPending ? (
             <>
-              <Spinner /> Сохранение...
+              <Spinner /> {t("quizBuilder.saving")}
             </>
           ) : (
-            "Сохранить черновик"
+            t("quizBuilder.saveDraft")
           )}
         </Button>
 
@@ -142,10 +155,10 @@ export const QuizHeader = ({
         >
           {isAnyPending ? (
             <>
-              <Spinner /> В процессе...
+              <Spinner /> {t("quizBuilder.publishing")}
             </>
           ) : (
-            "Опубликовать"
+            t("quizBuilder.publish")
           )}
         </Button>
       </div>

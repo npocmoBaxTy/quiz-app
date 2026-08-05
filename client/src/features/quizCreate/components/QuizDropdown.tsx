@@ -8,6 +8,7 @@ import {
 } from "@/app/components/ui/dropdown-menu";
 import { C } from "@/features/quizbuilder/constants";
 import { MoveDown } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export function QuizDropdown({
   items,
@@ -20,6 +21,7 @@ export function QuizDropdown({
   onSelect: (v: string) => void;
   value?: string;
 }) {
+  const { t } = useTranslation();
   return (
     <DropdownMenu>
       <label
@@ -32,7 +34,7 @@ export function QuizDropdown({
       <DropdownMenuTrigger asChild>
         <div className="flex justify-between items-center border px-4 rounded-md">
           <Button variant="ghost" className="p-0 hover:bg-transparent text-xs">
-            {value ?? "Выберите"}
+            {value ?? t("quizBuilder.selectPlaceholder")}
           </Button>
           <MoveDown size={14} />
         </div>

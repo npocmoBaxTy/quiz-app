@@ -20,9 +20,9 @@ export const QuizesList = ({ data }: { data: Quiz[] | undefined }) => {
   }
   return (
     <>
-     
+
       {/* <!-- Сетка тестов --> */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6 relative justify-items-center">
+      <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 gap-6 relative justify-items-center">
         {data?.map((quiz) => (
           <QuizesCard
             key={quiz.id}

@@ -1,6 +1,7 @@
 import { memo } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { Trash2, AlertCircle } from "lucide-react"; // Добавили красивые иконки
+import { useTranslation } from "react-i18next";
 import type { Answer } from "../../types";
 
 type Props = {
@@ -13,6 +14,7 @@ type Props = {
 export const QuestionSummary = memo(
   ({ index, isActive, onClick, onRemove }: Props) => {
     const { control } = useFormContext();
+    const { t } = useTranslation();
 
     // Следим за нужными полями конкретно ЭТОГО вопроса
     const questionText = useWatch({ control, name: `questions.${index}.text` });
@@ -77,7 +79,7 @@ export const QuestionSummary = memo(
           <span
             className={`truncate text-xs ${isReady ? "text-green-600" : "text-zinc-500"} font-medium`}
           >
-            {questionText || "Введите текст вопроса"}
+            {questionText || t("quizBuilder.enterQuestionText")}
           </span>
         </div>
 
@@ -93,7 +95,7 @@ export const QuestionSummary = memo(
               onRemove();
             }}
             className="text-zinc-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity p-1"
-            title="Удалить вопрос"
+            title={t("quizBuilder.deleteQuestion")}
           >
             <Trash2 size={16} />
           </button>

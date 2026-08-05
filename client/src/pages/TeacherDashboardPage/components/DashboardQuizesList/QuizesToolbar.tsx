@@ -1,4 +1,5 @@
 import { Search } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface QuizzesToolbarProps {
   searchQuery: string;
@@ -13,6 +14,7 @@ export function QuizzesToolbar({
   filter,
   setFilter,
 }: QuizzesToolbarProps) {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-col md:flex-row gap-4 mb-6">
       {/* Поиск */}
@@ -23,7 +25,7 @@ export function QuizzesToolbar({
         />
         <input
           type="text"
-          placeholder="Найти тест по названию..."
+          placeholder={t("teacherDashboard.toolbar.searchPlaceholder")}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
@@ -42,9 +44,9 @@ export function QuizzesToolbar({
                 : "text-slate-500 hover:text-slate-700"
             }`}
           >
-            {tab === "all" && "Все"}
-            {tab === "published" && "Опубликованные"}
-            {tab === "drafts" && "Черновики"}
+            {tab === "all" && t("teacherDashboard.toolbar.all")}
+            {tab === "published" && t("teacherDashboard.toolbar.published")}
+            {tab === "drafts" && t("teacherDashboard.toolbar.drafts")}
           </button>
         ))}
       </div>

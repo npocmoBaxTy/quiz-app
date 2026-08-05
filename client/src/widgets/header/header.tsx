@@ -3,13 +3,31 @@ import { LangSwitcher } from "./../LangSwitcher";
 import { Profile } from "../Profile/Profile";
 import { useAuthStore } from "@/features/auth/store/authstore";
 import { NavLink } from "react-router-dom";
-import { Plus } from "lucide-react";
+import { Menu, Plus } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { useSidebarStore } from "@/shared/store/sidebarStore";
 
 export const Header = () => {
   const { user } = useAuthStore();
+  const { t } = useTranslation();
+  const { isOpen, isMounted, toggle } = useSidebarStore();
+
   return (
-    <div className="header flex w-full items-center p-4 shadow-lg bg-white">
+    <div className="header flex w-full items-center gap-3 p-4 shadow-lg bg-white">
+      {/* Бургер показываем только там, где на странице есть сайдбар */}
+
       <Logo />
+      {isMounted && (
+        <button
+          type="button"
+          onClick={toggle}
+          aria-label={t("sidebar.openMenu", "Открыть меню")}
+          aria-expanded={isOpen}
+          className="p-2 -ml-1 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors lg:hidden"
+        >
+          <Menu size={22} />
+        </button>
+      )}
       <div className="header__links flex items-center gap-2 ml-auto">
         {user?.role === "TEACHER" && (
           <NavLink
@@ -19,7 +37,7 @@ export const Header = () => {
             }
           >
             <Plus size={15} />
-            Создать тест
+            {t("teacherDashboard.createQuiz")}
           </NavLink>
         )}
         {user?.email && <Profile />}

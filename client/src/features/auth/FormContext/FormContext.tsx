@@ -6,6 +6,7 @@ export interface IUser {
   full_name: string;
   email: string;
   group?: string | "";
+  avatar_url?: string | null;
   role: string;
 }
 

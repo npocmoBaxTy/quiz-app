@@ -4,10 +4,12 @@ import { useFormContext } from "react-hook-form";
 import { useEffect, useRef } from "react";
 import { Spinner } from "@/shared/ui/SPinner/Spinner";
 import { toast } from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 import type { QuizFormValues } from "../../types";
 
 export const ImportTab = ({ changeTab }: { changeTab: () => void }) => {
   const form = useFormContext<QuizFormValues>();
+  const { t } = useTranslation();
   const { handleFileUpload, importError, isImporting, isImportSuccessful } =
     useImportAiken(form);
 
@@ -32,7 +34,7 @@ export const ImportTab = ({ changeTab }: { changeTab: () => void }) => {
               <span className="inline-block mr-2 bg-[#eef0fe] px-2 py-1 rounded-lg text-xs text-(--main-blue)">
                 .TXT(AIKEN)
               </span>
-              <span className="text-zinc-500">Формат</span>
+              <span className="text-zinc-500">{t("quizBuilder.importFormat")}</span>
             </div>
             <div className="placeholder flex flex-col">
               <span>What is the capital of France?</span>
@@ -48,7 +50,7 @@ export const ImportTab = ({ changeTab }: { changeTab: () => void }) => {
               <span className="inline-block mr-2 bg-[#fef6e7] px-2 py-1 rounded-lg text-xs text-[#f5a623]">
                 .XLSX
               </span>
-              <span className="text-zinc-500">Формат</span>
+              <span className="text-zinc-500">{t("quizBuilder.importFormat")}</span>
             </div>
             <div className="placeholder flex flex-col text-sm text-zinc-800">
               <span>question, a, b, c, d, correct, points</span>
@@ -69,9 +71,9 @@ export const ImportTab = ({ changeTab }: { changeTab: () => void }) => {
             ref={fileInputRef}
             onChange={handleFileUpload}
           />
-          <span className="font-bold text-xl">Перетащите файл сюда</span>
+          <span className="font-bold text-xl">{t("quizBuilder.dropFileHere")}</span>
           <span className="text-zinc-500 text-sm">
-            Поддерживаемые форматы: .XLSX, .TXT
+            {t("quizBuilder.supportedFormats")}
           </span>
         </div>
       </div>

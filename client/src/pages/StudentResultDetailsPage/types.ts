@@ -3,12 +3,14 @@ export interface ResultOption {
   id: string;
   text: string;
   isCorrect: boolean; // Правильный ли это вариант в реальности
+  imageUrl: string | null;
 }
 
 export interface ResultQuestion {
   id: string;
   text: string;
   type: "single" | "multiple" | "text";
+  imageUrl: string | null;
   maxPoints: number;
   earnedPoints: number; // Сколько студент получил за этот вопрос
   options: ResultOption[];

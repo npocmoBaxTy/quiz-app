@@ -8,6 +8,9 @@ import { UserRegisterPage } from "@/pages/AuthPage/RegisterPage";
 import { UserLoginPage } from "@/pages/AuthPage/UserLoginPage";
 import { QuizesPAge } from "@/pages/QuizesListPage/QuizesListPage";
 import { QuizTaking } from "@/pages/QuizTaking";
+import StudentDashboard from "@/pages/StudentHomePage/StudentHomePage";
+import { StudentAnalyticsPage } from "@/pages/StudentAnalyticsPage";
+import StudentProfilePage from "@/pages/StudentProfilePage/StudentProfilePage";
 import { StudentResultDetailsPage } from "@/pages/StudentResultDetailsPage";
 import TeacherDashboard from "@/pages/TeacherDashboardPage";
 import { TeacherQuizesPage } from "@/pages/TeacherQuizesPage/TeacherQuizesPage";
@@ -28,6 +31,7 @@ export const router = createBrowserRouter([
         <>
           <TeacherDashboard />
           <ScrollRestoration />
+          <Toaster />
         </>
       </ProtectedRoute>
     ),
@@ -72,10 +76,45 @@ export const router = createBrowserRouter([
   {
     path: "/student/results/:attemptId",
     element: (
-      <>
-        <ScrollRestoration />
-        <StudentResultDetailsPage />
-      </>
+      <ProtectedRoute allowedRoles={["STUDENT"]}>
+        <>
+          <ScrollRestoration />
+          <StudentResultDetailsPage />
+        </>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/student/profile",
+    element: (
+      <ProtectedRoute allowedRoles={["STUDENT"]}>
+        <>
+          <StudentProfilePage />
+          <ScrollRestoration />
+        </>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/student/analytics",
+    element: (
+      <ProtectedRoute allowedRoles={["STUDENT"]}>
+        <>
+          <StudentAnalyticsPage />
+          <ScrollRestoration />
+        </>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/student/home",
+    element: (
+      <ProtectedRoute allowedRoles={["STUDENT"]}>
+        <>
+          <StudentDashboard />
+          <ScrollRestoration />
+        </>
+      </ProtectedRoute>
     ),
   },
   {

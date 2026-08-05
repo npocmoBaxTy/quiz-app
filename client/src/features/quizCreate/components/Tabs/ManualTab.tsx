@@ -3,9 +3,11 @@ import { QuestionItem } from "../Question";
 import { QuestionAdd } from "../QuestionAdd/QuestionAdd";
 import { QuestionSummary } from "../QuestionsList/QuestionsList";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export const ManualTab = () => {
   const { control } = useFormContext();
+  const { t } = useTranslation();
   const { fields, remove, append, replace } = useFieldArray({
     control,
     name: "questions",
@@ -68,14 +70,14 @@ export const ManualTab = () => {
               setActiveIndex(null);
             }}
           >
-            Удалить все
+            {t("quizBuilder.deleteAll")}
           </button>
           <button
             type="button"
             className="text-xs px-1.5 py-1 rounded-md bg-blue-100 text-blue-600 cursor-pointer hover:bg-blue-200 transition-colors"
             onClick={handleAddQuestion}
           >
-            Добавить вопрос
+            {t("quizBuilder.addQuestionShort")}
           </button>
         </div>
         {fields.map((field, index) => (
@@ -94,7 +96,7 @@ export const ManualTab = () => {
           <QuestionItem qIndex={activeIndex} />
         ) : (
           <div className="flex items-center justify-center h-full min-h-75 border-2 border-dashed rounded-lg text-zinc-400">
-            Выберите вопрос для редактирования или создайте новый
+            {t("quizBuilder.selectQuestionHint")}
           </div>
         )}
       </div>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Plus, BookOpen, Loader2, AlertCircle } from "lucide-react";
 
 // Импортируем наши новые компоненты
@@ -9,6 +10,7 @@ import type { Quiz } from "../../types";
 import { useQuizzes } from "@/pages/TeacherQuizesPage/hooks/useGetQuizes";
 
 export function TeacherQuizzesTab() {
+  const { t } = useTranslation();
   const { data: quizzes, isLoading, isError } = useQuizzes();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,7 +20,7 @@ export function TeacherQuizzesTab() {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-slate-400">
         <Loader2 className="animate-spin mb-4" size={32} />
-        <p>Загрузка тестов...</p>
+        <p>{t("teacherDashboard.tab.loading")}</p>
       </div>
     );
   }
@@ -27,7 +29,7 @@ export function TeacherQuizzesTab() {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-red-500 bg-red-50 rounded-2xl border border-red-100">
         <AlertCircle className="mb-4" size={32} />
-        <p className="font-medium text-lg">Не удалось загрузить тесты</p>
+        <p className="font-medium text-lg">{t("teacherDashboard.tab.loadError")}</p>
       </div>
     );
   }
@@ -52,9 +54,9 @@ export function TeacherQuizzesTab() {
       {/* Шапка */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900">Мои тесты</h2>
+          <h2 className="text-2xl font-bold text-slate-900">{t("teacherDashboard.tab.title")}</h2>
           <p className="text-slate-500 mt-1">
-            Управление материалами и просмотр статистики.
+            {t("teacherDashboard.tab.subtitle")}
           </p>
         </div>
         <NavLink
@@ -62,7 +64,7 @@ export function TeacherQuizzesTab() {
           className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-medium shadow-sm transition-all active:scale-95 shrink-0"
         >
           <Plus size={18} />
-          Создать тест
+          {t("teacherDashboard.createQuiz")}
         </NavLink>
       </div>
 
@@ -81,11 +83,10 @@ export function TeacherQuizzesTab() {
             <BookOpen size={32} className="text-slate-300" />
           </div>
           <h3 className="text-lg font-bold text-slate-700 mb-1">
-            Ничего не найдено
+            {t("teacherDashboard.tab.emptyTitle")}
           </h3>
           <p className="text-slate-500 text-sm text-center max-w-sm">
-            У вас пока нет тестов в этой категории, либо поиск не дал
-            результатов.
+            {t("teacherDashboard.tab.emptySubtitle")}
           </p>
         </div>
       ) : (

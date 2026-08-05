@@ -3,6 +3,7 @@ import { getQuizesList } from "./../api/getQuizesList";
 import { startQuizAttempt } from "../api/getQuizesList";
 import toast from "react-hot-toast";
 import type { AxiosError } from "axios";
+import { useTranslation } from "react-i18next";
 
 export interface StartQuizResponse {
   success: boolean;
@@ -26,6 +27,7 @@ export const useStudentQuizzesList = () => {
 };
 
 export function useStartQuiz() {
+  const { t } = useTranslation();
   // Передаем 3 дженерика: <Тип_успеха, Тип_ошибки, Тип_аргумента(quizId)>
   return useMutation<
     StartQuizResponse,
@@ -34,7 +36,7 @@ export function useStartQuiz() {
   >({
     mutationFn: startQuizAttempt,
     onError: (error) => {
-      const msg = error.response?.data?.error || "Не удалось начать тест";
+      const msg = error.response?.data?.error || t("resultsList.startFailed");
       toast.error(msg);
     },
   });

@@ -3,6 +3,7 @@ import {
   getStudentResults,
   getAttemptDetailsById,
 } from "./studentResults.controller.js";
+import { getStudentAnalytics } from "./studentAnalytics.controller.js";
 import { authMiddleware } from "../../middlewares/authMiddleware.js";
 import { requireRole } from "../../middlewares/requireRole.js";
 
@@ -13,6 +14,13 @@ router.get(
   authMiddleware,
   requireRole("STUDENT"),
   getStudentResults,
+);
+
+router.get(
+  "/analytics",
+  authMiddleware,
+  requireRole("STUDENT"),
+  getStudentAnalytics,
 );
 
 router.get(

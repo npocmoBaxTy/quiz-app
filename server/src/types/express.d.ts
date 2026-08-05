@@ -15,6 +15,7 @@ export type Answer = {
   id?: string; // Для редактирования
   text: string;
   isCorrect: boolean;
+  imageUrl?: string | null;
 };
 
 type QuestionType = "single" | "multiple" | "text";
@@ -25,6 +26,7 @@ export type Question = {
   answers: Answer[];
   type: QuestionType;
   id?: string; // Для редактирования
+  imageUrl?: string | null;
 };
 
 export {};

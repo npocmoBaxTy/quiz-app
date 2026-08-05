@@ -1,9 +1,11 @@
 import { Badge } from "@/app/components/ui/badge";
 import { useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import type { Answer, Question } from "../types";
 
 export function QuizBadges() {
   const form = useFormContext();
+  const { t } = useTranslation();
 
   // Возвращаем watch! Нам нужно следить за каждым символом и чекбоксом
   const questions = form.watch("questions") || [];
@@ -34,7 +36,7 @@ export function QuizBadges() {
             : "bg-orange-400 hover:bg-orange-500"
         }`}
       >
-        {readyQuestionsCount}/{questions.length} Вопросов готово
+        {t("quizBuilder.questionsReady", { ready: readyQuestionsCount, total: questions.length })}
       </Badge>
     </div>
   );

@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { Sidebar } from "@/app/components/ui/sidebar";
-import { ListCollapse, Search, BookOpen, CheckCircle2 } from "lucide-react";
+import { Search, BookOpen, CheckCircle2 } from "lucide-react";
 import { QuizesList } from "./QuizesList/QuizesList";
 import { useTranslation } from "react-i18next";
 import { useStudentQuizzesList } from "./hooks/useGetQuizzesList";
@@ -45,7 +45,7 @@ export const QuizesPAge = () => {
       <div className="flex">
         <Sidebar />
 
-        <main className="grow lg:ml-60 md:p-8 md:pt-4">
+        <main className="grow lg:ml-64 md:p-8 md:pt-4">
           <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-6 mb-8 p-2">
             <div>
               <h1 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-2">
@@ -54,13 +54,13 @@ export const QuizesPAge = () => {
               <p className="text-slate-500">
                 {activeTab === "available"
                   ? t(
-                      "quizesPage.subtitleAvailable",
-                      "У вас есть невыполненные тесты",
-                    )
+                    "quizesPage.subtitleAvailable",
+                    "У вас есть невыполненные тесты",
+                  )
                   : t(
-                      "quizesPage.subtitleCompleted",
-                      "История прохождения и ваши оценки",
-                    )}
+                    "quizesPage.subtitleCompleted",
+                    "История прохождения и ваши оценки",
+                  )}
               </p>
             </div>
 
@@ -68,22 +68,20 @@ export const QuizesPAge = () => {
             <div className="flex bg-slate-100 p-1 rounded-xl w-full sm:w-auto">
               <button
                 onClick={() => handleTabChange("available")}
-                className={`flex-1 sm:w-40 flex items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-lg transition-all ${
-                  activeTab === "available"
+                className={`flex-1 sm:w-40 flex items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-lg transition-all ${activeTab === "available"
                     ? "bg-white text-blue-600 shadow-sm"
                     : "text-slate-500 hover:text-slate-700"
-                }`}
+                  }`}
               >
                 <BookOpen size={16} />
                 {t("quizesPage.tabAvailable", "Доступные")}
               </button>
               <button
                 onClick={() => handleTabChange("completed")}
-                className={`flex-1 sm:w-40 flex items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-lg transition-all ${
-                  activeTab === "completed"
+                className={`flex-1 sm:w-40 flex items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-lg transition-all ${activeTab === "completed"
                     ? "bg-white text-blue-600 shadow-sm"
                     : "text-slate-500 hover:text-slate-700"
-                }`}
+                  }`}
               >
                 <CheckCircle2 size={16} />
                 {t("quizesPage.tabCompleted", "Завершенные")}
@@ -106,14 +104,10 @@ export const QuizesPAge = () => {
                 className="pl-8 pr-4 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all w-full sm:w-72 text-sm shadow-sm"
               />
             </div>
-            <button className="p-2.5 lg:hidden inline-block bg-white border border-slate-200 rounded-xl text-slate-600 hover:bg-slate-50 shadow-sm">
-              <ListCollapse size={17} />
-            </button>
           </div>
 
           <div className="px-2">
             {activeTab === "available" ? (
-              // 🔥 Передаем отфильтрованные данные
               <QuizesList data={filteredAvailableQuizzes} />
             ) : (
               <>

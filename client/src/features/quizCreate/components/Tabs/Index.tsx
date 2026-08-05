@@ -11,12 +11,14 @@ import { ImportTab } from "./ImportTab";
 import { useState } from "react";
 import { AiQuestionGenerator } from "@/features/AI";
 import { useFieldArray, useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import type { GeneratedQuestion } from "@/features/AI/hooks/useAIQueries";
 
 
 
 export function QuizTabs() {
-  const { control } = useFormContext(); 
+  const { control } = useFormContext();
+  const { t } = useTranslation();
   
   // Подключаемся к массиву вопросов в нашей форме
   const { replace } = useFieldArray({
@@ -63,21 +65,21 @@ export function QuizTabs() {
           className="rounded-none aria-selected:text-(--main-blue) aria-selected:bg-transparent aria-selected:border-b"
         >
           <Pen size={14} />
-          Вручную
+          {t("quizBuilder.tabs.manual")}
         </TabsTrigger>
         <TabsTrigger
           className="rounded-none aria-selected:text-(--main-blue) aria-selected:bg-transparent aria-selected:border-b"
           value="import"
         >
           <Folder size={14} />
-          Импорт
+          {t("quizBuilder.tabs.import")}
         </TabsTrigger>
         <TabsTrigger
           className="rounded-none aria-selected:text-(--main-blue) aria-selected:bg-transparent aria-selected:border-b"
           value="ai"
         >
           <Sparkles size={14} />
-          Генерация ИИ
+          {t("quizBuilder.tabs.ai")}
         </TabsTrigger>
       </TabsList>
       <TabsContent value="manual" className="bg-white w-full">

@@ -56,6 +56,7 @@ const MetaCard: React.FC<MetaCardProps> = ({ meta, onChange }) => (
       borderRadius: 20,
       padding: "22px 24px",
       marginBottom: 20,
+      minHeight: "100vh"
     }}
   >
     <div

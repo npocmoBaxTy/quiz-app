@@ -1,9 +1,11 @@
 // hooks/useFocusTracking.ts
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { useTestStore } from "@/pages/QuizTaking/store/store";
 import toast from "react-hot-toast";
 
 export const useFocusTracking = () => {
+  const { t } = useTranslation();
   // Подписываемся только на функцию (она стабильна и не вызывает ререндеров)
   const incrementViolation = useTestStore((s) => s.incrementViolation);
   
@@ -22,17 +24,17 @@ export const useFocusTracking = () => {
       const { violations, maxViolations } = useTestStore.getState();
 
       if (violations < maxViolations - 1) {
-        toast.error("Внимание! Потеря фокуса или переключение вкладки.", { 
-          icon: '⚠️', 
-          duration: 3000 
+        toast.error(t("proctoring.focusLost"), {
+          icon: '⚠️',
+          duration: 3000
         });
       } else if (violations === maxViolations - 1) {
-        toast.error("Последнее предупреждение! Тест будет завершен.", { 
-          icon: '🚨', 
-          duration: 4000 
+        toast.error(t("proctoring.lastWarning"), {
+          icon: '🚨',
+          duration: 4000
         });
       }
-      
+
       incrementViolation();
     };
 

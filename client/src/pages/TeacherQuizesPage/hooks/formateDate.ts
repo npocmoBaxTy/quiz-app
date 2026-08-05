@@ -1,26 +1,34 @@
+import i18n from "@/shared/config/i18n/i18n";
+
+const DATE_LOCALES: Record<string, string> = {
+  ru: "ru-RU",
+  en: "en-US",
+  uz: "uz-UZ",
+};
+
+const currentLocale = () => DATE_LOCALES[i18n.language] ?? "ru-RU";
+
 export const formatQuizDate = (
   isoString: string | null | undefined,
 ): string => {
-  if (!isoString) return "Без ограничений"; // Защита, если дедлайна нет
+  if (!isoString) return i18n.t("dateFormat.noDeadline");
 
   const date = new Date(isoString);
 
-  // Проверяем, валидная ли дата (на случай кривых данных)
-  if (isNaN(date.getTime())) return "Неверная дата";
+  if (isNaN(date.getTime())) return i18n.t("dateFormat.invalidDate");
 
-  // Форматируем под русскую локаль
-  return date.toLocaleString("ru-RU", {
-    day: "numeric", // 20
-    month: "long", // апреля
-    year: "numeric", // 2026
-    hour: "2-digit", // 14
-    minute: "2-digit", // 30
+  return date.toLocaleString(currentLocale(), {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
   });
 };
 
 // Если нужно только время (например, 14:30)
 export const formatTimeOnly = (isoString: string): string => {
-  return new Date(isoString).toLocaleTimeString("ru-RU", {
+  return new Date(isoString).toLocaleTimeString(currentLocale(), {
     hour: "2-digit",
     minute: "2-digit",
   });
@@ -28,5 +36,5 @@ export const formatTimeOnly = (isoString: string): string => {
 
 // Если нужна только короткая дата (20.04.2026)
 export const formatShortDate = (isoString: string): string => {
-  return new Date(isoString).toLocaleDateString("ru-RU");
+  return new Date(isoString).toLocaleDateString(currentLocale());
 };

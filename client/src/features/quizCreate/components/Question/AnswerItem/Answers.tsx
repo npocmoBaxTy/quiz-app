@@ -8,7 +8,9 @@ import { RadioGroup, RadioGroupItem } from "@/app/components/ui/radio-group";
 import { Checkbox } from "@/app/components/ui/checkbox";
 import { FieldInput } from "@/features/auth/ui/FieldInput";
 import { Option, X, Type } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { AddAnswer } from "./AddAnswer";
+import { ImageUpload } from "../../ImageUpload/ImageUpload";
 
 type Props = {
   qIndex: number;
@@ -16,6 +18,7 @@ type Props = {
 
 export const AnswerItem = ({ qIndex }: Props) => {
   const { control, setValue } = useFormContext();
+  const { t } = useTranslation();
 
   const { fields, remove, append } = useFieldArray({
     control,
@@ -57,8 +60,7 @@ export const AnswerItem = ({ qIndex }: Props) => {
       <div className="mt-2 p-4 border rounded-md bg-muted/20 flex items-center gap-2">
         <Type size={16} className="text-muted-foreground" />
         <span className="text-xs text-muted-foreground">
-          Для текстового вопроса пользователь сам введет ответ. Варианты не
-          требуются.
+          {t("quizBuilder.textTypeHint")}
         </span>
       </div>
     );
@@ -117,12 +119,14 @@ export const AnswerItem = ({ qIndex }: Props) => {
         )}
       </div>
 
-      <AddAnswer onClick={() => append({ text: "", isCorrect: false })} />
+      <AddAnswer
+        onClick={() => append({ text: "", isCorrect: false, imageUrl: "" })}
+      />
 
       <div className="question__tooltip text-muted-foreground text-xs mt-2">
         {questionType === "multiple"
-          ? "Выберите один или несколько правильных ответов"
-          : "Нажмите на кружок, чтобы отметить правильный ответ"}
+          ? t("quizBuilder.answerHintMultiple")
+          : t("quizBuilder.answerHintSingle")}
       </div>
     </div>
   );
@@ -138,7 +142,9 @@ const AnswerRow = ({
   qIndex: number;
   remove: (index: number) => void;
   selector: React.ReactNode;
-}) => (
+}) => {
+  const { t } = useTranslation();
+  return (
   <div className="flex items-center gap-2 mb-2">
     {selector}
 
@@ -147,13 +153,20 @@ const AnswerRow = ({
       render={({ field }) => (
         <FieldInput
           type="text"
-          placeholder={`Вариант ${i + 1}`}
+          placeholder={t("quizBuilder.answerPlaceholder", { n: i + 1 })}
           className="lg:w-175"
           textChange={field.onChange}
           value={field.value}
         >
           <Option size={13} />
         </FieldInput>
+      )}
+    />
+
+    <Controller
+      name={`questions.${qIndex}.answers.${i}.imageUrl`}
+      render={({ field }) => (
+        <ImageUpload value={field.value} onChange={field.onChange} size="sm" />
       )}
     />
 
@@ -165,4 +178,5 @@ const AnswerRow = ({
       <X size={14} />
     </button>
   </div>
-);
+  );
+};

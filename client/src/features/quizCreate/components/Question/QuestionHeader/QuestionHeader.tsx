@@ -1,5 +1,6 @@
 import type { Answer } from "@/features/quizCreate/types";
 import { useFormContext, useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { QuizDropdown } from "../../QuizDropdown";
 import { memo } from "react"; // ДОБАВЛЕНО!
 
@@ -9,17 +10,18 @@ type Props = {
 
 export const QuestionHeader = memo(({ qIndex }: Props) => {
   const { control, setValue } = useFormContext();
+  const { t } = useTranslation();
 
   const typeMap: Record<string, "single" | "multiple" | "text"> = {
-    "Одиночный тип": "single",
-    "Множественный выбор": "multiple",
-    Текстовый: "text",
+    [t("quizBuilder.questionTypes.single")]: "single",
+    [t("quizBuilder.questionTypes.multiple")]: "multiple",
+    [t("quizBuilder.questionTypes.text")]: "text",
   };
 
   const reverseMap = {
-    single: "Одиночный тип",
-    multiple: "Множественный выбор",
-    text: "Текстовый",
+    single: t("quizBuilder.questionTypes.single"),
+    multiple: t("quizBuilder.questionTypes.multiple"),
+    text: t("quizBuilder.questionTypes.text"),
   };
 
   const questionType = useWatch({
@@ -73,9 +75,8 @@ export const QuestionHeader = memo(({ qIndex }: Props) => {
   return (
     <div className="p-2 border-b flex items-center gap-4 w-full">
       <div
-        className={`w-5 h-5 text-white rounded-md text-xs flex items-center justify-center ${
-          isReady ? "bg-green-500" : "bg-red-500"
-        }`}
+        className={`w-5 h-5 text-white rounded-md text-xs flex items-center justify-center ${isReady ? "bg-green-500" : "bg-red-500"
+          }`}
       >
         {qIndex + 1}
       </div>
@@ -87,24 +88,23 @@ export const QuestionHeader = memo(({ qIndex }: Props) => {
             ? questionText.length > 50
               ? questionText.slice(0, 50) + "..."
               : questionText
-            : "Введите текст вопроса..."}
+            : t("quizBuilder.enterQuestionText")}
         </div>
 
         <div className="flex items-center gap-1.5 mt-1">
           <div
-            className={`text-white text-xs px-1.5 rounded-xl ${
-              isReady ? "bg-green-500" : "bg-red-500"
-            }`}
+            className={`text-white text-xs px-1.5 rounded-xl ${isReady ? "bg-green-500" : "bg-red-500"
+              }`}
           >
-            {isReady ? "Готов" : "Не готов"}
+            {isReady ? t("quizBuilder.ready") : t("quizBuilder.notReady")}
           </div>
 
           <div className="text-white bg-blue-500 px-1.5 text-xs rounded-xl">
-            {answers.length} вар.
+            {answers.length} {t("quizBuilder.answersCountShort")}
           </div>
 
           <div className="text-white bg-orange-400 text-xs px-1.5 rounded-xl">
-            {questionPoints || 1} б.
+            {questionPoints || 1} {t("quizBuilder.pointsShort")}
           </div>
         </div>
       </div>
@@ -112,8 +112,11 @@ export const QuestionHeader = memo(({ qIndex }: Props) => {
       <div className="ml-auto flex items-start">
         <div className="question__type mr-5">
           <QuizDropdown
-            items={["Множественный выбор", "Одиночный тип", "Текстовый"]}
-            label="Тип вопроса"
+            items={[
+              t("quizBuilder.questionTypes.multiple"),
+              t("quizBuilder.questionTypes.single"),
+            ]}
+            label={t("quizBuilder.selectTypeLabel")}
             value={
               questionType &&
               reverseMap[questionType as keyof typeof reverseMap]

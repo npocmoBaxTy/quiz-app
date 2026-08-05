@@ -7,6 +7,7 @@ export type Quiz = {
   creator_name: string;
   time_limit: number;
   used_attempts: number;
+  attempt_limit: number | null;
   questions_limit: number | null;
 };
 

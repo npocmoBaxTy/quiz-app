@@ -17,6 +17,7 @@ export const LoginForm = () => {
   const navigate = useNavigate();
   const { isLoading } = useAuthCtx();
   const { user, login } = useAuthStore();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (user) {
@@ -44,7 +45,7 @@ export const LoginForm = () => {
       login(res.user);
 
     } catch (err: unknown) {
-      let msg = "Ошибка входа";
+      let msg = t("auth.errors.loginError");
 
       if (axios.isAxiosError(err)) {
         msg = err.response?.data?.error || msg;
@@ -57,8 +58,6 @@ export const LoginForm = () => {
       setIsSubmitting(false);
     }
   };
-
-  const { t } = useTranslation();
 
   if (isLoading)
     return (
@@ -101,7 +100,7 @@ export const LoginForm = () => {
           <FieldInput
             placeholder="*******"
             type="password"
-            label="Пароль"
+            label={t("auth.labels.password")}
             pass={true}
             textChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setPassword(e.target.value)
@@ -136,13 +135,13 @@ export const LoginForm = () => {
             {isSubmitting ? <Spinner /> : t("auth.login")}
           </button>
         </div>
-        <Divider label="Еще нет аккаунта?" />
+        <Divider label={t("auth.noAccountYet")} />
         <div className="inner__footer text-center">
           <NavLink
             to={"/user/register"}
             className={"text-sm text-(--main-blue) mt-2"}
           >
-            Создать аккаунт
+            {t("auth.register.title")}
           </NavLink>
         </div>
       </div>

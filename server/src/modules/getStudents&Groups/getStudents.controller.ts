@@ -10,21 +10,33 @@ export const getAssignableUsers = async (req: Request, res: Response) => {
       orderBy: { name: "asc" },
     });
 
-    // 2. Получаем ВСЕХ студентов и присоединяем к ним название их группы
-    const groupStudents = await prisma.group_students.findMany({
-      where: { users: { role: "STUDENT" } },
+    // 2. Идем от пользователей, а не от group_students: иначе студент без группы
+    // (например, если преподаватель убрал у него группу) пропадал бы из списка
+    // навсегда и его нельзя было бы отредактировать.
+    const studentRows = await prisma.users.findMany({
+      where: { role: "STUDENT" },
+      orderBy: { full_name: "asc" },
       select: {
-        users: { select: { id: true, full_name: true } },
-        groups: { select: { name: true } },
+        id: true,
+        full_name: true,
+        email: true,
+        group_students: {
+          take: 1,
+          select: { groups: { select: { id: true, name: true } } },
+        },
       },
-      orderBy: [{ groups: { name: "asc" } }, { users: { full_name: "asc" } }],
     });
 
-    const students = groupStudents.map((gs) => ({
-      id: gs.users.id,
-      full_name: gs.users.full_name,
-      groupName: gs.groups.name,
-    }));
+    const students = studentRows.map((student) => {
+      const group = student.group_students[0]?.groups ?? null;
+      return {
+        id: student.id,
+        full_name: student.full_name,
+        email: student.email,
+        groupId: group?.id ?? null,
+        groupName: group?.name ?? null,
+      };
+    });
 
     // 3. Отдаем готовый JSON в том формате, который ждет фронтенд
     res.json({ groups, students });

@@ -5,6 +5,7 @@ import {
   Users,
   MoreVertical,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { formatQuizDate } from "../../TeacherQuizesPage/hooks/formateDate";
 import {
   Collapsible,
@@ -14,6 +15,7 @@ import {
 import type { Quiz } from "../types";
 
 export const RecentQuizzesList = ({ quizzes }: { quizzes: Quiz[] }) => {
+  const { t } = useTranslation();
   const renderQuizItem = (quiz: Quiz) => (
     <div
       key={quiz.id}
@@ -31,11 +33,11 @@ export const RecentQuizzesList = ({ quizzes }: { quizzes: Quiz[] }) => {
           <div className="flex items-center gap-3 mt-1 text-sm">
             {quiz.published ? (
               <span className="inline-flex items-center gap-1 text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded font-medium text-xs">
-                <CheckCircle2 size={12} /> Опубликован
+                <CheckCircle2 size={12} /> {t("teacherDashboard.quizCard.published")}
               </span>
             ) : (
               <span className="inline-flex items-center gap-1 text-slate-500 bg-slate-100 px-2 py-0.5 rounded font-medium text-xs">
-                <FileText size={12} /> Черновик
+                <FileText size={12} /> {t("teacherDashboard.quizCard.draft")}
               </span>
             )}
             <span className="text-slate-400 flex items-center gap-1">
@@ -51,7 +53,7 @@ export const RecentQuizzesList = ({ quizzes }: { quizzes: Quiz[] }) => {
       <div className="flex items-center gap-6 sm:pl-4 sm:border-l border-slate-100">
         <div className="text-center">
           <p className="text-xs text-slate-400 font-medium uppercase tracking-wider mb-1">
-            Ср. Балл
+            {t("teacherDashboard.recentQuizzes.avgScore")}
           </p>
           <p className="font-bold text-slate-800">
             {quiz.avgScore ? `${quiz.avgScore}` : "—"}
@@ -68,9 +70,9 @@ export const RecentQuizzesList = ({ quizzes }: { quizzes: Quiz[] }) => {
     <div className="lg:col-span-2 flex flex-col gap-4">
       <Collapsible defaultOpen={false}>
         <div className="flex justify-between items-end mb-2">
-          <h2 className="text-lg font-bold text-slate-800">Недавние тесты</h2>
+          <h2 className="text-lg font-bold text-slate-800">{t("teacherDashboard.recentQuizzes.title")}</h2>
           <CollapsibleTrigger className="text-sm font-medium text-blue-600 hover:text-blue-800">
-            Смотреть все
+            {t("teacherDashboard.recentQuizzes.viewAll")}
           </CollapsibleTrigger>
         </div>
 

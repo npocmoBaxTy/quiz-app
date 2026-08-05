@@ -97,24 +97,42 @@ export const getAttemptDetailsById = async (
       return;
     }
 
-    // 2. Достаем вопросы только для текущей попытки
-    const answeredQuestionIds = (
-      await prisma.student_answers.findMany({
-        where: { attempt_id: attemptId },
-        distinct: ["question_id"],
-        select: { question_id: true },
-      })
-    )
-      .map((r) => r.question_id)
-      .filter((id): id is string => id !== null);
+    // 2. Достаем полный билет попытки (включая вопросы, на которые студент не ответил).
+    // Билет фиксируется при отправке попытки в attempt_questions; если его нет
+    // (старые попытки, отправленные до внедрения этой таблицы) — восстанавливаем
+    // список вопросов из student_answers, как раньше.
+    const ticketRows = await prisma.attempt_questions.findMany({
+      where: { attempt_id: attemptId },
+      orderBy: { order_index: "asc" },
+      select: { question_id: true, points: true },
+    });
 
-    const totalQuestions = answeredQuestionIds.length;
+    let ticketQuestionIds: string[];
+    let pointsByQuestionId: Record<string, number | null>;
+
+    if (ticketRows.length > 0) {
+      ticketQuestionIds = ticketRows.map((r) => r.question_id);
+      pointsByQuestionId = Object.fromEntries(
+        ticketRows.map((r) => [r.question_id, r.points]),
+      );
+    } else {
+      ticketQuestionIds = (
+        await prisma.student_answers.findMany({
+          where: { attempt_id: attemptId },
+          distinct: ["question_id"],
+          select: { question_id: true },
+        })
+      )
+        .map((r) => r.question_id)
+        .filter((id): id is string => id !== null);
+      pointsByQuestionId = {};
+    }
+
+    const totalQuestions = ticketQuestionIds.length;
+    const pageQuestionIds = ticketQuestionIds.slice(offset, offset + limit);
 
     const quizQuestions = await prisma.quiz_questions.findMany({
-      where: { quiz_id: attempt.quiz_id, question_id: { in: answeredQuestionIds } },
-      orderBy: { order_index: "asc" },
-      skip: offset,
-      take: limit,
+      where: { quiz_id: attempt.quiz_id, question_id: { in: pageQuestionIds } },
       select: {
         points: true,
         questions: {
@@ -122,17 +140,26 @@ export const getAttemptDetailsById = async (
             id: true,
             text: true,
             type: true,
+            image_url: true,
             student_answers: {
               where: { attempt_id: attemptId },
               select: { points: true, text_answer: true, answer_option_id: true },
             },
             answer_options: {
-              select: { id: true, text: true, is_correct: true },
+              select: { id: true, text: true, is_correct: true, image_url: true },
             },
           },
         },
       },
     });
+
+    // Сохраняем порядок билета (findMany с where...in не гарантирует порядок)
+    const pageOrder = new Map(pageQuestionIds.map((id, idx) => [id, idx]));
+    quizQuestions.sort(
+      (a, b) =>
+        (pageOrder.get(a.questions!.id) ?? 0) -
+        (pageOrder.get(b.questions!.id) ?? 0),
+    );
 
     const questions = quizQuestions.map((qq) => {
       const q = qq.questions!;
@@ -145,10 +172,16 @@ export const getAttemptDetailsById = async (
         id: q.id,
         text: q.text,
         type: q.type,
-        maxPoints: qq.points,
+        imageUrl: q.image_url,
+        maxPoints: pointsByQuestionId[q.id] ?? qq.points,
         earnedPoints,
         studentAnswers,
-        options: q.answer_options.map((ao) => ({ id: ao.id, text: ao.text, isCorrect: ao.is_correct })),
+        options: q.answer_options.map((ao) => ({
+          id: ao.id,
+          text: ao.text,
+          isCorrect: ao.is_correct,
+          imageUrl: ao.image_url,
+        })),
       };
     });
 

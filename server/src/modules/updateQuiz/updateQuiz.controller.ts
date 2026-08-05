@@ -42,7 +42,12 @@ export const updateQuiz = async (
       // Мы всегда создаем новые записи в таблице questions.
       // Это гарантирует, что старые попытки (attempts) будут ссылаться
       // на те формулировки вопросов, которые были в момент прохождения.
-      const questionsData = questions.map((q: any) => ({ id: uuidv4(), text: q.text, type: q.type }));
+      const questionsData = questions.map((q: any) => ({
+        id: uuidv4(),
+        text: q.text,
+        type: q.type,
+        image_url: q.imageUrl || null,
+      }));
       const quizQuestionsData = questions.map((q: any, i: number) => ({
         id: uuidv4(),
         quiz_id: quizId,
@@ -57,6 +62,7 @@ export const updateQuiz = async (
               question_id: questionsData[i].id,
               text: ans.text,
               is_correct: ans.isCorrect,
+              image_url: ans.imageUrl || null,
             }))
           : [],
       );
@@ -174,7 +180,10 @@ export const getQuizForEdit = async (
             id: true,
             text: true,
             type: true,
-            answer_options: { select: { id: true, text: true, is_correct: true } },
+            image_url: true,
+            answer_options: {
+              select: { id: true, text: true, is_correct: true, image_url: true },
+            },
           },
         },
       },
@@ -187,10 +196,12 @@ export const getQuizForEdit = async (
       type: qq.questions?.type ?? null,
       points: qq.points,
       order_index: qq.order_index,
+      imageUrl: qq.questions?.image_url ?? null,
       answers: (qq.questions?.answer_options ?? []).map((opt) => ({
         id: opt.id,
         text: opt.text,
         isCorrect: opt.is_correct,
+        imageUrl: opt.image_url ?? null,
       })),
     }));
 

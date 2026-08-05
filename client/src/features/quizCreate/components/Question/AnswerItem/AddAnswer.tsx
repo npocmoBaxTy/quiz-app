@@ -1,6 +1,8 @@
 import { Plus } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export const AddAnswer = ({ onClick }: { onClick: () => void }) => {
+  const { t } = useTranslation();
   return (
     <div
       onClick={onClick}
@@ -8,7 +10,7 @@ export const AddAnswer = ({ onClick }: { onClick: () => void }) => {
     >
       <div className="flex items-center">
         <Plus size={14} />
-        Добавить вариант
+        {t("quizBuilder.addAnswerOption")}
       </div>
     </div>
   );

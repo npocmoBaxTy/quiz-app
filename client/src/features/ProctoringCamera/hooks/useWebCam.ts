@@ -1,10 +1,12 @@
 // hooks/useWebcam.ts
 import { useEffect, useState, type RefObject } from "react";
+import { useTranslation } from "react-i18next";
 
 export const useWebcam = (
   videoRef: RefObject<HTMLVideoElement | null>,
   isModelLoaded: boolean,
 ) => {
+  const { t } = useTranslation();
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -35,30 +37,24 @@ export const useWebcam = (
         const videoTrack = stream.getVideoTracks()[0];
         if (videoTrack) {
           videoTrack.onended = () => {
-            setError(
-              "Связь с веб-камерой потеряна. Пожалуйста, проверьте подключение.",
-            );
+            setError(t("proctoring.cameraLost"));
             // Тут можно даже дернуть функцию incrementViolation() из вашего Zustand-стора
           };
         }
       } catch (err: unknown) {
         if (err instanceof DOMException || err instanceof Error) {
           if (err.name === "NotAllowedError") {
-            setError(
-              "Доступ к камере запрещен. Разрешите доступ в настройках браузера.",
-            );
+            setError(t("proctoring.accessDenied"));
           } else if (err.name === "NotFoundError") {
-            setError("Камера не найдена. Подключите устройство.");
+            setError(t("proctoring.cameraNotFound"));
           } else if (err.name === "NotReadableError") {
             // 🔥 Часто бывает, если камера уже занята другой программой (Zoom, OBS)
-            setError(
-              "Камера занята другим приложением. Закройте Zoom/Skype и обновите страницу.",
-            );
+            setError(t("proctoring.cameraBusy"));
           } else {
-            setError(`Ошибка: ${err.message}`);
+            setError(t("proctoring.genericError", { message: err.message }));
           }
         } else {
-          setError("Произошла неизвестная ошибка при доступе к камере.");
+          setError(t("proctoring.unknownError"));
         }
       }
     };

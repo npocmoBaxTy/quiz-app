@@ -107,7 +107,7 @@ export const StepOne = () => {
               marginLeft: 5,
             }}
           >
-            Группа
+            {t("auth.labels.group")}
           </label>
           <div
             style={{
@@ -143,7 +143,7 @@ export const StepOne = () => {
               }}
             >
               <option value="" disabled>
-                {groupsLoading ? "Загрузка групп..." : "Выберите группу"}
+                {groupsLoading ? t("auth.labels.loadingGroups") : t("auth.labels.selectGroup")}
               </option>
               {groups.map((g) => (
                 <option key={g.id} value={g.id}>

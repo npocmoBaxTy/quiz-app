@@ -17,6 +17,7 @@ export const transformQuiz = (data: QuizFormValues, published: boolean) => ({
       type: q.type,
       points: Number(q.points) || 1, // Минимум 1 балл по умолчанию
       order: qIndex,
+      imageUrl: q.imageUrl || undefined,
 
       // Если тип текстовый — отдаем пустой массив,
       // иначе мапим ответы, фильтруя пустые записи (на всякий случай)
@@ -27,6 +28,7 @@ export const transformQuiz = (data: QuizFormValues, published: boolean) => ({
             .map((a: Answer) => ({
               text: a.text.trim(),
               isCorrect: !!a.isCorrect,
+              imageUrl: a.imageUrl || undefined,
             })),
     };
   }),
@@ -50,9 +52,11 @@ export const transformQuizToBackend = (
       text: q.text.trim(),
       type: q.type,
       points: Number(q.points),
+      imageUrl: q.imageUrl || undefined,
       answers: (q.answers || []).map((a) => ({
         text: a.text.trim(),
         isCorrect: Boolean(a.isCorrect),
+        imageUrl: a.imageUrl || undefined,
       })),
     })),
   };
@@ -75,10 +79,12 @@ export interface QuizBackendResponse {
     text: string;
     type: "single" | "multiple" | "text";
     points: number;
+    imageUrl?: string | null;
     answers: Array<{
       answerId: string;
       text: string;
       isCorrect: boolean;
+      imageUrl?: string | null;
     }>;
   }>;
 }
@@ -99,10 +105,12 @@ export const transformBackendToForm = (
       text: q.text,
       type: q.type,
       points: q.points,
+      imageUrl: q.imageUrl || undefined,
       answers: (q.answers || []).map((opt) => ({
         id: opt.answerId, // 🔥 И ID ответа тоже
         text: opt.text,
         isCorrect: opt.isCorrect, // snake_case -> camelCase
+        imageUrl: opt.imageUrl || undefined,
       })),
     })),
   };

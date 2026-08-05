@@ -1,4 +1,13 @@
-import { Clock, ScrollText, Calendar, Check, FileWarning } from "lucide-react";
+import {
+  Clock,
+  ScrollText,
+  Calendar,
+  CheckCircle2,
+  FileEdit,
+  Users,
+  Target,
+  BarChart3,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import { formatQuizDate } from "../hooks/formateDate";
@@ -6,56 +15,86 @@ import type { Quiz } from "../types";
 
 export const PublishedCard = ({ quiz }: { quiz: Quiz }) => {
   const { t } = useTranslation();
-  return (
-    <div
-      className={`test-card bg-white border ${quiz.published ? "border-(--success-green)" : "border-orange-400"} duration-500 hover:shadow-xl rounded-[2rem] p-4 sm:p-6 flex flex-col w-full`}
-    >
-      <div className="flex items-center gap-2 mb-4">
-        <div
-          className={`flex animate-pulse justify-center items-center w-6 h-6 rounded-full ${quiz.published ? "bg-(--success-green)" : "bg-orange-400"} text-white`}
-        >
-          {quiz.published ? <Check size={15} /> : <FileWarning size={15} />}
-        </div>
+  const isPublished = quiz.published;
 
-        <span className="mt-1 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider status-badge-active">
-          {quiz.published ? "Опубликован" : "Черновик"}
+  return (
+    <div className="group flex w-full flex-col rounded-2xl border border-(--surface-high) bg-(--surface-main) p-5 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/5">
+      <div className="mb-3 flex items-center justify-between">
+        <span
+          className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold tracking-wide uppercase ${
+            isPublished
+              ? "bg-(--success-green)/10 text-(--success-green)"
+              : "bg-(--amber-dim) text-amber-700"
+          }`}
+        >
+          {isPublished ? (
+            <CheckCircle2 size={13} />
+          ) : (
+            <FileEdit size={13} />
+          )}
+          {isPublished ? t("teacherQuizzes.card.published") : t("teacherQuizzes.card.draft")}
+        </span>
+        <span className="text-xs font-medium text-(--text-muted)">
+          {formatQuizDate(quiz.created_at)}
         </span>
       </div>
 
-      <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-2 line-clamp-2">
+      <h3 className="mb-1 line-clamp-2 text-lg font-bold text-(--text-main)">
         {quiz.title}
       </h3>
+      <p className="mb-4 text-sm text-(--text-muted)">{quiz.creator_name}</p>
 
-      <p className="text-slate-500 text-sm mb-6 grow">{quiz.creator_name}</p>
-
-      <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-6 text-xs text-slate-500 font-medium">
+      <div className="mb-4 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs font-medium text-(--text-muted)">
         <div className="flex items-center gap-1.5">
-          <Clock className="text-blue-500" size={15} /> {quiz.time_limit}{" "}
-          {t("quizCard.time")}
+          <Clock className="text-(--main-blue)" size={14} />
+          {quiz.time_limit} {t("quizCard.time")}
         </div>
-
         <div className="flex items-center gap-1.5">
-          <ScrollText className="text-purple-500" size={15} />{" "}
+          <ScrollText className="text-purple-500" size={14} />
           {quiz.questions_count} {t("quizCard.questions")}
+        </div>
+        <div className="flex items-center gap-1.5">
+          <Target className="text-(--success-green)" size={14} />
+          {t("teacherQuizzes.card.passing")} {quiz.passing}%
         </div>
       </div>
 
-      <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <p className="text-[10px] uppercase font-bold text-slate-400">
-            {t("quizCard.deadline")}
+      <div className="mb-4 grid grid-cols-2 gap-2">
+        <div className="rounded-xl border border-(--surface-high) bg-(--main-bg) px-3 py-2.5">
+          <p className="mb-0.5 flex items-center gap-1 text-[10px] font-bold tracking-wide text-(--text-muted) uppercase">
+            <Users size={11} /> {t("teacherQuizzes.card.attempts")}
           </p>
-          <p className="text-sm font-bold flex items-center gap-1 text-slate-700">
-            <Calendar size={14} />
-            {quiz.dueDate ? formatQuizDate(quiz.dueDate) : "Нет дедлайна"}
+          <p className="font-mono text-sm font-bold text-(--text-main) tabular-nums">
+            {quiz.attemptsCount}
           </p>
         </div>
+        <div className="rounded-xl border border-(--surface-high) bg-(--main-bg) px-3 py-2.5">
+          <p className="mb-0.5 flex items-center gap-1 text-[10px] font-bold tracking-wide text-(--text-muted) uppercase">
+            <BarChart3 size={11} /> {t("teacherQuizzes.card.avgScore")}
+          </p>
+          <p className="font-mono text-sm font-bold text-(--text-main) tabular-nums">
+            {quiz.avgScore ? `${quiz.avgScore}%` : "—"}
+          </p>
+        </div>
+      </div>
 
+      <div className="mt-auto flex items-center gap-2 border-t border-(--surface-high) pt-4">
+        <NavLink
+          to={`/teacher/quizzes/${quiz.id}/attempts`}
+          className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-(--surface-high) py-2.5 text-sm font-bold text-(--text-main) transition-colors hover:bg-(--hover-bg)"
+        >
+          <BarChart3 size={15} /> {t("teacherQuizzes.card.results")}
+        </NavLink>
         <NavLink
           to={"/teacher/edit-quiz/" + quiz.id}
-          className="w-full sm:w-auto text-center px-5 py-2.5 bg-(--main-blue) text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-all"
+          className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-(--main-blue) py-2.5 text-sm font-bold text-white transition-all hover:brightness-105"
         >
-          {quiz.published ? t("buttons.preview") : "Редактировать тест"}
+          {isPublished ? (
+            <Calendar size={15} />
+          ) : (
+            <FileEdit size={15} />
+          )}
+          {isPublished ? t("buttons.preview") : t("teacherQuizzes.card.edit")}
         </NavLink>
       </div>
     </div>

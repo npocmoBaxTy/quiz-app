@@ -1,10 +1,12 @@
 // hooks/useFaceDetection.ts
 import { useEffect, useState, type RefObject } from "react";
 import * as faceapi from "face-api.js";
+import { useTranslation } from "react-i18next";
 import { useTestStore } from "@/pages/QuizTaking/store/store";
 import toast from "react-hot-toast";
 
 export const useFaceDetection = (videoRef: RefObject<HTMLVideoElement | null>) => {
+  const { t } = useTranslation();
   const [isModelLoaded, setIsModelLoaded] = useState(false);
   const [warningMsg, setWarningMsg] = useState<string | null>(null);
   const incrementViolation = useTestStore((s) => s.incrementViolation);
@@ -56,7 +58,7 @@ export const useFaceDetection = (videoRef: RefObject<HTMLVideoElement | null>) =
 
         if (!detection) {
           awayCounter++;
-          currentWarning = "Лицо не распознано!";
+          currentWarning = t("proctoring.faceNotDetected");
         } else {
           // Математика поворота головы
           const nose = detection.landmarks.getNose()[0];
@@ -69,7 +71,7 @@ export const useFaceDetection = (videoRef: RefObject<HTMLVideoElement | null>) =
           
           if (ratio > 2.5 || ratio < 0.4) {
             awayCounter++;
-            currentWarning = "Подозрительный отвод взгляда!";
+            currentWarning = t("proctoring.suspiciousGaze");
           } else {
             awayCounter = Math.max(0, awayCounter - 1);
           }
@@ -81,7 +83,7 @@ export const useFaceDetection = (videoRef: RefObject<HTMLVideoElement | null>) =
         if (awayCounter >= MAX_AWAY_SECONDS) {
           incrementViolation();
           awayCounter = 0;
-          toast.error("Зафиксировано нарушение: отвод взгляда!", { icon: '🤖' });
+          toast.error(t("proctoring.violationToast"), { icon: '🤖' });
         }
       } catch (error) {
         console.error("Ошибка в процессе детекции:", error);

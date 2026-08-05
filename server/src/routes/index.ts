@@ -13,6 +13,8 @@ import startAttemptRoutes from "../modules/startAttempt/startAttempt.routes.js";
 import updateQuizRoutes from "./../modules/updateQuiz/updateQuiz.routes.js";
 import aiGenerateRoutes from "./../modules/generateAI/generateAI.routes.js";
 import studentResultsRoutes from "./../modules/studentsResults/studentResults.routes.js";
+import uploadRoutes from "./../modules/upload/upload.routes.js";
+import profileRoutes from "./../modules/profile/profile.routes.js";
 
 const router = Router();
 
@@ -29,5 +31,7 @@ router.use("/teacher", authMiddleware, getStudentsRoutes);
 router.use("/teacher", authMiddleware, updateQuizRoutes);
 router.use("/ai", authMiddleware, aiGenerateRoutes);
 router.use("/student", authMiddleware, studentResultsRoutes);
+router.use("/upload", authMiddleware, uploadRoutes);
+router.use("/profile", profileRoutes);
 
 export default router;

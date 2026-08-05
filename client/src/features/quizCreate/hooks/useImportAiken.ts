@@ -1,9 +1,11 @@
 import { type ChangeEvent, useState } from "react";
 import { type UseFormReturn } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import type { Question, QuizFormValues } from "../types";
 
 export const useImportAiken = (form: UseFormReturn<QuizFormValues>) => {
   const { setValue } = form;
+  const { t } = useTranslation();
   const [isImporting, setIsImporting] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
   const [isImportSuccessful, setIsImportSuccessful] = useState(false);
@@ -75,7 +77,7 @@ export const useImportAiken = (form: UseFormReturn<QuizFormValues>) => {
         });
       } catch (error) {
         console.error("Ошибка парсинга:", error);
-        setImportError("Неверный формат Aiken в файле.");
+        setImportError(t("quizBuilder.importErrorFormat"));
       } finally {
         setIsImporting(false);
         event.target.value = "";
@@ -84,7 +86,7 @@ export const useImportAiken = (form: UseFormReturn<QuizFormValues>) => {
     };
 
     reader.onerror = () => {
-      setImportError("Ошибка чтения файла.");
+      setImportError(t("quizBuilder.importErrorRead"));
       setIsImporting(false);
     };
 

@@ -3,6 +3,7 @@ import { QuizDropdown } from "./QuizDropdown";
 import { Baseline, MoveDown } from "lucide-react";
 import { C } from "@/features/auth/constants";
 import { Controller, useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import {
   CollapsibleContent,
   Collapsible,
@@ -11,12 +12,13 @@ import {
 
 export const QuizConfiger = () => {
   const { setValue, watch } = useFormContext();
+  const { t } = useTranslation();
 
   return (
     <div className="quiz__configer--wrapper p-3 bg-white rounded-xl mt-5">
       <Collapsible defaultOpen={true}>
         <div className="quiz__configer--title mb-5 font-semibold flex items-center">
-          <p>Настройки теста</p>
+          <p>{t("quizBuilder.settingsTitle")}</p>
           <CollapsibleTrigger className="ml-auto">
             <span>
               <MoveDown size={17} />
@@ -28,13 +30,14 @@ export const QuizConfiger = () => {
             <div className="quiz__name w-full mb-5">
               <Controller
                 name="title"
-                render={({ field }) => (
+                render={({ field, fieldState }) => (
                   <FieldInput
                     type="text"
-                    label="НАЗВАНИЕ ТЕСТА"
-                    placeholder="Введите название теста"
+                    label={t("quizBuilder.quizNameLabel")}
+                    placeholder={t("quizBuilder.quizNamePlaceholder")}
                     value={field.value}
                     textChange={field.onChange}
+                    err={!!fieldState.error}
                   >
                     <Baseline size={15} />
                   </FieldInput>
@@ -48,7 +51,7 @@ export const QuizConfiger = () => {
                   onSelect={(v) =>
                     setValue("timeLimit", Number(v), { shouldDirty: true })
                   }
-                  label="ЛИМИТ ВРЕМЕНИ(МИН)"
+                  label={t("quizBuilder.timeLimitLabel")}
                   value={watch("timeLimit")}
                   items={["20", "30", "50", "60"]}
                 />
@@ -60,7 +63,7 @@ export const QuizConfiger = () => {
                     setValue("passing", Number(v), { shouldDirty: true })
                   }
                   value={watch("passing")}
-                  label="ПРОХОДНОЙ БАЛЛ(%)"
+                  label={t("quizBuilder.passingScoreLabel")}
                   items={["20", "30", "50", "60"]}
                 />
               </div>
@@ -76,7 +79,7 @@ export const QuizConfiger = () => {
                         className="text-[10px] sm:text-xs font-semibold mb-2 uppercase"
                         style={{ color: C.muted }}
                       >
-                        ВОПРОСОВ В БИЛЕТЕ
+                        {t("quizBuilder.questionsInQuizLabel")}
                       </h1>
                       <input
                         type="number"
@@ -93,7 +96,7 @@ export const QuizConfiger = () => {
                             ? "border-red-500"
                             : "border-slate-200 focus:border-indigo-500"
                         }`}
-                        placeholder="Например: 50"
+                        placeholder={t("quizBuilder.questionsInQuizPlaceholder")}
                       />
                     </div>
                   )}

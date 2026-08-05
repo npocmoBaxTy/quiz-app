@@ -33,7 +33,7 @@ export const useQuizFormActions = (form: UseFormReturn<QuizFormValues>) => {
     const answers = getValues(`questions.${qIndex}.answers`) || [];
     setValue(`questions.${qIndex}.answers`, [
       ...answers,
-      { text: "", isCorrect: false },
+      { text: "", isCorrect: false, imageUrl: "" },
     ]);
   };
 
@@ -51,11 +51,11 @@ export const useQuizFormActions = (form: UseFormReturn<QuizFormValues>) => {
     let defaultAnswers = [];
     if (type === "text") {
       // Для текста нужен только один правильный вариант по умолчанию
-      defaultAnswers = [{ text: "", isCorrect: true }];
+      defaultAnswers = [{ text: "", isCorrect: true, imageUrl: "" }];
     } else {
       defaultAnswers = [
-        { text: "", isCorrect: true },
-        { text: "", isCorrect: false },
+        { text: "", isCorrect: true, imageUrl: "" },
+        { text: "", isCorrect: false, imageUrl: "" },
       ];
     }
 
@@ -65,6 +65,7 @@ export const useQuizFormActions = (form: UseFormReturn<QuizFormValues>) => {
         text: "",
         points: 2,
         type: type,
+        imageUrl: "",
         answers: defaultAnswers,
       },
     ]);

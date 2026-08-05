@@ -1,7 +1,8 @@
 // ProctoringCamera.tsx
 import { useRef } from "react";
 import { CameraOff, AlertTriangle, ShieldAlert, BrainCircuit } from "lucide-react";
-import { useTestStore } from "@/pages/QuizTaking/store/store"; 
+import { useTranslation } from "react-i18next";
+import { useTestStore } from "@/pages/QuizTaking/store/store";
 
 
 import { useFocusTracking } from "./hooks/useFaceTracking";
@@ -9,6 +10,7 @@ import { useWebcam } from "./hooks/useWebCam";
 import { useFaceDetection } from "./hooks/useFaceDetection";
 
 export const ProctoringCamera = () => {
+  const { t } = useTranslation();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const violations = useTestStore((s) => s.violations);
   const maxViolations = useTestStore((s) => s.maxViolations);
@@ -28,7 +30,7 @@ export const ProctoringCamera = () => {
         <div className="flex items-center gap-2">
           {!error && isModelLoaded && <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>}
           <span className="text-xs font-bold text-white uppercase tracking-wider">
-            {isModelLoaded ? "AI-Прокторинг активен" : "Инициализация ИИ..."}
+            {isModelLoaded ? t("proctoring.active") : t("proctoring.modelInit")}
           </span>
         </div>
         {isModelLoaded && <BrainCircuit size={16} className="text-indigo-400" />}
@@ -59,7 +61,7 @@ export const ProctoringCamera = () => {
         <div className="flex justify-between items-end mb-2">
           <div className="flex items-center gap-1.5 text-slate-500">
             <ShieldAlert size={14} />
-            <span className="text-[10px] font-bold uppercase tracking-wider">Нарушения</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider">{t("proctoring.violations")}</span>
           </div>
           <div className="text-right">
             <span className={`text-sm font-bold ${violations >= maxViolations ? 'text-red-600' : violations > 0 ? 'text-amber-500' : 'text-slate-700'}`}>

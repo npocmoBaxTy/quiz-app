@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { api } from "@/shared/api/axios";
 
 export interface Group {
@@ -7,6 +8,7 @@ export interface Group {
 }
 
 export function useGroups() {
+  const { t } = useTranslation();
   const [groups, setGroups] = useState<Group[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -20,7 +22,7 @@ export function useGroups() {
         if (!cancelled) setGroups(res.data);
       })
       .catch(() => {
-        if (!cancelled) setError("Не удалось загрузить список групп");
+        if (!cancelled) setError(t("auth.errors.loadGroupsFailed"));
       })
       .finally(() => {
         if (!cancelled) setIsLoading(false);

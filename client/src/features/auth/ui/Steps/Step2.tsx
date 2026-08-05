@@ -42,18 +42,18 @@ export const Step2 = () => {
   const usePostMetaHandler = async () => {
     try {
       await register({ email, password, name, groupId });
-      toast.success("Вы успешно создали аккаунт!");
+      toast.success(t("auth.toastAccountCreated"));
       navigate("/dashboard");
     } catch (e) {
       // Проверяем, является ли ошибка ошибкой Axios
       if (axios.isAxiosError(e) && error == "user already exists") {
-        toast.error(`Почта ${email} уже занята другим пользователем!`);
+        toast.error(t("auth.errors.emailTakenBy", { email }));
       } else if (e instanceof Error) {
         // Обычная ошибка JS (например, обрыв сети)
         toast.error(error);
       } else {
         // На случай совсем странных вещей
-        toast.error("Произошла неизвестная ошибка");
+        toast.error(t("auth.errors.unknownError"));
       }
       setStep(1);
       setEmail("");
@@ -66,11 +66,11 @@ export const Step2 = () => {
 
   // Уровни сложности (маппинг по score)
   const STRENGTH_LEVELS: Record<number, StrengthDetails> = {
-    0: { label: "Пусто", color: "grey" },
-    1: { label: "Слабый", color: "#EF4444" }, // danger
-    2: { label: "Средний", color: "#F59E0B" }, // amber
-    3: { label: "Хороший", color: "#3B82F6" }, // primary
-    4: { label: "Сильный", color: "#10B981" }, // success
+    0: { label: t("auth.passwordStrength.empty"), color: "grey" },
+    1: { label: t("auth.passwordStrength.weak"), color: "#EF4444" }, // danger
+    2: { label: t("auth.passwordStrength.medium"), color: "#F59E0B" }, // amber
+    3: { label: t("auth.passwordStrength.good"), color: "#3B82F6" }, // primary
+    4: { label: t("auth.passwordStrength.strong"), color: "#10B981" }, // success
   };
 
   const pwStrength = (pw: string) => {
@@ -96,13 +96,13 @@ export const Step2 = () => {
 
   // А вот этот массив лучше вычислять прямо в компоненте для рендера списка
   const getPasswordChecks = (pw: string): ICheck[] => [
-    { label: "Минимум 8 символов", ok: pw.length >= 8 },
+    { label: t("auth.labels.minPass"), ok: pw.length >= 8 },
     {
-      label: "Заглавная и строчная буквы",
+      label: t("auth.passwordChecks.upperLower"),
       ok: /[A-ZА-Я]/.test(pw) && /[a-zа-я]/.test(pw),
     },
-    { label: "Цифра", ok: /\d/.test(pw) },
-    { label: "Спецсимвол", ok: /[!@#$%^&*()]/.test(pw) },
+    { label: t("auth.passwordChecks.digit"), ok: /\d/.test(pw) },
+    { label: t("auth.passwordChecks.specialChar"), ok: /[!@#$%^&*()]/.test(pw) },
   ];
 
   const str = pwStrength(password);
@@ -174,7 +174,7 @@ export const Step2 = () => {
               marginBottom: 7,
             }}
           >
-            Требования
+            {t("auth.requirementsTitle")}
           </div>
           {checks.map(({ label, ok }) => (
             <div
@@ -253,14 +253,14 @@ export const Step2 = () => {
             cursor: "pointer",
           }}
         >
-          ← Назад
+          ← {t("auth.register.btnBck")}
         </button>
         <button
           disabled={isLoading ? true : false}
           onClick={usePostMetaHandler}
           className={`${isLoading ? "bg-(--text-muted)" : "bg-(--main-blue)"} w-full rounded-xl text-white text-xs cursor-pointer disabled:cursor-not-allowed`}
         >
-          {isLoading ? <Spinner /> : "Создать аккаунт"}
+          {isLoading ? <Spinner /> : t("auth.register.title")}
         </button>
       </div>
     </div>

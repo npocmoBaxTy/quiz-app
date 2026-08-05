@@ -6,6 +6,7 @@ interface User {
   role: string;
   email: string;
   group?: string;
+  avatar_url?: string | null;
   id: string;
 }
 
