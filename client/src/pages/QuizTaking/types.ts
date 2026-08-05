@@ -6,10 +6,12 @@ export type Question = {
   type: QuestionType;
   points: number;
   order: number;
+  imageUrl?: string | null;
 
   options?: {
     id: string;
     text: string;
+    imageUrl?: string | null;
   }[];
 };
 
@@ -19,11 +21,11 @@ export interface QuizResponseItem {
   values: string[];
 }
 
+// Состав билета и его стоимость сервер берёт из попытки, а не из запроса,
+// поэтому клиенту достаточно передать её id и сами ответы.
 export interface SubmitQuizBody {
-  attemptId: string; // 🔥 Обязательно ждем ID текущей попытки от клиента
-  quizId: string;
+  attemptId: string;
   responses: QuizResponseItem[];
-  ticketQuestionIds: string[];
 }
 
 export interface SubmitQuizResponse {

@@ -1,4 +1,24 @@
 {
+    "dateFormat": {
+        "noDeadline": "Без ограничений",
+        "invalidDate": "Неверная дата"
+    },
+    "proctoring": {
+        "modelInit": "Инициализация ИИ...",
+        "active": "AI-Прокторинг активен",
+        "violations": "Нарушения",
+        "faceNotDetected": "Лицо не распознано!",
+        "suspiciousGaze": "Подозрительный отвод взгляда!",
+        "violationToast": "Зафиксировано нарушение: отвод взгляда!",
+        "focusLost": "Внимание! Потеря фокуса или переключение вкладки.",
+        "lastWarning": "Последнее предупреждение! Тест будет завершен.",
+        "cameraLost": "Связь с веб-камерой потеряна. Пожалуйста, проверьте подключение.",
+        "accessDenied": "Доступ к камере запрещен. Разрешите доступ в настройках браузера.",
+        "cameraNotFound": "Камера не найдена. Подключите устройство.",
+        "cameraBusy": "Камера занята другим приложением. Закройте Zoom/Skype и обновите страницу.",
+        "genericError": "Ошибка: {{message}}",
+        "unknownError": "Произошла неизвестная ошибка при доступе к камере."
+    },
     "navigation": {
         "dashboard": "Dashboard",
         "quizes": "Тесты",
@@ -26,19 +46,95 @@
     },
     "sidebar": {
         "home": "Главная",
-        "settings": "Настройки",
-        "performance": "Успеваемость",
-        "myQuizes": "Мои Тесты"
+        "settings": "Настройки профиля",
+        "myQuizes": "Тесты и результаты",
+        "analytics": "Аналитика",
+        "openMenu": "Открыть меню",
+        "closeMenu": "Закрыть меню",
+        "loggedInAs": "Вы вошли как"
+    },
+    "analytics": {
+        "title": "Аналитика",
+        "subtitle": "Как меняются ваши результаты и где вы теряете баллы",
+        "avgScore": "Средний результат",
+        "bestScore": "Лучший результат",
+        "passed": "Зачтено тестов",
+        "attempts": "Всего попыток",
+        "trendHint": "за последние 30 дней",
+        "dynamicsTitle": "Динамика результатов",
+        "dynamicsSubtitle": "Процент за каждую завершенную попытку",
+        "openTable": "Смотреть списком",
+        "byTypeTitle": "Где теряются баллы",
+        "byTypeSubtitle": "Доля полностью верных ответов по типу вопроса",
+        "chartAria": "График результатов по датам",
+        "passingLine": "Порог",
+        "legendPassed": "Зачтено",
+        "legendFailed": "Не зачтено",
+        "loadError": "Не удалось загрузить аналитику",
+        "emptyTitle": "Пока нечего показывать",
+        "emptyText": "Пройдите первый тест — здесь появится динамика и разбор ошибок",
+        "emptyAction": "К тестам",
+        "questionType": {
+            "single": "Один вариант",
+            "multiple": "Несколько вариантов",
+            "text": "Текстовый ответ"
+        }
+    },
+    "profile": {
+        "noGroup": "Группа не указана",
+        "profileLink": "Профиль",
+        "avatar": {
+            "change": "Изменить фото",
+            "updated": "Фото профиля обновлено",
+            "selectImageFile": "Выберите файл изображения",
+            "maxFileSize": "Максимальный размер файла — 5 МБ"
+        },
+        "personalInfo": "Личные данные",
+        "fullNameLabel": "ФИО",
+        "emailLabel": "Email",
+        "emailReadonlyHint": "Email нельзя изменить",
+        "saveChanges": "Сохранить изменения",
+        "saved": "Профиль обновлён",
+        "memberSince": "На платформе с {{date}}",
+        "security": {
+            "title": "Безопасность",
+            "currentPassword": "Текущий пароль",
+            "newPassword": "Новый пароль",
+            "changePassword": "Сменить пароль",
+            "passwordChanged": "Пароль успешно изменён",
+            "passwordMismatch": "Пароли не совпадают"
+        },
+        "errors": {
+            "NAME_TOO_SHORT": "Имя слишком короткое",
+            "INVALID_GROUP": "Неверная группа",
+            "PASSWORD_TOO_SHORT": "Пароль слишком короткий (минимум 8 символов)",
+            "INVALID_CURRENT_PASSWORD": "Неверный текущий пароль",
+            "MISSING_FIELDS": "Заполните все поля",
+            "USER_NOT_FOUND": "Пользователь не найден",
+            "UNKNOWN_ERROR": "Что-то пошло не так, попробуйте ещё раз"
+        }
     },
     "quizesPage": {
         "title": "Доступные тесты",
         "subtitle": "У вас {{count}} тестов, требующих прохождения",
         "search": "Поиск тестов",
+        "subtitleAvailable": "У вас есть невыполненные тесты",
+        "subtitleCompleted": "История прохождения и ваши оценки",
+        "tabAvailable": "Доступные",
+        "tabCompleted": "Завершенные",
         "filters": {
             "all": "Все",
             "finished": "Завершенные",
             "active": "Доступные"
         }
+    },
+    "resultsList": {
+        "emptyTitle": "Здесь будут ваши результаты",
+        "emptySubtitle": "Вы еще не завершили ни одного теста.",
+        "yourResult": "Ваш результат",
+        "passingLabel": "Проходной: {{score}}%",
+        "viewAnswers": "Посмотреть ответы",
+        "startFailed": "Не удалось начать тест"
     },
     "quizCard": {
         "active": "Активен",
@@ -52,7 +148,12 @@
         "availableFrom": "Доступно с",
         "closed": "Закрыто",
         "result": "Результат",
-        "mistakes": "Посмотреть ошибки"
+        "mistakes": "Посмотреть ошибки",
+        "passingLabel": "Сдача: {{percent}}%",
+        "teacherFallback": "Преподаватель",
+        "attemptsLabel": "Попытки",
+        "unlimited": "Без лимита",
+        "attemptsCount": "{{left}} из {{total}}"
     },
     "auth": {
         "login": "Войти в систему",
@@ -74,19 +175,40 @@
             "errName": "Введите ваше ФИО",
             "errGroup": "Введите вашу группу",
             "emailExists": "Ваша почта уже авторизована",
-            "invalidPass": "Неправильный пароль"
+            "invalidPass": "Неправильный пароль",
+            "loginError": "Ошибка входа",
+            "loadGroupsFailed": "Не удалось загрузить список групп",
+            "emailTakenBy": "Почта {{email}} уже занята другим пользователем!",
+            "unknownError": "Произошла неизвестная ошибка"
+        },
+        "noAccountYet": "Еще нет аккаунта?",
+        "toastAccountCreated": "Вы успешно создали аккаунт!",
+        "requirementsTitle": "Требования",
+        "passwordStrength": {
+            "empty": "Пусто",
+            "weak": "Слабый",
+            "medium": "Средний",
+            "good": "Хороший",
+            "strong": "Сильный"
+        },
+        "passwordChecks": {
+            "upperLower": "Заглавная и строчная буквы",
+            "digit": "Цифра",
+            "specialChar": "Спецсимвол"
         },
         "labels": {
             "FIO": "ФИО",
             "fioPlaceholder": "Фамилия Имя Отчество",
-            "group": "Гуппа",
+            "group": "Группа",
             "groupPlaceholder": "Например: ИТ-202",
             "role": "Роль в системе",
             "already": "Уже есть аккаунт?",
             "password": "Пароль",
             "minPass": "Минимум 8 символов",
             "confirmPass": "Подтверждение пароля",
-            "confirmPassLabel": "Повторите пароль"
+            "confirmPassLabel": "Повторите пароль",
+            "loadingGroups": "Загрузка групп...",
+            "selectGroup": "Выберите группу"
         },
         "steps": {
             "one": "Личные Данные",
@@ -98,5 +220,405 @@
             "teacherDesc": "Создаю тесты и оцениваю студентов",
             "studentDesc": "Прохожу тест и слежу за результатами"
         }
+    },
+    "studentHome": {
+        "user": "Пользователь",
+        "greeting": "Привет, {{name}}! 👋",
+        "quizzesAvailable": "У тебя {{count}} доступных тестов. Отличная возможность подтянуть знания!",
+        "noQuizzesAvailable": "Пока нет доступных тестов — загляни попозже.",
+        "avgScore": "Ср. Балл",
+        "completedTests": "Пройдено тестов",
+        "testsCompleted": "Тестов пройдено",
+        "viewAllResults": "Смотреть все результаты",
+        "toComplete": "К выполнению",
+        "allAvailable": "Все доступные",
+        "noQuizzes": "Пока нет доступных тестов",
+        "lastAttempt": "Последняя попытка",
+        "min": "мин",
+        "questionsShort": "вопр.",
+        "unlimited": "Без лимита",
+        "attemptsLeft": "Попыток: {{left}} из {{total}}",
+        "loading": "Загрузка...",
+        "start": "Начать",
+        "recentSubmissions": "Недавние сдачи",
+        "noResultsYet": "Вы еще не завершили ни одного теста",
+        "showAllHistory": "Показать всю историю"
+    },
+    "teacherDashboard": {
+        "welcomeBack": "С возвращением! 👋",
+        "welcomeSubtitle": "Вот что происходит с вашими тестами сегодня.",
+        "createQuiz": "Создать тест",
+        "loadError": "Не удалось загрузить данные",
+        "loadErrorHint": "Попробуйте обновить страницу",
+        "aside": {
+            "dashboard": "Дашборд",
+            "myQuizzes": "Мои тесты",
+            "students": "Студенты",
+            "settings": "Настройки",
+            "logout": "Выйти"
+        },
+        "header": {
+            "searchPlaceholder": "Поиск тестов, студентов...",
+            "role": "Преподаватель"
+        },
+        "stats": {
+            "activeQuizzes": "Активных тестов",
+            "totalStudents": "Всего студентов",
+            "avgScore": "Средний балл",
+            "drafts": "Черновиков"
+        },
+        "liveFeed": {
+            "title": "Живая лента",
+            "recentSubmissions": "Последние сдачи тестов",
+            "points": "Баллы",
+            "showMore": "Показать ещё ({{count}})",
+            "showLess": "Свернуть"
+        },
+        "recentQuizzes": {
+            "title": "Недавние тесты",
+            "viewAll": "Смотреть все",
+            "avgScore": "Ср. Балл"
+        },
+        "quizCard": {
+            "published": "Опубликован",
+            "draft": "Черновик",
+            "created": "Создан",
+            "questionsShort": "вопр.",
+            "attempts": "Попыток",
+            "avgScore": "Ср. балл",
+            "results": "Результаты",
+            "edit": "Изменить",
+            "viewResultsTitle": "Просмотр результатов",
+            "editTitle": "Редактировать тест",
+            "deleteTitle": "Удалить тест"
+        },
+        "tab": {
+            "loading": "Загрузка тестов...",
+            "loadError": "Не удалось загрузить тесты",
+            "title": "Мои тесты",
+            "subtitle": "Управление материалами и просмотр статистики.",
+            "emptyTitle": "Ничего не найдено",
+            "emptySubtitle": "У вас пока нет тестов в этой категории, либо поиск не дал результатов."
+        },
+        "toolbar": {
+            "searchPlaceholder": "Найти тест по названию...",
+            "all": "Все",
+            "published": "Опубликованные",
+            "drafts": "Черновики"
+        }
+    },
+    "teacherQuizzes": {
+        "title": "Мои тесты",
+        "subtitle": "Управление материалами и просмотр статистики по каждому тесту.",
+        "createQuiz": "Создать тест",
+        "loadError": "Не удалось загрузить тесты",
+        "loadErrorHint": "Попробуйте обновить страницу",
+        "stats": {
+            "all": "Все тесты",
+            "published": "Опубликовано",
+            "drafts": "Черновики"
+        },
+        "searchPlaceholder": "Найти тест по названию...",
+        "filters": {
+            "all": "Все",
+            "published": "Опубликованные",
+            "draft": "Черновики"
+        },
+        "empty": {
+            "notFound": "Ничего не найдено",
+            "noQuizzes": "У вас пока нет тестов",
+            "notFoundHint": "Попробуйте изменить поиск или выбрать другой фильтр.",
+            "noQuizzesHint": "Создайте первый тест, чтобы он появился здесь."
+        },
+        "card": {
+            "published": "Опубликован",
+            "draft": "Черновик",
+            "passing": "проходной",
+            "attempts": "Попыток",
+            "avgScore": "Ср. балл",
+            "results": "Результаты",
+            "edit": "Редактировать"
+        }
+    },
+    "quizAttempts": {
+        "back": "Назад к тестам",
+        "title": "Результаты теста",
+        "subtitle": "Список студентов и их итоговые баллы",
+        "loadError": "Не удалось загрузить результаты",
+        "loadErrorHint": "Попробуйте обновить страницу",
+        "stats": {
+            "total": "Всего попыток",
+            "avgScore": "Средний балл",
+            "passed": "Прошли тест"
+        },
+        "searchPlaceholder": "Найти студента по имени...",
+        "sort": {
+            "date": "По дате",
+            "score": "По баллу",
+            "name": "По имени"
+        },
+        "noDateSpecified": "Дата не указана",
+        "passed": "Сдал",
+        "failed": "Не сдал",
+        "empty": {
+            "notFound": "Ничего не найдено",
+            "noAttempts": "Пока никто не завершил этот тест",
+            "notFoundHint": "Попробуйте изменить поисковый запрос.",
+            "noAttemptsHint": "Как только студенты пройдут тест, результаты появятся здесь."
+        }
+    },
+    "attemptTiming": {
+        "late": "Просрочено",
+        "lateBy": "Просрочено на {{count}} мин"
+    },
+    "attemptDetails": {
+        "backToList": "Назад к списку",
+        "loadError": "Не удалось загрузить данные попытки.",
+        "status": "Статус",
+        "totalScore": "Итоговый балл",
+        "question": "Вопрос",
+        "points": "баллов",
+        "correct": "Верно",
+        "incorrect": "Ошибка",
+        "studentChoice": "Выбор студента",
+        "studentMistake": "Ошибка студента",
+        "correctAnswer": "Правильный ответ",
+        "studentAnswer": "Ответ студента:",
+        "noAnswerGiven": "Студент не дал ответ на этот вопрос",
+        "noAnswers": "В этой попытке нет сохраненных ответов."
+    },
+    "quizBuilder": {
+        "home": "Главная",
+        "backToQuizzes": "Назад к тестам",
+        "defaultQuizTitle": "Новый Тест",
+        "tabsPage": {
+            "questions": "Вопросы",
+            "settings": "Настройки",
+            "free": "Бесплатно"
+        },
+        "imageUpload": {
+            "uploadFailed": "Не удалось загрузить изображение",
+            "selectImageFile": "Выберите файл изображения",
+            "maxFileSize": "Максимальный размер файла — 5 МБ",
+            "removeImage": "Удалить изображение",
+            "addImage": "Добавить изображение"
+        },
+        "addAnswerOption": "Добавить вариант",
+        "textTypeHint": "Для текстового вопроса пользователь сам введет ответ. Варианты не требуются.",
+        "answerHintMultiple": "Выберите один или несколько правильных ответов",
+        "answerHintSingle": "Нажмите на кружок, чтобы отметить правильный ответ",
+        "answerPlaceholder": "Вариант {{n}}",
+        "questionTextLabel": "ТЕКСТ ВОПРОСА",
+        "questionTextPlaceholder": "Введите текст вопроса....",
+        "pointsLabel": "БАЛЛ",
+        "explanationLabel": "ПОЯСНЕНИЕ (НЕОБЯЗАТЕЛЬНО)",
+        "explanationPlaceholder": "Отображается после ответа...",
+        "questionTypes": {
+            "single": "Одиночный тип",
+            "multiple": "Множественный выбор",
+            "text": "Текстовый"
+        },
+        "selectTypeLabel": "Тип вопроса",
+        "enterQuestionText": "Введите текст вопроса...",
+        "ready": "Готов",
+        "notReady": "Не готов",
+        "answersCountShort": "вар.",
+        "pointsShort": "б.",
+        "addQuestion": "Добавить Вопрос",
+        "deleteQuestion": "Удалить вопрос",
+        "questionsReady": "{{ready}}/{{total}} Вопросов готово",
+        "settingsTitle": "Настройки теста",
+        "quizNameLabel": "НАЗВАНИЕ ТЕСТА",
+        "quizNamePlaceholder": "Введите название теста",
+        "timeLimitLabel": "ЛИМИТ ВРЕМЕНИ(МИН)",
+        "passingScoreLabel": "ПРОХОДНОЙ БАЛЛ(%)",
+        "questionsInQuizLabel": "ВОПРОСОВ В БИЛЕТЕ",
+        "questionsInQuizPlaceholder": "Например: 50",
+        "selectPlaceholder": "Выберите",
+        "preview": "Предпросмотр",
+        "saveDraft": "Сохранить черновик",
+        "saving": "Сохранение...",
+        "publish": "Опубликовать",
+        "publishing": "В процессе...",
+        "fillTitleError": "Заполните название теста",
+        "fixErrorsError": "Исправьте ошибки перед сохранением",
+        "importFormat": "Формат",
+        "dropFileHere": "Перетащите файл сюда",
+        "supportedFormats": "Поддерживаемые форматы: .XLSX, .TXT",
+        "tabs": {
+            "manual": "Вручную",
+            "import": "Импорт",
+            "ai": "Генерация ИИ"
+        },
+        "deleteAll": "Удалить все",
+        "addQuestionShort": "Добавить вопрос",
+        "selectQuestionHint": "Выберите вопрос для редактирования или создайте новый",
+        "importErrorFormat": "Неверный формат Aiken в файле.",
+        "importErrorRead": "Ошибка чтения файла.",
+        "toastCreateSuccess": "Тест успешно создан!",
+        "toastUpdateSuccess": "Изменения сохранены!",
+        "toastCreateError": "Ошибка при создании теста",
+        "toastUpdateError": "Ошибка при обновлении теста",
+        "toastGenericError": "Ошибка",
+        "schema": {
+            "enterTitleToSave": "Введите название для сохранения",
+            "minTwoAnswers": "Нужно минимум 2 варианта ответа",
+            "selectOneCorrect": "Выберите один правильный ответ",
+            "selectAtLeastOneCorrect": "Выберите хотя бы один правильный ответ",
+            "titleTooShort": "Название слишком короткое",
+            "min1Percent": "Минимум 1%",
+            "max100Percent": "Максимум 100%",
+            "specifyTime": "Укажите время",
+            "min1Question": "Минимум 1 вопрос",
+            "addAtLeastOneQuestion": "Добавьте хотя бы один вопрос",
+            "enterQuizTitle": "Введите название теста",
+            "questionTextRequired": "Текст вопроса не может быть пустым",
+            "min1Point": "Минимум 1 балл",
+            "limitExceedsTotal": "Лимит не может быть больше общего количества вопросов!"
+        },
+        "ai": {
+            "title": "Создание вопросов с ИИ",
+            "subtitle": "Укажите тему, и нейросеть сама придумает вопросы и варианты ответов.",
+            "topicLabel": "Тема вопросов",
+            "topicPlaceholder": "Например: Основы React, хуки useEffect и useState",
+            "difficultyLabel": "Сложность",
+            "difficulty": {
+                "basic": "Базовый (Для новичков)",
+                "medium": "Средний (Стандарт)",
+                "advanced": "Продвинутый (С подвохом)"
+            },
+            "countLabel": "Количество (макс. 10)",
+            "errorMessage": "Ошибка при обращении к ИИ. Проверьте настройки бэкенда.",
+            "generating": "ИИ генерирует...",
+            "generate": "Создать вопросы",
+            "generatedCount": "Сгенерировано {{count}} вопросов. Отметьте подходящие.",
+            "resetButton": "Сбросить и начать заново",
+            "addToQuiz": "Добавить в тест ({{count}})"
+        },
+        "previewDialog": {
+            "dialogTitle": "Предпросмотр теста",
+            "badge": "Предпросмотр",
+            "untitled": "Без названия",
+            "minutes": "мин",
+            "noLimit": "без лимита",
+            "passing": "проходной",
+            "questionsCount": "вопросов",
+            "questionsCountLimited": "вопросов (показывается {{limit}})",
+            "noQuestions": "В тесте пока нет вопросов.",
+            "emptyQuestion": "Пустой вопрос",
+            "point": "балл",
+            "points": "балла",
+            "studentAnswerPlaceholder": "Студент введёт свой ответ здесь...",
+            "emptyAnswer": "Пустой ответ",
+            "correct": "верно"
+        }
+    },
+    "quizTaking": {
+        "submitError": "Ошибка при отправке теста",
+        "lockedTitle": "Тест прерван за нарушения",
+        "timeExpiredTitle": "Время вышло",
+        "savingTitle": "Сохранение результатов...",
+        "savingHint": "Пожалуйста, подождите. Ваши ответы автоматически отправляются на сервер. Не закрывайте вкладку.",
+        "errorTitle": "Ой, что-то пошло не так",
+        "backToList": "Вернуться к списку тестов",
+        "attentionTitle": "Внимание!",
+        "leaveConfirm": "Вы уверены, что хотите покинуть страницу?",
+        "leaveConfirmStrong": "Результаты не будут сохранены, а возможность пересдачи будет аннулирована.",
+        "stayButton": "Остаться и продолжить",
+        "leaveButton": "Покинуть тест",
+        "result": {
+            "forceSubmitted": "Тест был завершен автоматически из-за превышения лимита нарушений ({{violations}}/{{maxViolations}}).",
+            "congrats": "Поздравляем!",
+            "finished": "Тест завершен",
+            "savedHint": "Ваши ответы успешно сохранены и отправлены преподавателю.",
+            "yourResult": "Ваш результат",
+            "correctPercent": "{{percentage}}% правильных ответов",
+            "backToList": "Вернуться к списку тестов"
+        },
+        "freeAnswerPlaceholder": "Введите ответ...",
+        "footer": {
+            "readyTitle": "Готовы завершить тест?",
+            "cannotReturn": "Вы больше не сможете вернуться к вопросам и изменить свои ответы.",
+            "totalQuestions": "Всего вопросов:",
+            "answeredCount": "Дано ответов:",
+            "skipped": "Пропущено:",
+            "unansweredWarning": "У вас остались вопросы без ответов! Если вы завершите тест сейчас, за них будет начислено 0 баллов.",
+            "cancel": "Отмена, вернусь",
+            "sending": "Отправка...",
+            "confirmFinish": "Да, завершить",
+            "finishTest": "Завершить Тест",
+            "previous": "Предыдущий",
+            "next": "Следующий"
+        },
+        "progressBar": "Вы ответили на {{answered}} из {{total}}",
+        "ticketLabel": "Билет на {{count}} вопросов",
+        "solved": "Решено: {{count}}",
+        "questionCounter": "Вопрос {{current}} из {{total}}",
+        "flag": {
+            "mark": "Пометить",
+            "marked": "Отмечено"
+        },
+        "navigator": {
+            "title": "Навигация",
+            "answered": "Отвечен",
+            "notAnswered": "Не отвечен",
+            "marked": "Помечен"
+        },
+        "timer": {
+            "timeExpiredToast": "Время истекло! Результаты отправляются...",
+            "autoSubmitFailed": "Не удалось отправить тест автоматически. Попробуйте нажать кнопку вручную.",
+            "timeLeft": "Осталось времени",
+            "timeExpired": "Время истекло",
+            "saving": "Сохранение..."
+        }
+    },
+    "resultDetails": {
+        "back": "Назад",
+        "passed": "ТЕСТ СДАН",
+        "failed": "ТЕСТ НЕ СДАН",
+        "mistakesReview": "Разбор ошибок",
+        "yourScore": "Ваш балл",
+        "successRate": "Успешность",
+        "notAnswered": "Вы не ответили на этот вопрос",
+        "yourAnswer": "Ваш ответ",
+        "noAnswer": "Нет ответа",
+        "loadError": "Не удалось загрузить результаты",
+        "loadErrorHint": "Попробуйте вернуться назад и открыть попытку заново"
+    },
+    "teacherStudents": {
+        "title": "Студенты",
+        "subtitle": "Списки групп и данные студентов",
+        "createGroup": "Создать группу",
+        "createGroupTitle": "Новая группа",
+        "groupName": "Название группы",
+        "groupNamePlaceholder": "Например: ПИ-21",
+        "create": "Создать",
+        "creating": "Создание...",
+        "groupCreated": "Группа создана",
+        "groupCreateError": "Не удалось создать группу",
+        "totalStudents": "Всего студентов",
+        "totalGroups": "Групп",
+        "search": "Поиск по имени или email",
+        "allGroups": "Все группы",
+        "noGroup": "Без группы",
+        "fullName": "ФИО",
+        "email": "Email",
+        "group": "Группа",
+        "edit": "Редактировать",
+        "editTitle": "Редактировать студента",
+        "save": "Сохранить",
+        "saving": "Сохранение...",
+        "cancel": "Отмена",
+        "saved": "Данные студента обновлены",
+        "saveError": "Не удалось сохранить изменения",
+        "loading": "Загрузка...",
+        "loadError": "Не удалось загрузить список студентов",
+        "empty": "Студентов пока нет",
+        "nothingFound": "Ничего не найдено"
+    },
+    "teacherSettings": {
+        "title": "Настройки",
+        "subtitle": "Ваш профиль и безопасность аккаунта",
+        "confirmPassword": "Повторите пароль"
     }
 }

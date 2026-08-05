@@ -13,6 +13,9 @@ export interface QuizAttemptListItem {
   score: number;
   status: string;
   finishedAt: string;
+  /** Сдано после истечения лимита времени (считается сервером) */
+  isLate: boolean;
+  overtimeSeconds: number;
 }
 
 // Ответ студента на конкретный вопрос
@@ -34,6 +37,11 @@ export interface AttemptInfo {
   score: number;
   status: string;
   full_name: string;
+  startedAt: string | null;
+  finishedAt: string | null;
+  /** Сдано после истечения лимита времени (считается сервером) */
+  isLate: boolean;
+  overtimeSeconds: number;
 }
 
 // Главный ответ от сервера

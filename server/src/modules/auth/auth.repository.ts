@@ -32,7 +32,7 @@ export async function addStudentToGroup(studentId: string, groupId: string) {
 export async function findUserById(id: string) {
   return prisma.users.findUnique({
     where: { id },
-    select: { id: true, email: true, full_name: true, role: true },
+    select: { id: true, email: true, full_name: true, role: true, avatar_url: true },
   });
 }
 
@@ -53,4 +53,9 @@ export async function findRefreshToken(token: string) {
 
 export async function deleteRefreshToken(token: string) {
   await prisma.refresh_tokens.deleteMany({ where: { token } });
+}
+
+// Отзыв всех сессий пользователя — например, после смены пароля
+export async function deleteAllRefreshTokens(userId: string) {
+  await prisma.refresh_tokens.deleteMany({ where: { user_id: userId } });
 }

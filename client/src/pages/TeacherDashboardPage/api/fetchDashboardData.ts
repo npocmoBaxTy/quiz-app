@@ -11,6 +11,9 @@ export interface AttemptFeedItem {
   status: "in_progress" | "completed" | "needs_grading";
   finishedAt: string;
   passing: number;
+  /** Сдано после истечения лимита времени (считается сервером) */
+  isLate: boolean;
+  overtimeSeconds: number;
 }
 
 export interface StudentAnswer {

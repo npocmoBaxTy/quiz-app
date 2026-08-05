@@ -5,6 +5,7 @@ export type LoginDto = {
   password: string;
 };
 
+// Токены приходят только в httpOnly-куках и в теле ответа отсутствуют.
 export type LoginResponse = {
   user: {
     id: string;
@@ -12,8 +13,6 @@ export type LoginResponse = {
     full_name: string;
     role: string;
   };
-  accessToken: string;
-  refreshToken: string;
 };
 
 export async function loginRequest(data: LoginDto) {

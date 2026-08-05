@@ -33,6 +33,11 @@ interface TestStore {
   // Навигация
   next: () => void;
   prev: () => void;
+  goToIndex: (index: number) => void;
+
+  // Пометка вопросов "на подумать"
+  flagged: Record<string, boolean>;
+  toggleFlag: (qId: string) => void;
 
   // Утилиты
   getAnsweredCount: () => number;
@@ -49,6 +54,11 @@ interface TestStore {
   isLocked: boolean;
   lockReason: string | null;
   incrementViolation: () => void;
+  /**
+   * Блокирует тест и передаёт отправку единственному обработчику —
+   * useEffect по isLocked в QuizTaking. Второй точки сабмита быть не должно.
+   */
+  lockTest: (reason: string) => void;
 }
 
 // Вспомогательная функция для честного перемешивания массива
@@ -68,6 +78,7 @@ export const useTestStore = create<TestStore>()(
       quiz: {} as Quiz, // Используйте ваш тип Quiz
       answers: {},
       currentIndex: 0,
+      flagged: {},
 
       isSubmitting: false,
       submitError: null,
@@ -86,6 +97,7 @@ export const useTestStore = create<TestStore>()(
           questions,
           answers: {},
           currentIndex: 0,
+          flagged: {},
           score: null,
           attemptId: null,
         }),
@@ -148,6 +160,19 @@ export const useTestStore = create<TestStore>()(
           currentIndex: Math.max(state.currentIndex - 1, 0),
         })),
 
+      goToIndex: (index) =>
+        set((state) => ({
+          currentIndex: Math.min(
+            Math.max(index, 0),
+            Math.max(state.questions.length - 1, 0),
+          ),
+        })),
+
+      toggleFlag: (qId) =>
+        set((state) => ({
+          flagged: { ...state.flagged, [qId]: !state.flagged[qId] },
+        })),
+
       getAnsweredCount: () => Object.keys(get().answers).length,
 
       getProgress: () => {
@@ -163,6 +188,7 @@ export const useTestStore = create<TestStore>()(
           questions: [],
           answers: {},
           currentIndex: 0,
+          flagged: {},
           isSubmitting: false,
           submitError: null,
           score: null,
@@ -181,6 +207,11 @@ export const useTestStore = create<TestStore>()(
       isLocked: false,
       lockReason: null as string | null,
 
+      lockTest: (reason) => {
+        if (get().isLocked) return; // Первая причина блокировки и остаётся
+        set({ isLocked: true, lockReason: reason });
+      },
+
       incrementViolation: () => {
         const { violations, maxViolations, isLocked } = get();
         if (isLocked) return; // Если уже заблокировано, ничего не делаем
@@ -193,7 +224,7 @@ export const useTestStore = create<TestStore>()(
 
         if (newViolations >= maxViolations) {
           // Мгновенно блокируем интерфейс, всю логику отправки на сервер берет на себя useEffect в QuizTaking
-          set({ isLocked: true, lockReason: "limit_exceeded" });
+          get().lockTest("limit_exceeded");
         }
       },
     }),
@@ -202,7 +233,8 @@ export const useTestStore = create<TestStore>()(
       partialize: (state) => ({
         answers: state.answers,
         attemptId: state.attemptId,
-      }), // Сохраняем ТОЛЬКО ответы и ID попытки для устойчивости к крашам
+        flagged: state.flagged,
+      }), // Сохраняем ТОЛЬКО ответы, флаги и ID попытки для устойчивости к крашам
     },
   ),
 );

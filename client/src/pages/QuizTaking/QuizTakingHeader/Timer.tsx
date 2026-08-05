@@ -1,37 +1,30 @@
 import { useEffect, useRef, useState } from "react";
+import { Clock } from "lucide-react";
 import { useTestStore } from "../store/store";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 
 export function Timer() {
+  const { t } = useTranslation();
   const timeLimitInMinutes = useTestStore((s) => s.quiz.time_limit);
-  const submitTest = useTestStore((s) => s.submitTest);
+  const lockTest = useTestStore((s) => s.lockTest);
   const isSubmitting = useTestStore((s) => s.isSubmitting);
 
-  const hasSubmitted = useRef(false);
+  const hasExpired = useRef(false);
   // Переводим минуты в секунды для удобства расчетов
   const [secondsLeft, setSecondsLeft] = useState(timeLimitInMinutes * 60);
 
-  const handleAutoSubmit = async () => {
-    try {
-      toast.error("Время истекло! Результаты отправляются...", {
+  useEffect(() => {
+    // Время вышло — блокируем тест. Отправку выполнит useEffect по isLocked
+    // в QuizTaking, второй точки сабмита здесь быть не должно.
+    if (secondsLeft <= 0 && !hasExpired.current) {
+      hasExpired.current = true;
+      toast.error(t("quizTaking.timer.timeExpiredToast"), {
         duration: 4000,
         icon: "⏰",
       });
-      await submitTest();
-    } catch (e) {
-      console.log(e)
-      toast.error(
-        "Не удалось отправить тест автоматически. Попробуйте нажать кнопку вручную.",
-      );
-    }
-  };
-
-  useEffect(() => {
-    // Если время вышло и мы еще не отправляли тест
-    if (secondsLeft <= 0 && !hasSubmitted.current) {
-      hasSubmitted.current = true;
-      handleAutoSubmit();
+      lockTest("time_expired");
       return;
     }
 
@@ -51,24 +44,34 @@ export function Timer() {
     return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   };
 
-  
-  const timerColor = secondsLeft < 60 ? "text-red-500" : "text-blue-600";
+  const isLow = secondsLeft < 60;
 
   return (
-    <div className="text-right">
+    <div
+      className={`shrink-0 flex flex-col items-center gap-0.5 px-4 py-2 rounded-2xl border ${
+        isLow
+          ? "bg-rose-50 border-rose-100"
+          : "bg-indigo-50 border-indigo-100"
+      }`}
+    >
       <div
         id="timer"
-        className={`text-2xl font-mono font-bold transition-colors ${timerColor}`}
+        className={`flex items-center gap-1.5 text-lg font-mono font-black tabular-nums transition-colors ${
+          isLow ? "text-rose-600" : "text-indigo-600"
+        }`}
       >
+        <Clock size={16} className={isLow ? "animate-pulse" : ""} />
         {formatTime(secondsLeft)}
       </div>
-      <p className="text-[10px] uppercase text-slate-400 font-bold tracking-wider">
-        {secondsLeft > 0 ? "Осталось времени" : "Время истекло"}
+      <p
+        className={`text-[9px] uppercase font-bold tracking-wider ${isLow ? "text-rose-400" : "text-indigo-400"}`}
+      >
+        {secondsLeft > 0 ? t("quizTaking.timer.timeLeft") : t("quizTaking.timer.timeExpired")}
       </p>
       {/* Визуальный индикатор отправки, если время вышло */}
       {isSubmitting && (
-        <span className="text-[10px] text-indigo-500 animate-pulse font-bold">
-          Сохранение...
+        <span className="text-[9px] text-indigo-500 animate-pulse font-bold">
+          {t("quizTaking.timer.saving")}
         </span>
       )}
     </div>

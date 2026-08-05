@@ -1,5 +1,6 @@
 import { prisma } from "../../db/prisma.js";
 import { Request, Response } from "express";
+import { getAttemptTiming } from "../../utils/attemptTiming.js";
 
 // Контроллер для списка попыток
 export const getQuizAttemptsList = async (req: Request, res: Response) => {
@@ -15,19 +16,31 @@ export const getQuizAttemptsList = async (req: Request, res: Response) => {
         id: true,
         score: true,
         status: true,
+        started_at: true,
         finished_at: true,
         users: { select: { full_name: true } },
+        quizzes: { select: { time_limit: true } },
       },
     });
 
     res.json(
-      attempts.map((a) => ({
-        id: a.id,
-        studentName: a.users?.full_name ?? null,
-        score: a.score,
-        status: a.status,
-        finishedAt: a.finished_at,
-      })),
+      attempts.map((a) => {
+        const timing = getAttemptTiming({
+          startedAt: a.started_at,
+          finishedAt: a.finished_at,
+          timeLimit: a.quizzes?.time_limit ?? null,
+        });
+
+        return {
+          id: a.id,
+          studentName: a.users?.full_name ?? null,
+          score: a.score,
+          status: a.status,
+          finishedAt: a.finished_at,
+          isLate: timing.isLate,
+          overtimeSeconds: timing.overtimeSeconds,
+        };
+      }),
     );
   } catch (error) {
     console.error(error);
@@ -50,23 +63,34 @@ export const getRecentAttempts = async (req: Request, res: Response) => {
         id: true,
         score: true,
         status: true,
+        started_at: true,
         finished_at: true,
         users: { select: { full_name: true } },
-        quizzes: { select: { title: true, passing: true } },
+        quizzes: { select: { title: true, passing: true, time_limit: true } },
       },
     });
 
     // Возвращаем на фронт
     res.json(
-      attempts.map((a) => ({
-        id: a.id,
-        score: a.score,
-        status: a.status,
-        finishedAt: a.finished_at,
-        studentName: a.users?.full_name ?? null,
-        quizTitle: a.quizzes?.title ?? null,
-        passing: a.quizzes?.passing ?? null,
-      })),
+      attempts.map((a) => {
+        const timing = getAttemptTiming({
+          startedAt: a.started_at,
+          finishedAt: a.finished_at,
+          timeLimit: a.quizzes?.time_limit ?? null,
+        });
+
+        return {
+          id: a.id,
+          score: a.score,
+          status: a.status,
+          finishedAt: a.finished_at,
+          studentName: a.users?.full_name ?? null,
+          quizTitle: a.quizzes?.title ?? null,
+          passing: a.quizzes?.passing ?? null,
+          isLate: timing.isLate,
+          overtimeSeconds: timing.overtimeSeconds,
+        };
+      }),
     );
   } catch (error) {
     console.error(error);
@@ -85,7 +109,10 @@ export const getAttemptDetails = async (req: Request, res: Response) => {
         id: true,
         score: true,
         status: true,
+        started_at: true,
+        finished_at: true,
         users: { select: { full_name: true } },
+        quizzes: { select: { time_limit: true } },
       },
     });
 
@@ -134,12 +161,22 @@ export const getAttemptDetails = async (req: Request, res: Response) => {
         .map((opt) => ({ id: opt.id, text: opt.text, isCorrect: opt.is_correct })),
     }));
 
+    const timing = getAttemptTiming({
+      startedAt: attempt.started_at,
+      finishedAt: attempt.finished_at,
+      timeLimit: attempt.quizzes?.time_limit ?? null,
+    });
+
     res.json({
       attempt: {
         id: attempt.id,
         score: attempt.score,
         status: attempt.status,
         full_name: attempt.users?.full_name ?? null,
+        startedAt: attempt.started_at,
+        finishedAt: attempt.finished_at,
+        isLate: timing.isLate,
+        overtimeSeconds: timing.overtimeSeconds,
       },
       answers,
     });

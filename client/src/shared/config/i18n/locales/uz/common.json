@@ -1,4 +1,24 @@
 {
+    "dateFormat": {
+        "noDeadline": "Cheklovsiz",
+        "invalidDate": "Noto'g'ri sana"
+    },
+    "proctoring": {
+        "modelInit": "AI ishga tushirilmoqda...",
+        "active": "AI nazorati faol",
+        "violations": "Buzilishlar",
+        "faceNotDetected": "Yuz aniqlanmadi!",
+        "suspiciousGaze": "Shubhali qarash aniqlandi!",
+        "violationToast": "Buzilish qayd etildi: qarash chetga burildi!",
+        "focusLost": "Diqqat! Fokus yo'qoldi yoki varaq almashtirildi.",
+        "lastWarning": "Oxirgi ogohlantirish! Test yakunlanadi.",
+        "cameraLost": "Veb-kamera bilan aloqa uzildi. Ulanishni tekshiring.",
+        "accessDenied": "Kameraga kirish taqiqlangan. Brauzer sozlamalarida ruxsat bering.",
+        "cameraNotFound": "Kamera topilmadi. Qurilmani ulang.",
+        "cameraBusy": "Kamera boshqa dastur tomonidan band. Zoom/Skype-ni yoping va sahifani yangilang.",
+        "genericError": "Xato: {{message}}",
+        "unknownError": "Kameraga kirishda noma'lum xatolik yuz berdi."
+    },
     "navigation": {
         "dashboard": "Dashboard",
         "quizes": "Testlar",
@@ -16,28 +36,104 @@
     "studentCard": {
         "student": "Men - Student",
         "info": "Belgilangan testdan o‘ting, natijalaringizni ko‘rib chiqing va o‘qituvchidan fikr-mulohaza oling.",
-        "sign" : "Accountga kirish"
+        "sign": "Accountga kirish"
     },
     "teacherCard": {
         "teacher": "Men - Ustoz",
         "info": "Testlar yarating, talabalar guruhlarini boshqaring va real vaqt rejimida proktoring natijalarini tahlil qiling.",
         "sign": "Boshqaruv paneli"
     },
-    "sidebar" : {
+    "sidebar": {
         "home": "Asosiy",
-        "settings":"Sozlamalar",
-        "performance": "O'zlashtirish",
-        "myQuizes": "Testlarim"
+        "settings": "Profil sozlamalar",
+        "myQuizes": "Testlar va natijalar",
+        "analytics": "Tahlil",
+        "openMenu": "Menyuni ochish",
+        "closeMenu": "Menyuni yopish",
+        "loggedInAs": "Siz kirdingiz"
+    },
+    "analytics": {
+        "title": "Tahlil",
+        "subtitle": "Natijalaringiz qanday o‘zgaryapti va qayerda ball yo‘qotyapsiz",
+        "avgScore": "O‘rtacha natija",
+        "bestScore": "Eng yaxshi natija",
+        "passed": "Topshirilgan testlar",
+        "attempts": "Jami urinishlar",
+        "trendHint": "so‘nggi 30 kun ichida",
+        "dynamicsTitle": "Natijalar dinamikasi",
+        "dynamicsSubtitle": "Har bir yakunlangan urinish uchun foiz",
+        "openTable": "Ro‘yxat ko‘rinishida",
+        "byTypeTitle": "Ball qayerda yo‘qoladi",
+        "byTypeSubtitle": "Savol turi bo‘yicha to‘liq to‘g‘ri javoblar ulushi",
+        "chartAria": "Sanalar bo‘yicha natijalar grafigi",
+        "passingLine": "Ostona",
+        "legendPassed": "Topshirilgan",
+        "legendFailed": "Topshirilmagan",
+        "loadError": "Tahlilni yuklab bo‘lmadi",
+        "emptyTitle": "Hozircha ko‘rsatadigan narsa yo‘q",
+        "emptyText": "Birinchi testni topshiring — bu yerda dinamika va xatolar tahlili paydo bo‘ladi",
+        "emptyAction": "Testlarga",
+        "questionType": {
+            "single": "Bitta variant",
+            "multiple": "Bir nechta variant",
+            "text": "Matnli javob"
+        }
+    },
+    "profile": {
+        "noGroup": "Guruh ko‘rsatilmagan",
+        "profileLink": "Profil",
+        "avatar": {
+            "change": "Rasmni o‘zgartirish",
+            "updated": "Profil rasmi yangilandi",
+            "selectImageFile": "Rasm faylini tanlang",
+            "maxFileSize": "Fayl hajmi maksimum 5 MB"
+        },
+        "personalInfo": "Shaxsiy ma'lumotlar",
+        "fullNameLabel": "F.I.Sh.",
+        "emailLabel": "Email",
+        "emailReadonlyHint": "Email o‘zgartirib bo‘lmaydi",
+        "saveChanges": "O‘zgarishlarni saqlash",
+        "saved": "Profil yangilandi",
+        "memberSince": "Platformada {{date}} dan beri",
+        "security": {
+            "title": "Xavfsizlik",
+            "currentPassword": "Joriy parol",
+            "newPassword": "Yangi parol",
+            "changePassword": "Parolni almashtirish",
+            "passwordChanged": "Parol muvaffaqiyatli o‘zgartirildi",
+            "passwordMismatch": "Parollar mos kelmadi"
+        },
+        "errors": {
+            "NAME_TOO_SHORT": "Ism juda qisqa",
+            "INVALID_GROUP": "Noto‘g‘ri guruh",
+            "PASSWORD_TOO_SHORT": "Parol juda qisqa (kamida 8 ta belgi)",
+            "INVALID_CURRENT_PASSWORD": "Joriy parol noto‘g‘ri",
+            "MISSING_FIELDS": "Barcha maydonlarni to‘ldiring",
+            "USER_NOT_FOUND": "Foydalanuvchi topilmadi",
+            "UNKNOWN_ERROR": "Nimadir xato ketdi, qayta urinib ko‘ring"
+        }
     },
     "quizesPage": {
         "title": "Mavjud testlar",
-        "subtitle" : "Sizda topshirilishi kerak bo‘lgan {{count}} ta test bor",
+        "subtitle": "Sizda topshirilishi kerak bo‘lgan {{count}} ta test bor",
         "search": "Testlar qidirish",
+        "subtitleAvailable": "Sizda bajarilmagan testlar bor",
+        "subtitleCompleted": "Topshirish tarixi va baholaringiz",
+        "tabAvailable": "Mavjud",
+        "tabCompleted": "Yakunlangan",
         "filters": {
-            "all" : "Hammasi",
+            "all": "Hammasi",
             "finished": "Yakunlangan",
             "active": "Faol"
         }
+    },
+    "resultsList": {
+        "emptyTitle": "Bu yerda natijalaringiz ko‘rinadi",
+        "emptySubtitle": "Siz hali birorta testni yakunlamagansiz.",
+        "yourResult": "Sizning natijangiz",
+        "passingLabel": "O‘tish balli: {{score}}%",
+        "viewAnswers": "Javoblarni ko‘rish",
+        "startFailed": "Testni boshlab bo‘lmadi"
     },
     "quizCard": {
         "active": "Faol",
@@ -51,11 +147,477 @@
         "availableFrom": "Faol boladi",
         "closed": "Yopiq",
         "result": "Natija",
-        "mistakes": "Xatolarni ko‘rish"
+        "mistakes": "Xatolarni ko‘rish",
+        "passingLabel": "O‘tish balli: {{percent}}%",
+        "teacherFallback": "O‘qituvchi",
+        "attemptsLabel": "Urinishlar",
+        "unlimited": "Cheklovsiz",
+        "attemptsCount": "{{left}} / {{total}}"
     },
     "auth": {
         "login": "Kirish",
-        "password": "Password",
-        "logout": "Chiqish"
+        "password": "Parol",
+        "logout": "Chiqish",
+        "register": {
+            "title": "Hisob yaratish",
+            "subtitle": "Tizimga kirish uchun ma'lumotlaringizni to‘ldiring",
+            "btnFrd": "Keyingisi",
+            "btnBck": "Orqaga"
+        },
+        "authorization": {
+            "title": "Hisobga kirish",
+            "subtitle": "Tizimga kirish uchun ma'lumotlaringizni to‘ldiring"
+        },
+        "errors": {
+            "errEmail": "Noto‘g‘ri email",
+            "fixFields": "Ba'zi ma'lumotlar noto‘g‘ri kiritildi!",
+            "errName": "F.I.Sh. kiriting",
+            "errGroup": "Guruhingizni kiriting",
+            "emailExists": "Sizning emailingiz allaqachon ro‘yxatdan o‘tgan",
+            "invalidPass": "Noto‘g‘ri parol",
+            "loginError": "Kirishda xatolik",
+            "loadGroupsFailed": "Guruhlar ro‘yxatini yuklab bo‘lmadi",
+            "emailTakenBy": "{{email}} pochtasi boshqa foydalanuvchi tomonidan band qilingan!",
+            "unknownError": "Noma'lum xatolik yuz berdi"
+        },
+        "noAccountYet": "Hisobingiz yo‘qmi?",
+        "toastAccountCreated": "Hisob muvaffaqiyatli yaratildi!",
+        "requirementsTitle": "Talablar",
+        "passwordStrength": {
+            "empty": "Bo‘sh",
+            "weak": "Zaif",
+            "medium": "O‘rtacha",
+            "good": "Yaxshi",
+            "strong": "Kuchli"
+        },
+        "passwordChecks": {
+            "upperLower": "Katta va kichik harflar",
+            "digit": "Raqam",
+            "specialChar": "Maxsus belgi"
+        },
+        "labels": {
+            "FIO": "F.I.Sh.",
+            "fioPlaceholder": "Familiya Ism Sharif",
+            "group": "Guruh",
+            "groupPlaceholder": "Masalan: IT-202",
+            "role": "Tizimdagi rol",
+            "already": "Hisobingiz bormi?",
+            "password": "Parol",
+            "minPass": "Kamida 8 ta belgi",
+            "confirmPass": "Parolni tasdiqlash",
+            "confirmPassLabel": "Parolni qayta kiriting",
+            "loadingGroups": "Guruhlar yuklanmoqda...",
+            "selectGroup": "Guruhni tanlang"
+        },
+        "steps": {
+            "one": "Shaxsiy ma'lumotlar",
+            "two": "Xavfsizlik"
+        },
+        "roleCards": {
+            "student": "Talaba",
+            "teacher": "O‘qituvchi",
+            "teacherDesc": "Testlar yarataman va talabalarni baholayman",
+            "studentDesc": "Testdan o‘taman va natijalarni kuzataman"
+        }
+    },
+    "studentHome": {
+        "user": "Foydalanuvchi",
+        "greeting": "Salom, {{name}}! 👋",
+        "quizzesAvailable": "Sizda {{count}} ta mavjud test bor. Bilimingizni mustahkamlash uchun ajoyib imkoniyat!",
+        "noQuizzesAvailable": "Hozircha mavjud testlar yo‘q — keyinroq qayta tekshiring.",
+        "avgScore": "O‘rt. ball",
+        "completedTests": "Topshirilgan testlar",
+        "testsCompleted": "Testlar topshirildi",
+        "viewAllResults": "Barcha natijalarni ko‘rish",
+        "toComplete": "Bajarish uchun",
+        "allAvailable": "Barcha mavjud",
+        "noQuizzes": "Hozircha mavjud testlar yo‘q",
+        "lastAttempt": "Oxirgi urinish",
+        "min": "daq",
+        "questionsShort": "savol",
+        "unlimited": "Cheklovsiz",
+        "attemptsLeft": "Urinishlar: {{left}} / {{total}}",
+        "loading": "Yuklanmoqda...",
+        "start": "Boshlash",
+        "recentSubmissions": "So‘nggi topshiriqlar",
+        "noResultsYet": "Siz hali birorta testni yakunlamagansiz",
+        "showAllHistory": "To‘liq tarixni ko‘rsatish"
+    },
+    "teacherDashboard": {
+        "welcomeBack": "Xush kelibsiz! 👋",
+        "welcomeSubtitle": "Bugun testlaringizda nimalar sodir bo‘lyapti.",
+        "createQuiz": "Test yaratish",
+        "loadError": "Ma'lumotlarni yuklab bo‘lmadi",
+        "loadErrorHint": "Sahifani yangilab ko‘ring",
+        "aside": {
+            "dashboard": "Boshqaruv paneli",
+            "myQuizzes": "Testlarim",
+            "students": "Talabalar",
+            "settings": "Sozlamalar",
+            "logout": "Chiqish"
+        },
+        "header": {
+            "searchPlaceholder": "Testlar, talabalarni qidirish...",
+            "role": "O‘qituvchi"
+        },
+        "stats": {
+            "activeQuizzes": "Faol testlar",
+            "totalStudents": "Jami talabalar",
+            "avgScore": "O‘rtacha ball",
+            "drafts": "Qoralamalar"
+        },
+        "liveFeed": {
+            "title": "Jonli lenta",
+            "recentSubmissions": "So‘nggi topshirilgan testlar",
+            "points": "Ballar",
+            "showMore": "Yana ko‘rsatish ({{count}})",
+            "showLess": "Yig‘ish"
+        },
+        "recentQuizzes": {
+            "title": "So‘nggi testlar",
+            "viewAll": "Barchasini ko‘rish",
+            "avgScore": "O‘rt. ball"
+        },
+        "quizCard": {
+            "published": "Chop etilgan",
+            "draft": "Qoralama",
+            "created": "Yaratilgan",
+            "questionsShort": "sav.",
+            "attempts": "Urinishlar",
+            "avgScore": "O‘rt. ball",
+            "results": "Natijalar",
+            "edit": "Tahrirlash",
+            "viewResultsTitle": "Natijalarni ko‘rish",
+            "editTitle": "Testni tahrirlash",
+            "deleteTitle": "Testni o‘chirish"
+        },
+        "tab": {
+            "loading": "Testlar yuklanmoqda...",
+            "loadError": "Testlarni yuklab bo‘lmadi",
+            "title": "Testlarim",
+            "subtitle": "Materiallarni boshqarish va statistikani ko‘rish.",
+            "emptyTitle": "Hech narsa topilmadi",
+            "emptySubtitle": "Bu toifada hali testlaringiz yo‘q yoki qidiruv natija bermadi."
+        },
+        "toolbar": {
+            "searchPlaceholder": "Nomi bo‘yicha test qidirish...",
+            "all": "Hammasi",
+            "published": "Chop etilganlar",
+            "drafts": "Qoralamalar"
+        }
+    },
+    "teacherQuizzes": {
+        "title": "Testlarim",
+        "subtitle": "Har bir test uchun materiallarni boshqaring va statistikani ko‘ring.",
+        "createQuiz": "Test yaratish",
+        "loadError": "Testlarni yuklab bo‘lmadi",
+        "loadErrorHint": "Sahifani yangilab ko‘ring",
+        "stats": {
+            "all": "Barcha testlar",
+            "published": "Chop etilgan",
+            "drafts": "Qoralamalar"
+        },
+        "searchPlaceholder": "Nomi bo‘yicha test qidirish...",
+        "filters": {
+            "all": "Hammasi",
+            "published": "Chop etilganlar",
+            "draft": "Qoralamalar"
+        },
+        "empty": {
+            "notFound": "Hech narsa topilmadi",
+            "noQuizzes": "Sizda hali testlar yo‘q",
+            "notFoundHint": "Qidiruvni o‘zgartirib yoki boshqa filtrni tanlab ko‘ring.",
+            "noQuizzesHint": "Bu yerda ko‘rinishi uchun birinchi testingizni yarating."
+        },
+        "card": {
+            "published": "Chop etilgan",
+            "draft": "Qoralama",
+            "passing": "o‘tish balli",
+            "attempts": "Urinishlar",
+            "avgScore": "O‘rt. ball",
+            "results": "Natijalar",
+            "edit": "Tahrirlash"
+        }
+    },
+    "quizAttempts": {
+        "back": "Testlarga qaytish",
+        "title": "Test natijalari",
+        "subtitle": "Talabalar ro‘yxati va ularning yakuniy ballari",
+        "loadError": "Natijalarni yuklab bo‘lmadi",
+        "loadErrorHint": "Sahifani yangilab ko‘ring",
+        "stats": {
+            "total": "Jami urinishlar",
+            "avgScore": "O‘rtacha ball",
+            "passed": "Testdan o‘tdi"
+        },
+        "searchPlaceholder": "Ism bo‘yicha talaba qidirish...",
+        "sort": {
+            "date": "Sana bo‘yicha",
+            "score": "Ball bo‘yicha",
+            "name": "Ism bo‘yicha"
+        },
+        "noDateSpecified": "Sana ko‘rsatilmagan",
+        "passed": "O‘tdi",
+        "failed": "O‘tmadi",
+        "empty": {
+            "notFound": "Hech narsa topilmadi",
+            "noAttempts": "Hali hech kim bu testni yakunlamagan",
+            "notFoundHint": "Qidiruv so‘rovini o‘zgartirib ko‘ring.",
+            "noAttemptsHint": "Talabalar testdan o‘tgach, natijalar shu yerda paydo bo‘ladi."
+        }
+    },
+    "attemptTiming": {
+        "late": "Kechikkan",
+        "lateBy": "{{count}} daqiqaga kechikkan"
+    },
+    "attemptDetails": {
+        "backToList": "Ro‘yxatga qaytish",
+        "loadError": "Urinish ma'lumotlarini yuklab bo‘lmadi.",
+        "status": "Holat",
+        "totalScore": "Yakuniy ball",
+        "question": "Savol",
+        "points": "ball",
+        "correct": "To‘g‘ri",
+        "incorrect": "Xato",
+        "studentChoice": "Talaba tanlovi",
+        "studentMistake": "Talaba xatosi",
+        "correctAnswer": "To‘g‘ri javob",
+        "studentAnswer": "Talaba javobi:",
+        "noAnswerGiven": "Talaba bu savolga javob bermadi",
+        "noAnswers": "Bu urinishda saqlangan javoblar yo‘q."
+    },
+    "quizBuilder": {
+        "home": "Asosiy",
+        "backToQuizzes": "Testlarga qaytish",
+        "defaultQuizTitle": "Yangi test",
+        "tabsPage": {
+            "questions": "Savollar",
+            "settings": "Sozlamalar",
+            "free": "Bepul"
+        },
+        "imageUpload": {
+            "uploadFailed": "Rasmni yuklab bo‘lmadi",
+            "selectImageFile": "Rasm faylini tanlang",
+            "maxFileSize": "Fayl hajmi maksimum 5 MB bo‘lishi kerak",
+            "removeImage": "Rasmni o‘chirish",
+            "addImage": "Rasm qo‘shish"
+        },
+        "addAnswerOption": "Variant qo‘shish",
+        "textTypeHint": "Matnli savol uchun talaba javobni o‘zi kiritadi. Variantlar kerak emas.",
+        "answerHintMultiple": "Bir yoki bir nechta to‘g‘ri javobni tanlang",
+        "answerHintSingle": "To‘g‘ri javobni belgilash uchun doiraga bosing",
+        "answerPlaceholder": "{{n}}-variant",
+        "questionTextLabel": "SAVOL MATNI",
+        "questionTextPlaceholder": "Savol matnini kiriting....",
+        "pointsLabel": "BALL",
+        "explanationLabel": "IZOH (IXTIYORIY)",
+        "explanationPlaceholder": "Javobdan keyin ko‘rsatiladi...",
+        "questionTypes": {
+            "single": "Yagona tanlov",
+            "multiple": "Ko‘p tanlovli",
+            "text": "Matnli"
+        },
+        "selectTypeLabel": "Savol turi",
+        "enterQuestionText": "Savol matnini kiriting...",
+        "ready": "Tayyor",
+        "notReady": "Tayyor emas",
+        "answersCountShort": "var.",
+        "pointsShort": "b.",
+        "addQuestion": "Savol qo‘shish",
+        "deleteQuestion": "Savolni o‘chirish",
+        "questionsReady": "{{ready}}/{{total}} savol tayyor",
+        "settingsTitle": "Test sozlamalari",
+        "quizNameLabel": "TEST NOMI",
+        "quizNamePlaceholder": "Test nomini kiriting",
+        "timeLimitLabel": "VAQT CHEGARASI (DAQ)",
+        "passingScoreLabel": "O‘TISH BALLI (%)",
+        "questionsInQuizLabel": "BILETDAGI SAVOLLAR",
+        "questionsInQuizPlaceholder": "Masalan: 50",
+        "selectPlaceholder": "Tanlang",
+        "preview": "Ko‘rib chiqish",
+        "saveDraft": "Qoralamani saqlash",
+        "saving": "Saqlanmoqda...",
+        "publish": "Chop etish",
+        "publishing": "Jarayonda...",
+        "fillTitleError": "Test nomini kiriting",
+        "fixErrorsError": "Saqlashdan oldin xatolarni tuzating",
+        "importFormat": "Format",
+        "dropFileHere": "Faylni shu yerga tashlang",
+        "supportedFormats": "Qo‘llab-quvvatlanadigan formatlar: .XLSX, .TXT",
+        "tabs": {
+            "manual": "Qo‘lda",
+            "import": "Import",
+            "ai": "AI generatsiya"
+        },
+        "deleteAll": "Hammasini o‘chirish",
+        "addQuestionShort": "Savol qo‘shish",
+        "selectQuestionHint": "Tahrirlash uchun savolni tanlang yoki yangisini yarating",
+        "importErrorFormat": "Fayldagi Aiken formati noto‘g‘ri.",
+        "importErrorRead": "Faylni o‘qishda xatolik.",
+        "toastCreateSuccess": "Test muvaffaqiyatli yaratildi!",
+        "toastUpdateSuccess": "O‘zgarishlar saqlandi!",
+        "toastCreateError": "Test yaratishda xatolik",
+        "toastUpdateError": "Testni yangilashda xatolik",
+        "toastGenericError": "Xatolik",
+        "schema": {
+            "enterTitleToSave": "Saqlash uchun nom kiriting",
+            "minTwoAnswers": "Kamida 2 ta javob varianti kerak",
+            "selectOneCorrect": "Bitta to‘g‘ri javobni tanlang",
+            "selectAtLeastOneCorrect": "Kamida bitta to‘g‘ri javobni tanlang",
+            "titleTooShort": "Nom juda qisqa",
+            "min1Percent": "Minimum 1%",
+            "max100Percent": "Maksimum 100%",
+            "specifyTime": "Vaqtni belgilang",
+            "min1Question": "Kamida 1 ta savol",
+            "addAtLeastOneQuestion": "Kamida bitta savol qo‘shing",
+            "enterQuizTitle": "Test nomini kiriting",
+            "questionTextRequired": "Savol matni bo‘sh bo‘lishi mumkin emas",
+            "min1Point": "Minimum 1 ball",
+            "limitExceedsTotal": "Chegara savollarning umumiy sonidan katta bo‘lishi mumkin emas!"
+        },
+        "ai": {
+            "title": "AI yordamida savollar yaratish",
+            "subtitle": "Mavzuni kiriting — AI savollar va javob variantlarini o‘zi yaratadi.",
+            "topicLabel": "Savollar mavzusi",
+            "topicPlaceholder": "Masalan: React asoslari, useEffect va useState hooklari",
+            "difficultyLabel": "Murakkablik",
+            "difficulty": {
+                "basic": "Boshlang‘ich (yangi boshlovchilar uchun)",
+                "medium": "O‘rtacha (standart)",
+                "advanced": "Yuqori (murakkab)"
+            },
+            "countLabel": "Soni (maks. 10)",
+            "errorMessage": "AI bilan bog‘lanishda xatolik. Backend sozlamalarini tekshiring.",
+            "generating": "AI yaratmoqda...",
+            "generate": "Savollarni yaratish",
+            "generatedCount": "{{count}} ta savol yaratildi. Mosini belgilang.",
+            "resetButton": "Qayta boshlash",
+            "addToQuiz": "Testga qo‘shish ({{count}})"
+        },
+        "previewDialog": {
+            "dialogTitle": "Testni ko‘rib chiqish",
+            "badge": "Ko‘rib chiqish",
+            "untitled": "Nomsiz",
+            "minutes": "daq",
+            "noLimit": "cheklovsiz",
+            "passing": "o‘tish balli",
+            "questionsCount": "savol",
+            "questionsCountLimited": "savol ({{limit}} ta ko‘rsatiladi)",
+            "noQuestions": "Testda hali savollar yo‘q.",
+            "emptyQuestion": "Bo‘sh savol",
+            "point": "ball",
+            "points": "ball",
+            "studentAnswerPlaceholder": "Talaba javobini shu yerga kiritadi...",
+            "emptyAnswer": "Bo‘sh javob",
+            "correct": "to‘g‘ri"
+        }
+    },
+    "quizTaking": {
+        "submitError": "Testni yuborishda xatolik",
+        "lockedTitle": "Test qoidabuzarlik tufayli to‘xtatildi",
+        "timeExpiredTitle": "Vaqt tugadi",
+        "savingTitle": "Natijalar saqlanmoqda...",
+        "savingHint": "Iltimos, kuting. Javoblaringiz avtomatik ravishda serverga yuborilmoqda. Sahifani yopmang.",
+        "errorTitle": "Voy, nimadir xato ketdi",
+        "backToList": "Testlar ro‘yxatiga qaytish",
+        "attentionTitle": "Diqqat!",
+        "leaveConfirm": "Sahifadan chiqmoqchi ekaningizga ishonchingiz komilmi?",
+        "leaveConfirmStrong": "Natijalar saqlanmaydi va qayta topshirish imkoniyati bekor qilinadi.",
+        "stayButton": "Qolish va davom etish",
+        "leaveButton": "Testni tark etish",
+        "result": {
+            "forceSubmitted": "Qoidabuzarliklar chegarasidan oshib ketgani sababli test avtomatik yakunlandi ({{violations}}/{{maxViolations}}).",
+            "congrats": "Tabriklaymiz!",
+            "finished": "Test yakunlandi",
+            "savedHint": "Javoblaringiz muvaffaqiyatli saqlandi va o‘qituvchiga yuborildi.",
+            "yourResult": "Sizning natijangiz",
+            "correctPercent": "{{percentage}}% to‘g‘ri javoblar",
+            "backToList": "Testlar ro‘yxatiga qaytish"
+        },
+        "freeAnswerPlaceholder": "Javobingizni kiriting...",
+        "footer": {
+            "readyTitle": "Testni yakunlashga tayyormisiz?",
+            "cannotReturn": "Savollarga qaytib, javoblaringizni o‘zgartira olmaysiz.",
+            "totalQuestions": "Jami savollar:",
+            "answeredCount": "Javob berildi:",
+            "skipped": "O‘tkazib yuborildi:",
+            "unansweredWarning": "Sizda javobsiz savollar bor! Testni hozir yakunlasangiz, ularga 0 ball qo‘yiladi.",
+            "cancel": "Bekor qilish, qaytaman",
+            "sending": "Yuborilmoqda...",
+            "confirmFinish": "Ha, yakunlash",
+            "finishTest": "Testni yakunlash",
+            "previous": "Oldingi",
+            "next": "Keyingi"
+        },
+        "progressBar": "{{total}} tadan {{answered}} taga javob berdingiz",
+        "ticketLabel": "{{count}} ta savoldan iborat bilet",
+        "solved": "Yechildi: {{count}}",
+        "questionCounter": "{{current}}-savol / {{total}}",
+        "flag": {
+            "mark": "Belgilash",
+            "marked": "Belgilangan"
+        },
+        "navigator": {
+            "title": "Navigatsiya",
+            "answered": "Javob berilgan",
+            "notAnswered": "Javob berilmagan",
+            "marked": "Belgilangan"
+        },
+        "timer": {
+            "timeExpiredToast": "Vaqt tugadi! Natijalar yuborilmoqda...",
+            "autoSubmitFailed": "Testni avtomatik yuborib bo‘lmadi. Tugmani qo‘lda bosib ko‘ring.",
+            "timeLeft": "Qolgan vaqt",
+            "timeExpired": "Vaqt tugadi",
+            "saving": "Saqlanmoqda..."
+        }
+    },
+    "resultDetails": {
+        "back": "Orqaga",
+        "passed": "TEST TOPSHIRILDI",
+        "failed": "TEST TOPSHIRILMADI",
+        "mistakesReview": "Xatolar tahlili",
+        "yourScore": "Sizning ballingiz",
+        "successRate": "Muvaffaqiyat",
+        "notAnswered": "Siz bu savolga javob bermadingiz",
+        "yourAnswer": "Sizning javobingiz",
+        "noAnswer": "Javob yo‘q",
+        "loadError": "Natijalarni yuklab bo‘lmadi",
+        "loadErrorHint": "Orqaga qaytib, urinishni qayta oching"
+    },
+    "teacherStudents": {
+        "title": "Talabalar",
+        "subtitle": "Guruhlar va talabalar maʼlumotlari",
+        "createGroup": "Guruh yaratish",
+        "createGroupTitle": "Yangi guruh",
+        "groupName": "Guruh nomi",
+        "groupNamePlaceholder": "Masalan: PI-21",
+        "create": "Yaratish",
+        "creating": "Yaratilmoqda...",
+        "groupCreated": "Guruh yaratildi",
+        "groupCreateError": "Guruhni yaratib boʻlmadi",
+        "totalStudents": "Jami talabalar",
+        "totalGroups": "Guruhlar",
+        "search": "Ism yoki email boʻyicha qidirish",
+        "allGroups": "Barcha guruhlar",
+        "noGroup": "Guruhsiz",
+        "fullName": "F.I.Sh.",
+        "email": "Email",
+        "group": "Guruh",
+        "edit": "Tahrirlash",
+        "editTitle": "Talabani tahrirlash",
+        "save": "Saqlash",
+        "saving": "Saqlanmoqda...",
+        "cancel": "Bekor qilish",
+        "saved": "Talaba maʼlumotlari yangilandi",
+        "saveError": "Oʻzgarishlarni saqlab boʻlmadi",
+        "loading": "Yuklanmoqda...",
+        "loadError": "Talabalar roʻyxatini yuklab boʻlmadi",
+        "empty": "Hozircha talabalar yoʻq",
+        "nothingFound": "Hech narsa topilmadi"
+    },
+    "teacherSettings": {
+        "title": "Sozlamalar",
+        "subtitle": "Profilingiz va hisob xavfsizligi",
+        "confirmPassword": "Parolni takrorlang"
     }
 }

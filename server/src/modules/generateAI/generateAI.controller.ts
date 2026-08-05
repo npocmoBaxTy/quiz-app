@@ -6,7 +6,20 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
 export const generateQuestions = async (req: Request, res: Response) => {
   try {
-    const { topic, difficulty, count = 3 } = req.body;
+    const { topic, difficulty } = req.body;
+
+    // count приходит от клиента и уходит в платный API — ограничиваем,
+    // чтобы одним запросом нельзя было заказать тысячи генераций.
+    const MAX_QUESTIONS = 20;
+    const requestedCount = Number(req.body.count ?? 3);
+    const count =
+      Number.isFinite(requestedCount) && requestedCount > 0
+        ? Math.min(Math.floor(requestedCount), MAX_QUESTIONS)
+        : 3;
+
+    if (typeof topic !== "string" || topic.trim().length === 0) {
+      return res.status(400).json({ error: "Не указана тема" });
+    }
 
     // Проверяем наличие ключа
     if (!process.env.GEMINI_API_KEY) {

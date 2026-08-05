@@ -1,123 +1,306 @@
+import { useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import {
+  ArrowLeft,
+  ChevronRight,
+  Search,
+  Trophy,
+  User,
+  Users,
+  BarChart3,
+  AlertCircle,
+  ArrowUpDown,
+} from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { Loader } from "@/widgets/Loader/Loader";
 import { useGetQuizAttempts } from "./hooks/useAttemptDetails";
-import { ChevronRight, User, Trophy, ArrowLeft } from "lucide-react";
+import type { QuizAttemptListItem } from "./types/types";
+import { LateBadge } from "@/shared/ui/LateBadge/LateBadge";
+
+type SortKey = "date" | "score" | "name";
+
+const scoreTone = (score: number) => {
+  if (score >= 70)
+    return {
+      badge: "bg-(--success-green)/10 text-(--success-green) border-(--success-green)/20",
+      ring: "border-(--success-green)/20 bg-(--success-green)/10 text-(--success-green)",
+    };
+  if (score >= 40)
+    return {
+      badge: "bg-(--amber-dim) text-amber-700 border-amber-200",
+      ring: "border-amber-200 bg-(--amber-dim) text-amber-700",
+    };
+  return {
+    badge: "bg-(--danger-dim) text-(--danger-red) border-(--danger-red)/20",
+    ring: "border-(--danger-red)/20 bg-(--danger-dim) text-(--danger-red)",
+  };
+};
 
 export const QuizAttemptsPage = () => {
-  const { quizId } = useParams<{ quizId: string }>(); // Достаем ID теста из URL
+  const { t } = useTranslation();
+  const { quizId } = useParams<{ quizId: string }>();
   const navigate = useNavigate();
 
   const { data: attempts, isLoading, isError } = useGetQuizAttempts(quizId);
 
-  if (isLoading)
-    return (
-      <div className="p-10 text-center text-slate-500">
-        Загрузка результатов...
-      </div>
+  const [search, setSearch] = useState("");
+  const [sortKey, setSortKey] = useState<SortKey>("date");
+
+  const avgScore = useMemo(() => {
+    if (!attempts || attempts.length === 0) return null;
+    return Math.round(
+      attempts.reduce((sum, a) => sum + a.score, 0) / attempts.length,
     );
-  if (isError)
-    return (
-      <div className="p-10 text-center text-red-500">
-        Ошибка при загрузке данных
-      </div>
+  }, [attempts]);
+
+  const passedCount = useMemo(
+    () => attempts?.filter((a) => a.score >= 70).length ?? 0,
+    [attempts],
+  );
+
+  const filtered = useMemo(() => {
+    if (!attempts) return [];
+    const list = attempts.filter((a) =>
+      a.studentName.toLowerCase().includes(search.toLowerCase()),
     );
+    const sorted = [...list].sort((a, b) => {
+      if (sortKey === "score") return b.score - a.score;
+      if (sortKey === "name") return a.studentName.localeCompare(b.studentName);
+      return (
+        new Date(b.finishedAt ?? 0).getTime() -
+        new Date(a.finishedAt ?? 0).getTime()
+      );
+    });
+    return sorted;
+  }, [attempts, search, sortKey]);
+
+  if (isLoading) return <Loader />;
 
   return (
-    <div className="max-w-5xl mx-auto p-6 space-y-6">
-      {/* Навигация назад */}
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 p-5 sm:p-8">
       <button
-        onClick={() => navigate("/user/profile")}
-        className="flex items-center gap-2 text-slate-500 hover:text-slate-800 transition-colors text-sm font-medium"
+        onClick={() => navigate("/teacher/quizes")}
+        className="flex w-fit items-center gap-2 text-sm font-medium text-(--text-muted) transition-colors hover:text-(--text-main)"
       >
-        <ArrowLeft size={16} /> Назад к тестам
+        <ArrowLeft size={16} /> {t("quizAttempts.back")}
       </button>
 
-      <div className="flex justify-between items-end">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900">
-            Результаты теста
-          </h1>
-          <p className="text-slate-500 mt-1">
-            Список студентов и их итоговые баллы
-          </p>
-        </div>
-        <div className="text-sm font-medium text-slate-400 bg-slate-100 px-3 py-1 rounded-full">
-          Всего попыток: {attempts?.length || 0}
-        </div>
+      <div>
+        <h1 className="text-2xl font-bold text-(--text-main)">
+          {t("quizAttempts.title")}
+        </h1>
+        <p className="mt-1 text-sm text-(--text-muted)">
+          {t("quizAttempts.subtitle")}
+        </p>
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
-        <table className="w-full text-left">
-          <thead className="bg-slate-50 border-b border-slate-200">
-            <tr>
-              <th className="px-6 py-4 text-xs font-semibold uppercase text-slate-400">
-                Студент
-              </th>
-              <th className="px-6 py-4 text-xs font-semibold uppercase text-slate-400 text-center">
-                Балл
-              </th>
-              <th className="px-6 py-4 text-xs font-semibold uppercase text-slate-400 text-center">
-                Дата сдачи
-              </th>
-              <th className="px-6 py-4"></th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100">
-            {attempts?.map((attempt) => (
-              <tr
-                key={attempt.id}
-                className="hover:bg-blue-50/50 transition-colors group cursor-pointer"
-                onClick={() =>
-                  navigate(`/teacher/student-attempt/${attempt.id}`)
-                }
-              >
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
-                      <User size={20} />
-                    </div>
-                    <span className="font-bold text-slate-700">
-                      {attempt.studentName}
-                    </span>
-                  </div>
-                </td>
-                <td className="px-6 py-4">
-                  <div
-                    className={`mx-auto w-10 h-10 rounded-xl flex items-center justify-center font-black border-2
-                    ${
-                      attempt.score >= 70
-                        ? "bg-green-50 border-green-100 text-green-600"
-                        : attempt.score >= 40
-                          ? "bg-yellow-50 border-yellow-100 text-yellow-600"
-                          : "bg-red-50 border-red-100 text-red-600"
+      {isError && (
+        <div className="flex flex-col items-center justify-center gap-2 rounded-2xl border border-(--danger-red)/20 bg-(--danger-dim) py-16 text-(--danger-red)">
+          <AlertCircle size={32} />
+          <p className="font-bold">{t("quizAttempts.loadError")}</p>
+          <p className="text-sm opacity-80">{t("quizAttempts.loadErrorHint")}</p>
+        </div>
+      )}
+
+      {attempts && (
+        <>
+          <div className="grid grid-cols-3 gap-3 sm:gap-4">
+            <StatTile
+              icon={<Users size={18} />}
+              label={t("quizAttempts.stats.total")}
+              value={attempts.length}
+              accent="blue"
+            />
+            <StatTile
+              icon={<BarChart3 size={18} />}
+              label={t("quizAttempts.stats.avgScore")}
+              value={avgScore !== null ? `${avgScore}%` : "—"}
+              accent="amber"
+            />
+            <StatTile
+              icon={<Trophy size={18} />}
+              label={t("quizAttempts.stats.passed")}
+              value={passedCount}
+              accent="green"
+            />
+          </div>
+
+          {attempts.length > 0 && (
+            <div className="flex flex-col gap-3 md:flex-row md:items-center">
+              <div className="relative flex-1">
+                <Search
+                  className="absolute top-1/2 left-3 -translate-y-1/2 text-(--text-muted)"
+                  size={17}
+                />
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder={t("quizAttempts.searchPlaceholder")}
+                  className="w-full rounded-xl border border-(--surface-high) bg-(--surface-main) py-2.5 pr-4 pl-10 text-sm outline-none transition-all focus:border-(--main-blue) focus:ring-2 focus:ring-(--main-blue)/15"
+                />
+              </div>
+              <div className="flex shrink-0 gap-1 rounded-xl border border-(--surface-high) bg-(--surface-main) p-1">
+                {(
+                  [
+                    { key: "date", label: t("quizAttempts.sort.date") },
+                    { key: "score", label: t("quizAttempts.sort.score") },
+                    { key: "name", label: t("quizAttempts.sort.name") },
+                  ] as { key: SortKey; label: string }[]
+                ).map(({ key, label }) => (
+                  <button
+                    key={key}
+                    onClick={() => setSortKey(key)}
+                    className={`flex items-center gap-1 rounded-lg px-3.5 py-1.5 text-xs font-bold transition-all ${
+                      sortKey === key
+                        ? "bg-(--main-blue) text-white"
+                        : "text-(--text-muted) hover:bg-(--hover-bg) hover:text-(--text-main)"
                     }`}
                   >
-                    {attempt.score}
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-center text-slate-500 text-sm">
-                  {attempt.finishedAt
-                    ? new Date(attempt.finishedAt).toLocaleDateString()
-                    : "—"}
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <div className="text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-end gap-1 font-medium text-sm">
-                    Смотреть работу <ChevronRight size={16} />
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                    {key === sortKey && <ArrowUpDown size={11} />}
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
-        {attempts?.length === 0 && (
-          <div className="p-20 text-center">
-            <Trophy size={48} className="mx-auto text-slate-200 mb-4" />
-            <p className="text-slate-400 font-medium">
-              Пока никто не завершил этот тест
-            </p>
-          </div>
-        )}
-      </div>
+          {filtered.length === 0 ? (
+            <EmptyState hasAttempts={attempts.length > 0} t={t} />
+          ) : (
+            <div className="flex flex-col gap-2.5">
+              {filtered.map((attempt) => (
+                <AttemptRow
+                  key={attempt.id}
+                  attempt={attempt}
+                  t={t}
+                  onClick={() =>
+                    navigate(`/teacher/student-attempt/${attempt.id}`)
+                  }
+                />
+              ))}
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };
+
+function AttemptRow({
+  attempt,
+  onClick,
+  t,
+}: {
+  attempt: QuizAttemptListItem;
+  onClick: () => void;
+  t: (key: string) => string;
+}) {
+  const tone = scoreTone(attempt.score);
+
+  return (
+    <div
+      onClick={onClick}
+      className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-(--surface-high) bg-(--surface-main) p-4 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/5"
+    >
+      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-(--hover-bg) text-(--main-blue)">
+        <User size={20} />
+      </div>
+
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-2">
+          <p className="truncate font-bold text-(--text-main)">
+            {attempt.studentName}
+          </p>
+          {attempt.isLate && (
+            <LateBadge overtimeSeconds={attempt.overtimeSeconds} compact />
+          )}
+        </div>
+        <p className="text-xs font-medium text-(--text-muted)">
+          {attempt.finishedAt
+            ? new Date(attempt.finishedAt).toLocaleDateString("ru-RU", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })
+            : t("quizAttempts.noDateSpecified")}
+        </p>
+      </div>
+
+      <div
+        className={`flex h-11 min-w-11 shrink-0 items-center justify-center rounded-xl border-2 px-2 font-mono text-sm font-black tabular-nums ${tone.ring}`}
+      >
+        {attempt.score}%
+      </div>
+
+      <span
+        className={`hidden shrink-0 rounded-full border px-2.5 py-1 text-[11px] font-bold tracking-wide uppercase sm:inline-flex ${tone.badge}`}
+      >
+        {attempt.score >= 70 ? t("quizAttempts.passed") : t("quizAttempts.failed")}
+      </span>
+
+      <ChevronRight
+        size={18}
+        className="shrink-0 text-(--text-muted) opacity-0 transition-opacity group-hover:opacity-100"
+      />
+    </div>
+  );
+}
+
+const accentClasses: Record<string, string> = {
+  blue: "bg-(--main-blue)/10 text-(--main-blue)",
+  green: "bg-(--success-green)/10 text-(--success-green)",
+  amber: "bg-(--amber-dim) text-amber-700",
+};
+
+function StatTile({
+  icon,
+  label,
+  value,
+  accent,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: number | string;
+  accent: "blue" | "green" | "amber";
+}) {
+  return (
+    <div className="flex items-center gap-3 rounded-2xl border border-(--surface-high) bg-(--surface-main) p-4">
+      <div
+        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${accentClasses[accent]}`}
+      >
+        {icon}
+      </div>
+      <div>
+        <p className="font-mono text-xl leading-none font-bold text-(--text-main) tabular-nums">
+          {value}
+        </p>
+        <p className="mt-1 text-xs font-medium text-(--text-muted)">{label}</p>
+      </div>
+    </div>
+  );
+}
+
+function EmptyState({
+  hasAttempts,
+  t,
+}: {
+  hasAttempts: boolean;
+  t: (key: string) => string;
+}) {
+  return (
+    <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-(--surface-high) bg-(--surface-main) py-16">
+      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-(--hover-bg)">
+        <Trophy size={26} className="text-(--main-blue)" />
+      </div>
+      <p className="font-bold text-(--text-main)">
+        {hasAttempts ? t("quizAttempts.empty.notFound") : t("quizAttempts.empty.noAttempts")}
+      </p>
+      <p className="max-w-sm text-center text-sm text-(--text-muted)">
+        {hasAttempts
+          ? t("quizAttempts.empty.notFoundHint")
+          : t("quizAttempts.empty.noAttemptsHint")}
+      </p>
+    </div>
+  );
+}

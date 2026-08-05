@@ -10,15 +10,34 @@ export const getQuizById = async (req: Request, res: Response) => {
   }
 
   try {
-    // 2. Execute query
-    const quiz = await prisma.quizzes.findUnique({ where: { id: quizId } });
+    // 2. Execute query. Поля перечислены явно: created_by и прочая
+    // служебная информация клиенту не нужна.
+    const quiz = await prisma.quizzes.findUnique({
+      where: { id: quizId },
+      select: {
+        id: true,
+        title: true,
+        passing: true,
+        time_limit: true,
+        questions_limit: true,
+        published: true,
+        created_at: true,
+      },
+    });
 
     // 3. Handle 'No Results'
     if (!quiz) {
       return res.status(404).json({ message: "Quiz not found" });
     }
 
-    // 4. Success
+    // 4. Черновик виден только преподавателю — студенту неопубликованного
+    // теста не существует.
+    const isTeacher = (req as any).user?.role === "TEACHER";
+    if (!quiz.published && !isTeacher) {
+      return res.status(404).json({ message: "Quiz not found" });
+    }
+
+    // 5. Success
     return res.json(quiz);
   } catch (error) {
     // 5. Log the error for debugging and tell the client something went wrong

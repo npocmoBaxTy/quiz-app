@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 import { prisma } from "../../db/prisma.js";
+import { getAttemptTiming } from "../../utils/attemptTiming.js";
 
 // --- 1. ТИПЫ ДЛЯ ЗАПРОСА ---
 
@@ -10,17 +11,23 @@ export interface QuizResponseItem {
   values: string[];
 }
 
+// quizId и ticketQuestionIds клиент больше не присылает: состав билета и его
+// стоимость берутся только из attempt_questions, зафиксированных на старте.
 export interface SubmitQuizBody {
   attemptId: string;
-  quizId: string;
-  ticketQuestionIds: string[];
   responses: QuizResponseItem[];
 }
 
 type SubmitResult =
   | { kind: "not_found" }
   | { kind: "already_finished" }
-  | { kind: "ok"; totalScore: number; maxScoreForTicket: number };
+  | {
+      kind: "ok";
+      totalScore: number;
+      maxScoreForTicket: number;
+      isLate: boolean;
+      overtimeSeconds: number;
+    };
 
 // --- 2. КОНТРОЛЛЕР ---
 
@@ -28,16 +35,25 @@ export const submitQuizAttempt = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
-  const { attemptId, quizId, ticketQuestionIds, responses } =
-    req.body as SubmitQuizBody;
+  const { attemptId, responses } = req.body as SubmitQuizBody;
   const studentId = (req as any).user.userId;
+
+  if (!attemptId || !Array.isArray(responses)) {
+    res.status(400).json({ error: "Некорректное тело запроса" });
+    return;
+  }
 
   try {
     const result = await prisma.$transaction(async (tx): Promise<SubmitResult> => {
       // 1. Проверяем статус попытки
       const attempt = await tx.attempts.findFirst({
         where: { id: attemptId, student_id: studentId },
-        select: { status: true },
+        select: {
+          status: true,
+          quiz_id: true,
+          started_at: true,
+          quizzes: { select: { time_limit: true } },
+        },
       });
 
       if (!attempt) {
@@ -50,26 +66,56 @@ export const submitQuizAttempt = async (
 
       // --- БЛОК АВТОПРОВЕРКИ И ПОДСЧЕТА МАКСИМУМА ---
 
-      // Достаем баллы для всех вопросов в базе
-      const quizQuestions = await tx.quiz_questions.findMany({
-        where: { quiz_id: quizId },
+      // Билет попытки — единственный источник правды о составе вопросов
+      // и их стоимости. Всё, что пришло от клиента, для этого не используется.
+      let ticket = await tx.attempt_questions.findMany({
+        where: { attempt_id: attemptId },
         select: { question_id: true, points: true },
       });
 
-      const maxPointsMap: Record<string, number> = {};
-      quizQuestions.forEach((row) => {
-        if (row.question_id) maxPointsMap[row.question_id] = row.points || 0;
-      });
+      // Попытки, начатые до фиксации билета на старте, его не имеют —
+      // для них билетом считается весь тест целиком.
+      if (ticket.length === 0) {
+        const quizQuestions = await tx.quiz_questions.findMany({
+          where: { quiz_id: attempt.quiz_id ?? "" },
+          select: { question_id: true, points: true },
+        });
 
-      // Считаем максимальный балл ТОЛЬКО для выданных вопросов (ticketQuestionIds)
-      let maxScoreForTicket = 0;
-      if (ticketQuestionIds && ticketQuestionIds.length > 0) {
-        maxScoreForTicket = quizQuestions
-          .filter((row) => row.question_id && ticketQuestionIds.includes(row.question_id))
-          .reduce((sum, row) => sum + (row.points || 0), 0);
+        ticket = quizQuestions
+          .filter((row) => row.question_id !== null)
+          .map((row) => ({
+            question_id: row.question_id as string,
+            points: row.points,
+          }));
+
+        if (ticket.length > 0) {
+          await tx.attempt_questions.createMany({
+            data: ticket.map((row, idx) => ({
+              id: uuidv4(),
+              attempt_id: attemptId,
+              question_id: row.question_id,
+              order_index: idx,
+              points: row.points ?? 0,
+              created_at: new Date(),
+            })),
+          });
+        }
       }
 
-      const questionIds = responses.map((r) => r.questionId);
+      const maxPointsMap: Record<string, number> = {};
+      let maxScoreForTicket = 0;
+      ticket.forEach((row) => {
+        maxPointsMap[row.question_id] = row.points ?? 0;
+        maxScoreForTicket += row.points ?? 0;
+      });
+
+      // Ответы на вопросы вне билета отбрасываем — иначе через них можно
+      // было бы дописать себе баллы сверх выданного варианта.
+      const gradedResponses = responses.filter((r) =>
+        Object.prototype.hasOwnProperty.call(maxPointsMap, r.questionId),
+      );
+
+      const questionIds = gradedResponses.map((r) => r.questionId);
 
       const correctAnswersMap: Record<
         string,
@@ -97,6 +143,8 @@ export const submitQuizAttempt = async (
         });
       }
 
+      // Билет уже лежит в attempt_questions и не пересоздаётся — чистим
+      // только ответы, чтобы повторная отправка не задвоила строки.
       await tx.student_answers.deleteMany({ where: { attempt_id: attemptId } });
 
       let totalScore = 0;
@@ -113,8 +161,9 @@ export const submitQuizAttempt = async (
         points: number;
       }[] = [];
 
-      for (const response of responses) {
-        const { questionId, type, values } = response;
+      for (const response of gradedResponses) {
+        const { questionId, type } = response;
+        const values = Array.isArray(response.values) ? response.values : [];
         const maxPoints = maxPointsMap[questionId] || 0;
         const correctData = correctAnswersMap[questionId] || {
           options: [],
@@ -163,17 +212,32 @@ export const submitQuizAttempt = async (
 
       // --- ФИНАЛЬНЫЙ АПДЕЙТ ПОПЫТКИ ---
 
+      // Сдачу после лимита времени принимаем и оцениваем как обычно —
+      // просрочка только фиксируется, чтобы преподаватель её видел.
+      const finishedAt = new Date();
+      const timing = getAttemptTiming({
+        startedAt: attempt.started_at,
+        finishedAt,
+        timeLimit: attempt.quizzes?.time_limit ?? null,
+      });
+
       await tx.attempts.updateMany({
         where: { id: attemptId, student_id: studentId },
         data: {
           score: totalScore,
           max_score: maxScoreForTicket,
           status: "finished",
-          finished_at: new Date(),
+          finished_at: finishedAt,
         },
       });
 
-      return { kind: "ok", totalScore, maxScoreForTicket };
+      return {
+        kind: "ok",
+        totalScore,
+        maxScoreForTicket,
+        isLate: timing.isLate,
+        overtimeSeconds: timing.overtimeSeconds,
+      };
     });
 
     if (result.kind === "not_found") {
@@ -191,6 +255,8 @@ export const submitQuizAttempt = async (
       attemptId,
       score: result.totalScore,
       maxScore: result.maxScoreForTicket,
+      isLate: result.isLate,
+      overtimeSeconds: result.overtimeSeconds,
       message: "Тест успешно проверен!",
     });
   } catch (error) {

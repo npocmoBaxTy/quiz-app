@@ -85,7 +85,9 @@ export async function loginController(req: Request, res: Response) {
       maxAge: 7 * 24 * 60 * 60 * 1000,
       path: "/",
     });
-    res.json(result);
+    // Токены живут только в httpOnly-куках и в теле ответа не отдаются:
+    // иначе любой XSS смог бы их прочитать из JS.
+    res.json({ user: result.user });
   } catch (err) {
     res.status(400).json({ error: (err as Error).message });
   }

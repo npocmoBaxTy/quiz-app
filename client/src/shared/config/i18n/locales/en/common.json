@@ -1,4 +1,24 @@
 {
+    "dateFormat": {
+        "noDeadline": "No deadline",
+        "invalidDate": "Invalid date"
+    },
+    "proctoring": {
+        "modelInit": "Initializing AI...",
+        "active": "AI proctoring active",
+        "violations": "Violations",
+        "faceNotDetected": "Face not detected!",
+        "suspiciousGaze": "Suspicious gaze detected!",
+        "violationToast": "Violation recorded: looking away!",
+        "focusLost": "Warning! Focus lost or tab switched.",
+        "lastWarning": "Final warning! The test will be terminated.",
+        "cameraLost": "Webcam connection lost. Please check your connection.",
+        "accessDenied": "Camera access denied. Allow access in your browser settings.",
+        "cameraNotFound": "Camera not found. Please connect a device.",
+        "cameraBusy": "Camera is being used by another app. Close Zoom/Skype and refresh the page.",
+        "genericError": "Error: {{message}}",
+        "unknownError": "An unknown error occurred while accessing the camera."
+    },
     "navigation": {
         "dashboard": "Dashboard",
         "welcome": "Welcome",
@@ -23,39 +43,581 @@
         "info": "Create tests, manage student groups, and analyze proctoring results in real-time.",
         "sign": "Control Panel"
     },
-    "sidebar" : {
+    "sidebar": {
         "home": "Home",
-        "settings":"Settings",
-        "performance": "Performance",
-        "myQuizes": "My Quizes"
+        "settings": "Profile settings",
+        "myQuizes": "Quizes & results",
+        "analytics": "Analytics",
+        "openMenu": "Open menu",
+        "closeMenu": "Close menu",
+        "loggedInAs": "Logged in as"
+    },
+    "analytics": {
+        "title": "Analytics",
+        "subtitle": "How your scores change and where you lose points",
+        "avgScore": "Average score",
+        "bestScore": "Best score",
+        "passed": "Quizes passed",
+        "attempts": "Total attempts",
+        "trendHint": "over the last 30 days",
+        "dynamicsTitle": "Score dynamics",
+        "dynamicsSubtitle": "Percentage for every finished attempt",
+        "openTable": "View as list",
+        "byTypeTitle": "Where you lose points",
+        "byTypeSubtitle": "Share of fully correct answers by question type",
+        "chartAria": "Chart of scores over time",
+        "passingLine": "Passing",
+        "legendPassed": "Passed",
+        "legendFailed": "Failed",
+        "loadError": "Failed to load analytics",
+        "emptyTitle": "Nothing to show yet",
+        "emptyText": "Take your first quiz — dynamics and mistake breakdown will appear here",
+        "emptyAction": "Go to quizes",
+        "questionType": {
+            "single": "Single choice",
+            "multiple": "Multiple choice",
+            "text": "Text answer"
+        }
+    },
+    "profile": {
+        "noGroup": "Group not specified",
+        "profileLink": "Profile",
+        "avatar": {
+            "change": "Change photo",
+            "updated": "Profile photo updated",
+            "selectImageFile": "Please select an image file",
+            "maxFileSize": "Maximum file size is 5 MB"
+        },
+        "personalInfo": "Personal details",
+        "fullNameLabel": "Full name",
+        "emailLabel": "Email",
+        "emailReadonlyHint": "Email can't be changed",
+        "saveChanges": "Save changes",
+        "saved": "Profile updated",
+        "memberSince": "Member since {{date}}",
+        "security": {
+            "title": "Security",
+            "currentPassword": "Current password",
+            "newPassword": "New password",
+            "changePassword": "Change password",
+            "passwordChanged": "Password changed successfully",
+            "passwordMismatch": "Passwords don't match"
+        },
+        "errors": {
+            "NAME_TOO_SHORT": "Name is too short",
+            "INVALID_GROUP": "Invalid group",
+            "PASSWORD_TOO_SHORT": "Password is too short (minimum 8 characters)",
+            "INVALID_CURRENT_PASSWORD": "Incorrect current password",
+            "MISSING_FIELDS": "Please fill in all fields",
+            "USER_NOT_FOUND": "User not found",
+            "UNKNOWN_ERROR": "Something went wrong, please try again"
+        }
     },
     "quizesPage": {
         "title": "Available quizes",
         "search": "Search quizes",
         "subtitle": "You have {{count}} quizes to complete",
+        "subtitleAvailable": "You have unfinished quizzes",
+        "subtitleCompleted": "Your history and grades",
+        "tabAvailable": "Available",
+        "tabCompleted": "Completed",
         "filters": {
-            "all" : "All",
+            "all": "All",
             "finished": "Finished",
             "active": "Active"
         }
+    },
+    "resultsList": {
+        "emptyTitle": "Your results will appear here",
+        "emptySubtitle": "You haven't completed any tests yet.",
+        "yourResult": "Your result",
+        "passingLabel": "Passing: {{score}}%",
+        "viewAnswers": "View answers",
+        "startFailed": "Failed to start the quiz"
     },
     "quizCard": {
         "active": "Active",
         "disabled": "Not available",
         "available": "Will be available",
         "finished": "Finished",
-        "time":"Min",
+        "time": "Min",
         "questions": "Questions",
         "deadline": "Deadline",
         "start": "Start quiz",
         "availableFrom": "Available from",
         "closed": "Close",
         "result": "Result",
-        "mistakes": "Show mistakes"
+        "mistakes": "Show mistakes",
+        "passingLabel": "Passing: {{percent}}%",
+        "teacherFallback": "Teacher",
+        "attemptsLabel": "Attempts",
+        "unlimited": "Unlimited",
+        "attemptsCount": "{{left}} of {{total}}"
     },
     "auth": {
         "login": "Login",
         "password": "Password",
-        "logout": "Logout"
+        "logout": "Logout",
+        "register": {
+            "title": "Create account",
+            "subtitle": "Fill in your details to access the system",
+            "btnFrd": "Next",
+            "btnBck": "Back"
+        },
+        "authorization": {
+            "title": "Sign in",
+            "subtitle": "Fill in your details to access the system"
+        },
+        "errors": {
+            "errEmail": "Invalid email",
+            "fixFields": "Some fields were filled in incorrectly!",
+            "errName": "Enter your full name",
+            "errGroup": "Enter your group",
+            "emailExists": "Your email is already registered",
+            "invalidPass": "Incorrect password",
+            "loginError": "Login error",
+            "loadGroupsFailed": "Failed to load the group list",
+            "emailTakenBy": "The email {{email}} is already taken by another user!",
+            "unknownError": "An unknown error occurred"
+        },
+        "noAccountYet": "Don't have an account yet?",
+        "toastAccountCreated": "Your account was created successfully!",
+        "requirementsTitle": "Requirements",
+        "passwordStrength": {
+            "empty": "Empty",
+            "weak": "Weak",
+            "medium": "Medium",
+            "good": "Good",
+            "strong": "Strong"
+        },
+        "passwordChecks": {
+            "upperLower": "Uppercase and lowercase letters",
+            "digit": "A digit",
+            "specialChar": "A special character"
+        },
+        "labels": {
+            "FIO": "Full name",
+            "fioPlaceholder": "Last name First name Middle name",
+            "group": "Group",
+            "groupPlaceholder": "E.g.: IT-202",
+            "role": "Role in the system",
+            "already": "Already have an account?",
+            "password": "Password",
+            "minPass": "Minimum 8 characters",
+            "confirmPass": "Password confirmation",
+            "confirmPassLabel": "Repeat the password",
+            "loadingGroups": "Loading groups...",
+            "selectGroup": "Select a group"
+        },
+        "steps": {
+            "one": "Personal details",
+            "two": "Security"
+        },
+        "roleCards": {
+            "student": "Student",
+            "teacher": "Teacher",
+            "teacherDesc": "Create quizzes and grade students",
+            "studentDesc": "Take quizzes and track results"
+        }
+    },
+    "studentHome": {
+        "user": "User",
+        "greeting": "Hi, {{name}}! 👋",
+        "quizzesAvailable": "You have {{count}} quizzes available. A great chance to sharpen your knowledge!",
+        "noQuizzesAvailable": "No quizzes available right now — check back later.",
+        "avgScore": "Avg. Score",
+        "completedTests": "Tests completed",
+        "testsCompleted": "Tests completed",
+        "viewAllResults": "View all results",
+        "toComplete": "To complete",
+        "allAvailable": "All available",
+        "noQuizzes": "No quizzes available yet",
+        "lastAttempt": "Last attempt",
+        "min": "min",
+        "questionsShort": "questions",
+        "unlimited": "Unlimited",
+        "attemptsLeft": "Attempts: {{left}} of {{total}}",
+        "loading": "Loading...",
+        "start": "Start",
+        "recentSubmissions": "Recent submissions",
+        "noResultsYet": "You haven't completed any tests yet",
+        "showAllHistory": "Show full history"
+    },
+    "teacherDashboard": {
+        "welcomeBack": "Welcome back! 👋",
+        "welcomeSubtitle": "Here's what's happening with your quizzes today.",
+        "createQuiz": "Create quiz",
+        "loadError": "Failed to load data",
+        "loadErrorHint": "Try refreshing the page",
+        "aside": {
+            "dashboard": "Dashboard",
+            "myQuizzes": "My quizzes",
+            "students": "Students",
+            "settings": "Settings",
+            "logout": "Log out"
+        },
+        "header": {
+            "searchPlaceholder": "Search quizzes, students...",
+            "role": "Teacher"
+        },
+        "stats": {
+            "activeQuizzes": "Active quizzes",
+            "totalStudents": "Total students",
+            "avgScore": "Average score",
+            "drafts": "Drafts"
+        },
+        "liveFeed": {
+            "title": "Live feed",
+            "recentSubmissions": "Recent quiz submissions",
+            "points": "Points",
+            "showMore": "Show more ({{count}})",
+            "showLess": "Show less"
+        },
+        "recentQuizzes": {
+            "title": "Recent quizzes",
+            "viewAll": "View all",
+            "avgScore": "Avg. Score"
+        },
+        "quizCard": {
+            "published": "Published",
+            "draft": "Draft",
+            "created": "Created",
+            "questionsShort": "q.",
+            "attempts": "Attempts",
+            "avgScore": "Avg. score",
+            "results": "Results",
+            "edit": "Edit",
+            "viewResultsTitle": "View results",
+            "editTitle": "Edit quiz",
+            "deleteTitle": "Delete quiz"
+        },
+        "tab": {
+            "loading": "Loading quizzes...",
+            "loadError": "Failed to load quizzes",
+            "title": "My quizzes",
+            "subtitle": "Manage materials and view statistics.",
+            "emptyTitle": "Nothing found",
+            "emptySubtitle": "You don't have any quizzes in this category yet, or your search didn't match anything."
+        },
+        "toolbar": {
+            "searchPlaceholder": "Find a quiz by title...",
+            "all": "All",
+            "published": "Published",
+            "drafts": "Drafts"
+        }
+    },
+    "teacherQuizzes": {
+        "title": "My quizzes",
+        "subtitle": "Manage materials and view statistics for each quiz.",
+        "createQuiz": "Create quiz",
+        "loadError": "Failed to load quizzes",
+        "loadErrorHint": "Try refreshing the page",
+        "stats": {
+            "all": "All quizzes",
+            "published": "Published",
+            "drafts": "Drafts"
+        },
+        "searchPlaceholder": "Find a quiz by title...",
+        "filters": {
+            "all": "All",
+            "published": "Published",
+            "draft": "Drafts"
+        },
+        "empty": {
+            "notFound": "Nothing found",
+            "noQuizzes": "You don't have any quizzes yet",
+            "notFoundHint": "Try changing your search or picking a different filter.",
+            "noQuizzesHint": "Create your first quiz to see it here."
+        },
+        "card": {
+            "published": "Published",
+            "draft": "Draft",
+            "passing": "passing",
+            "attempts": "Attempts",
+            "avgScore": "Avg. score",
+            "results": "Results",
+            "edit": "Edit"
+        }
+    },
+    "quizAttempts": {
+        "back": "Back to quizzes",
+        "title": "Quiz results",
+        "subtitle": "List of students and their final scores",
+        "loadError": "Failed to load results",
+        "loadErrorHint": "Try refreshing the page",
+        "stats": {
+            "total": "Total attempts",
+            "avgScore": "Average score",
+            "passed": "Passed"
+        },
+        "searchPlaceholder": "Find a student by name...",
+        "sort": {
+            "date": "By date",
+            "score": "By score",
+            "name": "By name"
+        },
+        "noDateSpecified": "No date specified",
+        "passed": "Passed",
+        "failed": "Failed",
+        "empty": {
+            "notFound": "Nothing found",
+            "noAttempts": "No one has finished this quiz yet",
+            "notFoundHint": "Try changing your search query.",
+            "noAttemptsHint": "Results will appear here once students complete the quiz."
+        }
+    },
+    "attemptTiming": {
+        "late": "Late",
+        "lateBy": "Late by {{count}} min"
+    },
+    "attemptDetails": {
+        "backToList": "Back to list",
+        "loadError": "Failed to load attempt data.",
+        "status": "Status",
+        "totalScore": "Total score",
+        "question": "Question",
+        "points": "points",
+        "correct": "Correct",
+        "incorrect": "Incorrect",
+        "studentChoice": "Student's choice",
+        "studentMistake": "Student's mistake",
+        "correctAnswer": "Correct answer",
+        "studentAnswer": "Student's answer:",
+        "noAnswerGiven": "The student didn't answer this question",
+        "noAnswers": "There are no saved answers for this attempt."
+    },
+    "quizBuilder": {
+        "home": "Home",
+        "backToQuizzes": "Back to quizzes",
+        "defaultQuizTitle": "New Quiz",
+        "tabsPage": {
+            "questions": "Questions",
+            "settings": "Settings",
+            "free": "Free"
+        },
+        "imageUpload": {
+            "uploadFailed": "Failed to upload image",
+            "selectImageFile": "Please select an image file",
+            "maxFileSize": "Maximum file size is 5 MB",
+            "removeImage": "Remove image",
+            "addImage": "Add image"
+        },
+        "addAnswerOption": "Add option",
+        "textTypeHint": "For a text question, the student will type their own answer. No options needed.",
+        "answerHintMultiple": "Select one or more correct answers",
+        "answerHintSingle": "Click the circle to mark the correct answer",
+        "answerPlaceholder": "Option {{n}}",
+        "questionTextLabel": "QUESTION TEXT",
+        "questionTextPlaceholder": "Enter the question text....",
+        "pointsLabel": "POINTS",
+        "explanationLabel": "EXPLANATION (OPTIONAL)",
+        "explanationPlaceholder": "Shown after the answer...",
+        "questionTypes": {
+            "single": "Single choice",
+            "multiple": "Multiple choice",
+            "text": "Text"
+        },
+        "selectTypeLabel": "Question type",
+        "enterQuestionText": "Enter the question text...",
+        "ready": "Ready",
+        "notReady": "Not ready",
+        "answersCountShort": "opt.",
+        "pointsShort": "pt.",
+        "addQuestion": "Add Question",
+        "deleteQuestion": "Delete question",
+        "questionsReady": "{{ready}}/{{total}} questions ready",
+        "settingsTitle": "Quiz settings",
+        "quizNameLabel": "QUIZ TITLE",
+        "quizNamePlaceholder": "Enter the quiz title",
+        "timeLimitLabel": "TIME LIMIT (MIN)",
+        "passingScoreLabel": "PASSING SCORE (%)",
+        "questionsInQuizLabel": "QUESTIONS PER ATTEMPT",
+        "questionsInQuizPlaceholder": "E.g.: 50",
+        "selectPlaceholder": "Select",
+        "preview": "Preview",
+        "saveDraft": "Save draft",
+        "saving": "Saving...",
+        "publish": "Publish",
+        "publishing": "Publishing...",
+        "fillTitleError": "Fill in the quiz title",
+        "fixErrorsError": "Fix the errors before saving",
+        "importFormat": "Format",
+        "dropFileHere": "Drop file here",
+        "supportedFormats": "Supported formats: .XLSX, .TXT",
+        "tabs": {
+            "manual": "Manual",
+            "import": "Import",
+            "ai": "AI generation"
+        },
+        "deleteAll": "Delete all",
+        "addQuestionShort": "Add question",
+        "selectQuestionHint": "Select a question to edit or create a new one",
+        "importErrorFormat": "Invalid Aiken format in the file.",
+        "importErrorRead": "Error reading the file.",
+        "toastCreateSuccess": "Quiz created successfully!",
+        "toastUpdateSuccess": "Changes saved!",
+        "toastCreateError": "Error creating the quiz",
+        "toastUpdateError": "Error updating the quiz",
+        "toastGenericError": "Error",
+        "schema": {
+            "enterTitleToSave": "Enter a title to save",
+            "minTwoAnswers": "At least 2 answer options are required",
+            "selectOneCorrect": "Select one correct answer",
+            "selectAtLeastOneCorrect": "Select at least one correct answer",
+            "titleTooShort": "Title is too short",
+            "min1Percent": "Minimum 1%",
+            "max100Percent": "Maximum 100%",
+            "specifyTime": "Specify the time",
+            "min1Question": "Minimum 1 question",
+            "addAtLeastOneQuestion": "Add at least one question",
+            "enterQuizTitle": "Enter the quiz title",
+            "questionTextRequired": "Question text cannot be empty",
+            "min1Point": "Minimum 1 point",
+            "limitExceedsTotal": "The limit cannot exceed the total number of questions!"
+        },
+        "ai": {
+            "title": "Generate questions with AI",
+            "subtitle": "Enter a topic and the AI will come up with questions and answer options.",
+            "topicLabel": "Question topic",
+            "topicPlaceholder": "E.g.: React basics, useEffect and useState hooks",
+            "difficultyLabel": "Difficulty",
+            "difficulty": {
+                "basic": "Basic (for beginners)",
+                "medium": "Medium (standard)",
+                "advanced": "Advanced (tricky)"
+            },
+            "countLabel": "Count (max. 10)",
+            "errorMessage": "Error contacting the AI. Check the backend settings.",
+            "generating": "AI is generating...",
+            "generate": "Generate questions",
+            "generatedCount": "Generated {{count}} questions. Select the ones you want.",
+            "resetButton": "Reset and start over",
+            "addToQuiz": "Add to quiz ({{count}})"
+        },
+        "previewDialog": {
+            "dialogTitle": "Quiz preview",
+            "badge": "Preview",
+            "untitled": "Untitled",
+            "minutes": "min",
+            "noLimit": "no limit",
+            "passing": "passing",
+            "questionsCount": "questions",
+            "questionsCountLimited": "questions (showing {{limit}})",
+            "noQuestions": "There are no questions in this quiz yet.",
+            "emptyQuestion": "Empty question",
+            "point": "point",
+            "points": "points",
+            "studentAnswerPlaceholder": "The student will type their answer here...",
+            "emptyAnswer": "Empty answer",
+            "correct": "correct"
+        }
+    },
+    "quizTaking": {
+        "submitError": "Error submitting the quiz",
+        "lockedTitle": "Quiz interrupted due to violations",
+        "timeExpiredTitle": "Time is up",
+        "savingTitle": "Saving results...",
+        "savingHint": "Please wait. Your answers are being automatically sent to the server. Do not close this tab.",
+        "errorTitle": "Oops, something went wrong",
+        "backToList": "Back to the quiz list",
+        "attentionTitle": "Attention!",
+        "leaveConfirm": "Are you sure you want to leave this page?",
+        "leaveConfirmStrong": "Your results will not be saved, and the retake option will be voided.",
+        "stayButton": "Stay and continue",
+        "leaveButton": "Leave the quiz",
+        "result": {
+            "forceSubmitted": "The quiz was automatically finished due to exceeding the violation limit ({{violations}}/{{maxViolations}}).",
+            "congrats": "Congratulations!",
+            "finished": "Quiz completed",
+            "savedHint": "Your answers have been successfully saved and sent to your teacher.",
+            "yourResult": "Your result",
+            "correctPercent": "{{percentage}}% correct answers",
+            "backToList": "Back to the quiz list"
+        },
+        "freeAnswerPlaceholder": "Enter your answer...",
+        "footer": {
+            "readyTitle": "Ready to finish the quiz?",
+            "cannotReturn": "You won't be able to go back and change your answers.",
+            "totalQuestions": "Total questions:",
+            "answeredCount": "Answered:",
+            "skipped": "Skipped:",
+            "unansweredWarning": "You still have unanswered questions! If you finish now, they'll be scored 0.",
+            "cancel": "Cancel, go back",
+            "sending": "Sending...",
+            "confirmFinish": "Yes, finish",
+            "finishTest": "Finish Quiz",
+            "previous": "Previous",
+            "next": "Next"
+        },
+        "progressBar": "You've answered {{answered}} out of {{total}}",
+        "ticketLabel": "Ticket of {{count}} questions",
+        "solved": "Solved: {{count}}",
+        "questionCounter": "Question {{current}} of {{total}}",
+        "flag": {
+            "mark": "Flag",
+            "marked": "Flagged"
+        },
+        "navigator": {
+            "title": "Navigator",
+            "answered": "Answered",
+            "notAnswered": "Not answered",
+            "marked": "Flagged"
+        },
+        "timer": {
+            "timeExpiredToast": "Time's up! Sending results...",
+            "autoSubmitFailed": "Failed to auto-submit the quiz. Please try the button manually.",
+            "timeLeft": "Time left",
+            "timeExpired": "Time's up",
+            "saving": "Saving..."
+        }
+    },
+    "resultDetails": {
+        "back": "Back",
+        "passed": "PASSED",
+        "failed": "FAILED",
+        "mistakesReview": "Mistakes review",
+        "yourScore": "Your score",
+        "successRate": "Success rate",
+        "notAnswered": "You didn't answer this question",
+        "yourAnswer": "Your answer",
+        "noAnswer": "No answer",
+        "loadError": "Failed to load results",
+        "loadErrorHint": "Try going back and opening the attempt again"
+    },
+    "teacherStudents": {
+        "title": "Students",
+        "subtitle": "Groups and student details",
+        "createGroup": "Create group",
+        "createGroupTitle": "New group",
+        "groupName": "Group name",
+        "groupNamePlaceholder": "For example: CS-21",
+        "create": "Create",
+        "creating": "Creating...",
+        "groupCreated": "Group created",
+        "groupCreateError": "Failed to create the group",
+        "totalStudents": "Total students",
+        "totalGroups": "Groups",
+        "search": "Search by name or email",
+        "allGroups": "All groups",
+        "noGroup": "No group",
+        "fullName": "Full name",
+        "email": "Email",
+        "group": "Group",
+        "edit": "Edit",
+        "editTitle": "Edit student",
+        "save": "Save",
+        "saving": "Saving...",
+        "cancel": "Cancel",
+        "saved": "Student details updated",
+        "saveError": "Failed to save changes",
+        "loading": "Loading...",
+        "loadError": "Failed to load the student list",
+        "empty": "No students yet",
+        "nothingFound": "Nothing found"
+    },
+    "teacherSettings": {
+        "title": "Settings",
+        "subtitle": "Your profile and account security",
+        "confirmPassword": "Repeat password"
     }
 }
