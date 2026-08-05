@@ -1,13 +1,12 @@
 import { create } from "zustand";
-import type { Question } from "../types";
-import type { Quiz } from "@/pages/QuizesListPage/types";
+import type { Question, TakingQuiz } from "../types";
 import { AxiosError } from "axios";
 import { persist } from "zustand/middleware";
 
 interface TestStore {
   // Данные теста
   questions: Question[];
-  quiz: Quiz;
+  quiz: TakingQuiz;
   answers: Record<string, string[]>;
   currentIndex: number;
 
@@ -21,7 +20,7 @@ interface TestStore {
 
   // Инициализация
   setQuestions: (questions: Question[]) => void;
-  setQuiz: (quiz: Quiz) => void;
+  setQuiz: (quiz: TakingQuiz) => void;
   setScore: (score: number) => void;
   setIsSubmitting: (val: boolean) => void;
 
@@ -75,7 +74,7 @@ export const useTestStore = create<TestStore>()(
   persist(
     (set, get) => ({
       questions: [],
-      quiz: {} as Quiz, // Используйте ваш тип Quiz
+      quiz: {} as TakingQuiz,
       answers: {},
       currentIndex: 0,
       flagged: {},

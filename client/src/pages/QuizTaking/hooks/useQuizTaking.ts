@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getQuizTaking, getTakingQuizById } from "../api/api";
-import type { Question } from "../types";
-import type { Quiz } from "@/pages/TeacherQuizesPage/types";
+import type { Question, TakingQuiz } from "../types";
 
 type QuizResponse = {
   questions: Question[];
@@ -17,7 +16,7 @@ export function useQuizTaking(quizId: string) {
 }
 
 export function useQuizTakingById(quizId: string) {
-  return useQuery<Quiz>({
+  return useQuery<TakingQuiz>({
     queryKey: ["quiz-by-id", quizId],
     queryFn: () => getTakingQuizById(quizId),
     enabled: !!quizId,

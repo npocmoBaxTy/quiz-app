@@ -1,5 +1,20 @@
 export type QuestionType = "single" | "multiple" | "text";
 
+/**
+ * Ровно то, что отдаёт GET /api/get-quiz-by-id/:quizId.
+ * Отдельный тип, потому что списочные Quiz на страницах преподавателя и
+ * студента описывают другие ответы сервера и с этим не совпадают.
+ */
+export type TakingQuiz = {
+  id: string;
+  title: string;
+  passing: number;
+  time_limit: number;
+  questions_limit: number | null;
+  published: boolean;
+  created_at: string;
+};
+
 export type Question = {
   id: string;
   text: string;

@@ -29,7 +29,6 @@ export const Step2 = () => {
     setStep,
     email,
     name,
-    role,
     groupId,
     setEmail,
     setName,
