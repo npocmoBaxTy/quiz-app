@@ -14,8 +14,8 @@ services:
     # starter, а не free: диск для загруженных картинок доступен только на
     # платных планах, а free-инстанс ещё и засыпает после 15 минут простоя.
     plan: starter
+    # Контекст сборки не переопределяем: Dockerfile рассчитан на корень репозитория
     dockerfilePath: ./docker/server.Dockerfile
-    dockerContext: ./server
     healthCheckPath: /api/health
     autoDeploy: true
 

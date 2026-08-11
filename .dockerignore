@@ -1,0 +1,23 @@
+# Контекст корня репозитория используется только образом сервера
+# (docker/server.Dockerfile), поэтому клиент сюда не нужен: он на 100+ МБ
+# из-за моделей face-api и только замедлял бы сборку.
+client/
+
+.git
+**/node_modules
+**/dist
+server/generated
+server/uploads
+
+# Секреты не должны попадать в образ; примеры — пусть остаются
+**/.env
+**/.env.*
+!**/.env.example
+
+# Файлы агентских скиллов, ставятся автоматически `prisma init`
+**/.agents
+**/.claude
+**/.windsurf
+**/skills-lock.json
+
+**/*.log

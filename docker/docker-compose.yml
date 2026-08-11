@@ -7,8 +7,9 @@
 services:
   server:
     build:
-      context: ../server
-      dockerfile: ../docker/server.Dockerfile
+      # Контекст — корень репозитория, пути внутри Dockerfile с префиксом server/
+      context: ..
+      dockerfile: docker/server.Dockerfile
     # Отсюда же берётся DIRECT_URL — он нужен entrypoint'у для миграций
     env_file:
       - ../server/.env

@@ -1,13 +1,16 @@
-# Контекст сборки — каталог server/:
-#   docker build -f docker/server.Dockerfile -t quiz-server ./server
+# Контекст сборки — КОРЕНЬ репозитория, а не server/:
+#   docker build -f docker/server.Dockerfile -t quiz-server .
+#
+# Так на хостингах не нужно отдельно настраивать build context — корень
+# и так дефолт. Цена — префикс server/ у всех путей ниже.
 
 FROM node:22-alpine AS build
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY server/package.json server/package-lock.json ./
 RUN npm ci
 
-COPY . .
+COPY server/ ./
 
 # prisma generate читает prisma.config.ts, который требует DIRECT_URL.
 # К базе на этапе сборки не подключаемся — достаточно любого валидного значения.
@@ -19,7 +22,7 @@ FROM node:22-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
 
-COPY package.json package-lock.json ./
+COPY server/package.json server/package-lock.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 
 # Сгенерированный Prisma-клиент компилируется вместе с исходниками,
@@ -28,9 +31,9 @@ COPY --from=build /app/dist ./dist
 
 # Нужно entrypoint'у: `prisma migrate deploy` читает конфиг и историю миграций.
 # Сам CLI лежит в dependencies, поэтому переживает `npm ci --omit=dev`.
-COPY prisma ./prisma
-COPY prisma.config.ts ./
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+COPY server/prisma ./prisma
+COPY server/prisma.config.ts ./
+COPY server/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Загруженные картинки лежат на диске — том обязателен, иначе они

@@ -56,6 +56,9 @@ cd client && npm run build                # -> client/dist, раздаётся �
 
 ## Docker
 
+Образ сервера собирается с контекстом **корня репозитория** (пути внутри
+Dockerfile идут с префиксом `server/`), клиента — с контекстом `client/`.
+
 ```bash
 # из корня репозитория
 docker compose -f docker/docker-compose.yml up --build
