@@ -9,9 +9,9 @@ export const C = {
   border:      "#e5e2db",
   text:        "#1c1a17",
   muted:       "#8a8479",
-  primary:     "#5b6af5",
-  primaryDim:  "#eef0fe",
-  primaryMid:  "#c8cdfa",
+  primary:     "#ff8600",
+  primaryDim:  "#fff3e6",
+  primaryMid:  "#ffc78c",
   success:     "#27ae74",
   successDim:  "#e8f8f0",
   danger:      "#e05252",
@@ -38,8 +38,8 @@ export const GLOBAL_CSS = `
   @keyframes pulse   { 0%,100%{ opacity:1 } 50%{ opacity:.4 } }
   @keyframes fadeIn  { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
   @keyframes dropPulse {
-    0%   { box-shadow: 0 0 0 0   rgba(91,106,245,.35); }
-    100% { box-shadow: 0 0 0 8px rgba(91,106,245,0);   }
+    0%   { box-shadow: 0 0 0 0   rgba(255,134,0,.35); }
+    100% { box-shadow: 0 0 0 8px rgba(255,134,0,0);   }
   }
   .q-anim { animation: fadeIn .22s ease-out; }
   input:focus, select:focus, textarea:focus { outline: none; }

@@ -8,6 +8,7 @@ import { useRegisterUser } from "../../hooks/useRegister";
 import { Spinner } from "@/shared/ui/SPinner/Spinner";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useAuthStore } from "../../store/authstore";
 
 type StrengthDetails = {
   label: string;
@@ -21,6 +22,7 @@ interface ICheck {
 export const Step2 = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const login = useAuthStore((s) => s.login);
   const {
     password,
     setPassword,
@@ -40,9 +42,14 @@ export const Step2 = () => {
 
   const usePostMetaHandler = async () => {
     try {
-      await register({ email, password, name, groupId });
+      const { user } = await register({ email, password, name, groupId });
+      // Кладём пользователя в стор, как это делает вход: ProtectedRoute
+      // читает его оттуда и иначе отправит только что зарегистрированного
+      // студента обратно на логин.
+      login(user);
       toast.success(t("auth.toastAccountCreated"));
-      navigate("/dashboard");
+      // Публичная регистрация всегда создаёт STUDENT
+      navigate("/student/quizes", { replace: true });
     } catch (e) {
       // Проверяем, является ли ошибка ошибкой Axios
       if (axios.isAxiosError(e) && error == "user already exists") {
@@ -68,7 +75,7 @@ export const Step2 = () => {
     0: { label: t("auth.passwordStrength.empty"), color: "grey" },
     1: { label: t("auth.passwordStrength.weak"), color: "#EF4444" }, // danger
     2: { label: t("auth.passwordStrength.medium"), color: "#F59E0B" }, // amber
-    3: { label: t("auth.passwordStrength.good"), color: "#3B82F6" }, // primary
+    3: { label: t("auth.passwordStrength.good"), color: "#ff8600" }, // primary
     4: { label: t("auth.passwordStrength.strong"), color: "#10B981" }, // success
   };
 

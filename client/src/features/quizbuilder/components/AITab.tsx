@@ -55,23 +55,23 @@ export const AITab: React.FC<AITabProps> = ({ onImport }) => {
         setStreamText("");
 
         const prompt = `Ты — преподаватель университета. Создай ${count} тестовых вопросов по теме: "${topic}".
-Сложность: ${DIFF_MAP[difficulty]}.
-Каждый вопрос — один правильный ответ из 4 вариантов.
+                        Сложность: ${DIFF_MAP[difficulty]}.
+                        Каждый вопрос — один правильный ответ из 4 вариантов.
 
-Ответь ТОЛЬКО валидным JSON, без пояснений, без markdown-блоков:
-[
-  {
-    "text": "Текст вопроса?",
-    "answers": [
-      {"text": "Вариант A", "correct": true},
-      {"text": "Вариант B", "correct": false},
-      {"text": "Вариант C", "correct": false},
-      {"text": "Вариант D", "correct": false}
-    ],
-    "points": 1,
-    "explanation": "Краткое объяснение правильного ответа"
-  }
-]`;
+                        Ответь ТОЛЬКО валидным JSON, без пояснений, без markdown-блоков:
+                        [
+                        {
+                            "text": "Текст вопроса?",
+                            "answers": [
+                            {"text": "Вариант A", "correct": true},
+                            {"text": "Вариант B", "correct": false},
+                            {"text": "Вариант C", "correct": false},
+                            {"text": "Вариант D", "correct": false}
+                            ],
+                            "points": 1,
+                            "explanation": "Краткое объяснение правильного ответа"
+                        }
+                        ]`;
 
         try {
             const res = await fetch("https://api.anthropic.com/v1/messages", {

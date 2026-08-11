@@ -373,8 +373,14 @@
     "attemptDetails": {
         "backToList": "Back to list",
         "loadError": "Failed to load attempt data.",
+        "title": "Attempt review",
         "status": "Status",
         "totalScore": "Total score",
+        "outOf": "of {{max}}",
+        "jumpToQuestion": "Jump to question {{number}}",
+        "countCorrect": "Correct",
+        "countWrong": "Wrong",
+        "countSkipped": "Skipped",
         "question": "Question",
         "points": "points",
         "correct": "Correct",
@@ -384,6 +390,7 @@
         "correctAnswer": "Correct answer",
         "studentAnswer": "Student's answer:",
         "noAnswerGiven": "The student didn't answer this question",
+        "skipped": "Skipped",
         "noAnswers": "There are no saved answers for this attempt."
     },
     "quizBuilder": {
@@ -393,7 +400,7 @@
         "tabsPage": {
             "questions": "Questions",
             "settings": "Settings",
-            "free": "Free"
+            "bank": "Question bank"
         },
         "imageUpload": {
             "uploadFailed": "Failed to upload image",
@@ -510,7 +517,39 @@
             "studentAnswerPlaceholder": "The student will type their answer here...",
             "emptyAnswer": "Empty answer",
             "correct": "correct"
-        }
+        },
+        "bank": {
+            "searchPlaceholder": "Search by question or answer text...",
+            "allTypes": "All types",
+            "allQuizzes": "All quizzes",
+            "found": "Found: {{count}}",
+            "selectAll": "Select all",
+            "clearSelection": "Clear selection",
+            "addSelected": "Add selected ({{count}})",
+            "add": "Add",
+            "added_one": "Question added to the quiz",
+            "added_other": "{{count}} questions added",
+            "empty": "The bank is empty. Questions land here from your saved quizzes.",
+            "emptyFiltered": "Nothing matches these filters",
+            "loadError": "Failed to load the question bank",
+            "loadMore": "Load more",
+            "loading": "Loading...",
+            "togglePreview": "Show answer options",
+            "imageOnlyAnswer": "(image-only option)",
+            "noCorrectAnswer": "No correct answer is marked for this question",
+            "points_one": "{{count}} point",
+            "points_other": "{{count}} points",
+            "answersCount_one": "{{count}} option",
+            "answersCount_other": "{{count}} options",
+            "type": {
+                "single": "Single choice",
+                "multiple": "Multiple choice",
+                "text": "Text"
+            }
+        },
+        "questionsLimitAuto": "Count automatically",
+        "questionsLimitAutoHint": "The student gets every question of the quiz ({{count}})",
+        "questionsLimitManualHint": "A random pick out of {{count}} quiz questions"
     },
     "quizTaking": {
         "submitError": "Error submitting the quiz",

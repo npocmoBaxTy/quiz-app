@@ -1,11 +1,13 @@
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
 import { randomUUID } from "crypto";
 import multer from "multer";
+import { env } from "../config/env.js";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-export const UPLOADS_DIR = path.join(__dirname, "..", "..", "uploads");
+// Путь считаем от рабочей директории процесса, а не от __dirname: иначе в dev
+// (tsx из server/) и в проде (node dist/server.js) получаются разные каталоги.
+// Для деплоя этот каталог нужно смонтировать как volume — см. README.
+export const UPLOADS_DIR = path.resolve(env.uploadsDir);
 
 if (!fs.existsSync(UPLOADS_DIR)) {
   fs.mkdirSync(UPLOADS_DIR, { recursive: true });

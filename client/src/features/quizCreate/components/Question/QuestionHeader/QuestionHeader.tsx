@@ -1,4 +1,4 @@
-import type { Answer } from "@/features/quizCreate/types";
+import { isQuestionReady } from "@/features/quizCreate/utils/isQuestionReady";
 import { useFormContext, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { QuizDropdown } from "../../QuizDropdown";
@@ -41,36 +41,7 @@ export const QuestionHeader = memo(({ qIndex }: Props) => {
   const answers =
     useWatch({ control, name: `questions.${qIndex}.answers` }) || [];
 
-  const isQuestionReady = () => {
-    // 1. Текст вопроса обязателен
-    if (!questionText?.trim()) return false;
-
-    // 2. Если тип текстовый (эссе) — больше ничего не нужно
-    if (questionType === "text") return true;
-
-    // 3. Проверки для тестовых вопросов
-    const hasMinAnswers = answers.length >= 2;
-
-    // 🔥 НОВОЕ: Проверяем, что текст есть абсолютно в каждом варианте ответа
-    const allAnswersHaveText = answers.every((a: Answer) => !!a.text?.trim());
-
-    // Считаем количество правильных ответов
-    const correctCount = answers.filter((a: Answer) => a.isCorrect).length;
-
-    if (questionType === "single") {
-      // Вопрос готов только если: есть 2+ ответа И во всех есть текст И выбран ровно 1 правильный
-      return hasMinAnswers && allAnswersHaveText && correctCount === 1;
-    }
-
-    if (questionType === "multiple") {
-      // То же самое, но правильных ответов может быть 1 или больше
-      return hasMinAnswers && allAnswersHaveText && correctCount >= 1;
-    }
-
-    return false;
-  };
-
-  const isReady = isQuestionReady();
+  const isReady = isQuestionReady({ questionText, questionType, answers });
 
   return (
     <div className="p-2 border-b flex items-center gap-4 w-full">

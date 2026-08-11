@@ -4,11 +4,10 @@
     
     "module": "nodenext",
     "moduleResolution": "nodenext",
-    "rootDir": "./",
     "esModuleInterop": true,
-    // File Layout
-    // "rootDir": "./src",
-    // "outDir": "./dist",
+    // File Layout: server.ts -> dist/server.js, src/** -> dist/src/**
+    "rootDir": "./",
+    "outDir": "./dist",
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
@@ -23,8 +22,9 @@
 
     // Other Outputs
     "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
+    // Приложение, а не библиотека — .d.ts никто не потребляет, только замедляют сборку
+    "declaration": false,
+    "declarationMap": false,
 
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
@@ -46,5 +46,8 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-  }
+  },
+  // prisma.config.ts нужен только CLI и в рантайм-сборку не попадает
+  "include": ["server.ts", "src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

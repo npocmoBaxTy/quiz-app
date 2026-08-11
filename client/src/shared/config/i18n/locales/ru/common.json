@@ -374,8 +374,14 @@
     "attemptDetails": {
         "backToList": "Назад к списку",
         "loadError": "Не удалось загрузить данные попытки.",
+        "title": "Разбор попытки",
         "status": "Статус",
         "totalScore": "Итоговый балл",
+        "outOf": "из {{max}}",
+        "jumpToQuestion": "Перейти к вопросу {{number}}",
+        "countCorrect": "Верно",
+        "countWrong": "Ошибок",
+        "countSkipped": "Пропущено",
         "question": "Вопрос",
         "points": "баллов",
         "correct": "Верно",
@@ -385,6 +391,7 @@
         "correctAnswer": "Правильный ответ",
         "studentAnswer": "Ответ студента:",
         "noAnswerGiven": "Студент не дал ответ на этот вопрос",
+        "skipped": "Пропущен",
         "noAnswers": "В этой попытке нет сохраненных ответов."
     },
     "quizBuilder": {
@@ -394,7 +401,7 @@
         "tabsPage": {
             "questions": "Вопросы",
             "settings": "Настройки",
-            "free": "Бесплатно"
+            "bank": "Банк вопросов"
         },
         "imageUpload": {
             "uploadFailed": "Не удалось загрузить изображение",
@@ -511,7 +518,45 @@
             "studentAnswerPlaceholder": "Студент введёт свой ответ здесь...",
             "emptyAnswer": "Пустой ответ",
             "correct": "верно"
-        }
+        },
+        "bank": {
+            "searchPlaceholder": "Поиск по тексту вопроса или ответа...",
+            "allTypes": "Все типы",
+            "allQuizzes": "Все тесты",
+            "found": "Найдено: {{count}}",
+            "selectAll": "Выделить всё",
+            "clearSelection": "Снять выделение",
+            "addSelected": "Добавить выбранные ({{count}})",
+            "add": "Добавить",
+            "added_one": "Вопрос добавлен в тест",
+            "added_few": "Добавлено вопросов: {{count}}",
+            "added_many": "Добавлено вопросов: {{count}}",
+            "added_other": "Добавлено вопросов: {{count}}",
+            "empty": "Банк пуст. Вопросы попадают сюда из ваших сохранённых тестов.",
+            "emptyFiltered": "По этим фильтрам ничего не найдено",
+            "loadError": "Не удалось загрузить банк вопросов",
+            "loadMore": "Показать ещё",
+            "loading": "Загрузка...",
+            "togglePreview": "Показать варианты ответов",
+            "imageOnlyAnswer": "(вариант с картинкой)",
+            "noCorrectAnswer": "У вопроса не отмечен правильный ответ",
+            "points_one": "{{count}} балл",
+            "points_few": "{{count}} балла",
+            "points_many": "{{count}} баллов",
+            "points_other": "{{count}} баллов",
+            "answersCount_one": "{{count}} вариант",
+            "answersCount_few": "{{count}} варианта",
+            "answersCount_many": "{{count}} вариантов",
+            "answersCount_other": "{{count}} вариантов",
+            "type": {
+                "single": "Один ответ",
+                "multiple": "Несколько ответов",
+                "text": "Текстовый"
+            }
+        },
+        "questionsLimitAuto": "Считать автоматически",
+        "questionsLimitAutoHint": "Студент получит все вопросы теста ({{count}})",
+        "questionsLimitManualHint": "Случайная выборка из {{count}} вопросов теста"
     },
     "quizTaking": {
         "submitError": "Ошибка при отправке теста",

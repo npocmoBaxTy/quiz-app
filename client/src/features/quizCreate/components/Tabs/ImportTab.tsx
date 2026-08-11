@@ -31,7 +31,7 @@ export const ImportTab = ({ changeTab }: { changeTab: () => void }) => {
         <div className="import--helpers flex justify-between">
           <div className="json--helper w-[48%] bg-[#f0eeea] p-4 rounded-lg">
             <div className="title">
-              <span className="inline-block mr-2 bg-[#eef0fe] px-2 py-1 rounded-lg text-xs text-(--main-blue)">
+              <span className="inline-block mr-2 bg-[#fff3e6] px-2 py-1 rounded-lg text-xs text-(--main-blue)">
                 .TXT(AIKEN)
               </span>
               <span className="text-zinc-500">{t("quizBuilder.importFormat")}</span>

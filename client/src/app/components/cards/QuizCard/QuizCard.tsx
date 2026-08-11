@@ -1,6 +1,7 @@
 import { useStartQuiz } from "@/pages/QuizesListPage/hooks/useGetQuizzesList";
 import type { Quiz } from "@/pages/QuizesListPage/types";
-import { ArrowRight, Clock, HelpCircle, Infinity, Target, User } from "lucide-react";
+// Infinity переименован: под своим именем иконка перекрывает глобальный Infinity
+import { ArrowRight, Clock, HelpCircle, Infinity as InfinityIcon, Target, User } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
@@ -60,7 +61,7 @@ export const QuizesCard = ({ quiz, clickHandler }: Props) => {
 
           {isUnlimited ? (
             <span className="flex items-center gap-1.5 font-bold text-emerald-600">
-              <Infinity size={16} strokeWidth={2.5} />
+              <InfinityIcon size={16} strokeWidth={2.5} />
               {t("quizCard.unlimited")}
             </span>
           ) : (

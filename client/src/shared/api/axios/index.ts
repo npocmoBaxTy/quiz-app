@@ -2,8 +2,10 @@
 import { AxiosError, type InternalAxiosRequestConfig } from "axios";
 import axios from "axios";
 
+// Адрес API задаётся на этапе сборки: Vite подставляет значение VITE_API_URL
+// внутрь бандла, поэтому переменную нужно передать билду, а не рантайму.
 export const api = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: import.meta.env.VITE_API_URL ?? "http://localhost:5000",
   withCredentials: true,
 });
 

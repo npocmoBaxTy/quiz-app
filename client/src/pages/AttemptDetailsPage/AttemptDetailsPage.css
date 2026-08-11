@@ -1,0 +1,54 @@
+/* Локальные токены разбора попытки. Цвета берём из глобальных переменных
+   приложения, добавляем только те, которых там нет. */
+.ad-root {
+  --ad-skip: #d5cfc4;
+  --ad-rule: #e7e3dc;
+}
+
+/* Утилитарная гарнитура для чисел и микро-лейблов. Объявлена вне слоёв
+   Tailwind, иначе её перебивает глобальное `* { font-family: Nunito }`. */
+.ad-display {
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Появление ленты результата: сегменты вырастают снизу вверх по очереди.
+   Единственная анимация страницы — один оркестрованный момент на загрузке. */
+@keyframes ad-seg-in {
+  from {
+    transform: scaleY(0.15);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.ad-seg-animated {
+  animation: ad-seg-in 0.42s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+  transform-origin: bottom;
+}
+
+@keyframes ad-bar-in {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.ad-bar {
+  animation: ad-bar-in 0.22s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ad-seg-animated,
+  .ad-bar {
+    animation: none;
+  }
+}

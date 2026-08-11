@@ -9,10 +9,16 @@ import {
   Collapsible,
   CollapsibleTrigger,
 } from "@/app/components/ui/collapsible";
+import { useAutoQuestionsLimit } from "../hooks/autoQuestionsLimitContext";
 
 export const QuizConfiger = () => {
   const { setValue, watch } = useFormContext();
   const { t } = useTranslation();
+  const {
+    isAuto: isAutoLimit,
+    setIsAuto: onAutoLimitChange,
+    questionsCount,
+  } = useAutoQuestionsLimit();
 
   return (
     <div className="quiz__configer--wrapper p-3 bg-white rounded-xl mt-5">
@@ -85,7 +91,10 @@ export const QuizConfiger = () => {
                         type="number"
                         min="1"
                         required
-                        value={field.value || ""}
+                        readOnly={isAutoLimit}
+                        value={
+                          isAutoLimit ? questionsCount || "" : field.value || ""
+                        }
                         onChange={(e) =>
                           field.onChange(
                             e.target.value ? Number(e.target.value) : "",
@@ -95,9 +104,29 @@ export const QuizConfiger = () => {
                           fieldState.error
                             ? "border-red-500"
                             : "border-slate-200 focus:border-indigo-500"
-                        }`}
+                        } ${isAutoLimit ? "bg-slate-50 text-slate-500 cursor-not-allowed" : ""}`}
                         placeholder={t("quizBuilder.questionsInQuizPlaceholder")}
                       />
+
+                      <label className="flex items-center gap-1.5 mt-2 text-xs text-slate-500 cursor-pointer select-none">
+                        <input
+                          type="checkbox"
+                          checked={isAutoLimit}
+                          onChange={(e) => onAutoLimitChange(e.target.checked)}
+                          className="cursor-pointer"
+                        />
+                        {t("quizBuilder.questionsLimitAuto")}
+                      </label>
+
+                      <span className="text-[11px] text-slate-400 mt-1">
+                        {isAutoLimit
+                          ? t("quizBuilder.questionsLimitAutoHint", {
+                              count: questionsCount,
+                            })
+                          : t("quizBuilder.questionsLimitManualHint", {
+                              count: questionsCount,
+                            })}
+                      </span>
                     </div>
                   )}
                 />

@@ -13,14 +13,14 @@
 }
 
 :root {
-  --main-blue: #5b6af5;
+  --main-blue: #ff8600;
   --main-bg: #f5f4f0;
   --surface-main: #fff;
   --surface-high: #f0eeea;
   --text-main: #1c1a17;
-  --hover-bg: #f1f3fe;
+  --hover-bg: #fff3e6;
   --text-muted: #8a8479;
-  --primary-blue: #5b6af5;
+  --primary-blue: #ff8600;
   --primary-text: #fff;
   --success-green: #27ae74;
   --danger-red: #e05252;
@@ -44,11 +44,11 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
+  --chart-1: oklch(0.865 0.085 68);
+  --chart-2: oklch(0.783 0.147 62);
+  --chart-3: oklch(0.716 0.185 52);
+  --chart-4: oklch(0.632 0.176 45);
+  --chart-5: oklch(0.545 0.148 40);
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
@@ -79,19 +79,73 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
+  --chart-1: oklch(0.865 0.085 68);
+  --chart-2: oklch(0.783 0.147 62);
+  --chart-3: oklch(0.716 0.185 52);
+  --chart-4: oklch(0.632 0.176 45);
+  --chart-5: oklch(0.545 0.148 40);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary: oklch(0.632 0.176 45);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+}
+
+/* Акцент проекта — оранжевый #ff8600.
+   Утилиты blue и indigo (основной акцент), а также violet и purple (парный
+   цвет в градиентах) переопределены на тёплую шкалу, поэтому менять классы
+   в компонентах не нужно. Опорный тон стоит на ступени 600. */
+@theme {
+  --color-blue-50: #fff7ee;
+  --color-blue-100: #ffeeda;
+  --color-blue-200: #ffdec0;
+  --color-blue-300: #ffc78c;
+  --color-blue-400: #ffb259;
+  --color-blue-500: #ff9a26;
+  --color-blue-600: #ff8600;
+  --color-blue-700: #db6f00;
+  --color-blue-800: #a85400;
+  --color-blue-900: #7d3f04;
+  --color-blue-950: #451f02;
+
+  --color-indigo-50: #fff7ee;
+  --color-indigo-100: #ffeeda;
+  --color-indigo-200: #ffdec0;
+  --color-indigo-300: #ffc78c;
+  --color-indigo-400: #ffb259;
+  --color-indigo-500: #ff9a26;
+  --color-indigo-600: #ff8600;
+  --color-indigo-700: #db6f00;
+  --color-indigo-800: #a85400;
+  --color-indigo-900: #7d3f04;
+  --color-indigo-950: #451f02;
+
+  --color-violet-50: #fff4ed;
+  --color-violet-100: #ffe6d5;
+  --color-violet-200: #fecdaa;
+  --color-violet-300: #fdac73;
+  --color-violet-400: #fb8433;
+  --color-violet-500: #f26a0b;
+  --color-violet-600: #d95400;
+  --color-violet-700: #b34200;
+  --color-violet-800: #8a3405;
+  --color-violet-900: #6b2a06;
+  --color-violet-950: #3a1302;
+
+  --color-purple-50: #fff4ed;
+  --color-purple-100: #ffe6d5;
+  --color-purple-200: #fecdaa;
+  --color-purple-300: #fdac73;
+  --color-purple-400: #fb8433;
+  --color-purple-500: #f26a0b;
+  --color-purple-600: #d95400;
+  --color-purple-700: #b34200;
+  --color-purple-800: #8a3405;
+  --color-purple-900: #6b2a06;
+  --color-purple-950: #3a1302;
 }
 
 @theme inline {

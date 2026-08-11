@@ -373,8 +373,14 @@
     "attemptDetails": {
         "backToList": "Ro‘yxatga qaytish",
         "loadError": "Urinish ma'lumotlarini yuklab bo‘lmadi.",
+        "title": "Urinish tahlili",
         "status": "Holat",
         "totalScore": "Yakuniy ball",
+        "outOf": "{{max}} dan",
+        "jumpToQuestion": "{{number}}-savolga o‘tish",
+        "countCorrect": "To‘g‘ri",
+        "countWrong": "Xato",
+        "countSkipped": "O‘tkazib yuborilgan",
         "question": "Savol",
         "points": "ball",
         "correct": "To‘g‘ri",
@@ -384,6 +390,7 @@
         "correctAnswer": "To‘g‘ri javob",
         "studentAnswer": "Talaba javobi:",
         "noAnswerGiven": "Talaba bu savolga javob bermadi",
+        "skipped": "O‘tkazib yuborilgan",
         "noAnswers": "Bu urinishda saqlangan javoblar yo‘q."
     },
     "quizBuilder": {
@@ -393,7 +400,7 @@
         "tabsPage": {
             "questions": "Savollar",
             "settings": "Sozlamalar",
-            "free": "Bepul"
+            "bank": "Savollar banki"
         },
         "imageUpload": {
             "uploadFailed": "Rasmni yuklab bo‘lmadi",
@@ -510,7 +517,39 @@
             "studentAnswerPlaceholder": "Talaba javobini shu yerga kiritadi...",
             "emptyAnswer": "Bo‘sh javob",
             "correct": "to‘g‘ri"
-        }
+        },
+        "bank": {
+            "searchPlaceholder": "Savol yoki javob matni bo‘yicha qidirish...",
+            "allTypes": "Barcha turlar",
+            "allQuizzes": "Barcha testlar",
+            "found": "Topildi: {{count}}",
+            "selectAll": "Barchasini belgilash",
+            "clearSelection": "Belgilashni bekor qilish",
+            "addSelected": "Tanlanganlarni qo‘shish ({{count}})",
+            "add": "Qo‘shish",
+            "added_one": "Savol testga qo‘shildi",
+            "added_other": "{{count}} ta savol qo‘shildi",
+            "empty": "Bank bo‘sh. Savollar bu yerga saqlangan testlaringizdan tushadi.",
+            "emptyFiltered": "Ushbu filtrlar bo‘yicha hech narsa topilmadi",
+            "loadError": "Savollar bankini yuklab bo‘lmadi",
+            "loadMore": "Yana ko‘rsatish",
+            "loading": "Yuklanmoqda...",
+            "togglePreview": "Javob variantlarini ko‘rsatish",
+            "imageOnlyAnswer": "(faqat rasmli variant)",
+            "noCorrectAnswer": "Savolda to‘g‘ri javob belgilanmagan",
+            "points_one": "{{count}} ball",
+            "points_other": "{{count}} ball",
+            "answersCount_one": "{{count}} variant",
+            "answersCount_other": "{{count}} variant",
+            "type": {
+                "single": "Bitta javob",
+                "multiple": "Bir nechta javob",
+                "text": "Matnli"
+            }
+        },
+        "questionsLimitAuto": "Avtomatik hisoblash",
+        "questionsLimitAutoHint": "Talaba testning barcha savollarini oladi ({{count}} ta)",
+        "questionsLimitManualHint": "Testdagi {{count}} ta savoldan tasodifiy tanlov"
     },
     "quizTaking": {
         "submitError": "Testni yuborishda xatolik",

@@ -19,12 +19,13 @@ export const transformQuiz = (data: QuizFormValues, published: boolean) => ({
       order: qIndex,
       imageUrl: q.imageUrl || undefined,
 
-      // Если тип текстовый — отдаем пустой массив,
-      // иначе мапим ответы, фильтруя пустые записи (на всякий случай)
+      // Если тип текстовый — отдаем пустой массив, иначе мапим ответы.
+      // Пустым считается вариант без текста И без картинки: вариант может
+      // состоять из одной картинки, выбрасывать такой нельзя.
       answers: isTextType
         ? []
         : (q.answers || [])
-            .filter((a: Answer) => a.text?.trim() !== "") // Убираем пустые ответы
+            .filter((a: Answer) => !!a.text?.trim() || !!a.imageUrl)
             .map((a: Answer) => ({
               text: a.text.trim(),
               isCorrect: !!a.isCorrect,

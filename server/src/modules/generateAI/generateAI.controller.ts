@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { env } from "../../config/env.js";
 
 // Инициализируем Gemini с вашим ключом из .env
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+const genAI = new GoogleGenerativeAI(env.geminiApiKey);
 
 export const generateQuestions = async (req: Request, res: Response) => {
   try {
@@ -22,7 +23,7 @@ export const generateQuestions = async (req: Request, res: Response) => {
     }
 
     // Проверяем наличие ключа
-    if (!process.env.GEMINI_API_KEY) {
+    if (!env.geminiApiKey) {
       return res.status(500).json({ error: "API ключ Gemini не настроен на сервере" });
     }
 

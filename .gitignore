@@ -31,8 +31,10 @@ lerna-debug.log*
 *.sln
 *.sw?
 
-# Agent skill files auto-installed by `prisma init`
-.claude/skills/
-.agents/skills/
-.windsurf/skills/
-skills-lock.json
+# Agent skill files auto-installed by `prisma init`.
+# Ведущий ** обязателен: без него шаблон со слэшем внутри якорится к корню
+# репозитория и не покрывает server/.agents/skills.
+**/.claude/skills/
+**/.agents/skills/
+**/.windsurf/skills/
+**/skills-lock.json

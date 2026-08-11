@@ -120,46 +120,107 @@ export const getAttemptDetails = async (req: Request, res: Response) => {
       return res.status(404).json({ error: "Попытка не найдена" });
     }
 
-    // 2. Получаем вопросы и ВЫБОР студента
+    // 2. Ответы студента. На multiple-вопрос их несколько (по строке на
+    // выбранный вариант) — ниже они схлопываются в один вопрос.
     const studentAnswers = await prisma.student_answers.findMany({
       where: { attempt_id: attemptId },
       select: {
-        id: true,
         question_id: true,
         is_correct: true,
         points: true,
         text_answer: true,
         answer_option_id: true,
-        questions: { select: { text: true, type: true } },
       },
     });
 
-    // 3. Получаем ВСЕ варианты ответов для этих вопросов
-    const questionIds = studentAnswers
-      .map((a) => a.question_id)
-      .filter((id): id is string => id !== null);
+    // 3. Билет попытки — он задаёт состав и порядок вопросов в разборе.
+    // Только по нему видно вопросы, которые студент пропустил: строк
+    // в student_answers у них нет.
+    const ticket = await prisma.attempt_questions.findMany({
+      where: { attempt_id: attemptId },
+      orderBy: { order_index: "asc" },
+      select: {
+        question_id: true,
+        points: true,
+        questions: { select: { id: true, text: true, type: true, image_url: true } },
+      },
+    });
 
-    const allOptions = questionIds.length > 0
+    // Попытки, сданные до фиксации билета, его не имеют — для них
+    // показываем то, на что студент ответил, как и раньше.
+    const questionRows = ticket.length
+      ? ticket.map((row) => ({
+          questionId: row.question_id,
+          maxPoints: row.points,
+          question: row.questions,
+        }))
+      : await (async () => {
+          const ids = [
+            ...new Set(
+              studentAnswers
+                .map((a) => a.question_id)
+                .filter((id): id is string => id !== null),
+            ),
+          ];
+          const questions = ids.length
+            ? await prisma.questions.findMany({
+                where: { id: { in: ids } },
+                select: { id: true, text: true, type: true, image_url: true },
+              })
+            : [];
+          return questions.map((q) => ({
+            questionId: q.id,
+            maxPoints: null as number | null,
+            question: q,
+          }));
+        })();
+
+    // 4. Варианты ответов для всех вопросов разбора
+    const questionIds = questionRows.map((r) => r.questionId);
+
+    const allOptions = questionIds.length
       ? await prisma.answer_options.findMany({
           where: { question_id: { in: questionIds } },
-          select: { id: true, question_id: true, text: true, is_correct: true },
+          select: {
+            id: true,
+            question_id: true,
+            text: true,
+            is_correct: true,
+            image_url: true,
+          },
         })
       : [];
 
-    // 4. Приклеиваем варианты ответов к соответствующим вопросам
-    const answers = studentAnswers.map((sa) => ({
-      answerId: sa.id,
-      questionId: sa.question_id,
-      isCorrect: sa.is_correct,
-      points: sa.points,
-      textAnswer: sa.text_answer,
-      questionText: sa.questions?.text ?? null,
-      questionType: sa.questions?.type ?? null,
-      selectedOptionId: sa.answer_option_id,
-      options: allOptions
-        .filter((opt) => opt.question_id === sa.question_id)
-        .map((opt) => ({ id: opt.id, text: opt.text, isCorrect: opt.is_correct })),
-    }));
+    // 5. Собираем разбор: одна запись на вопрос билета
+    const answers = questionRows.map((row) => {
+      const rows = studentAnswers.filter((sa) => sa.question_id === row.questionId);
+      const isSkipped = rows.length === 0;
+
+      return {
+        questionId: row.questionId,
+        questionText: row.question?.text ?? null,
+        questionType: row.question?.type ?? null,
+        questionImageUrl: row.question?.image_url ?? null,
+        // Набранное суммируем: у multiple балл лежит в первой строке
+        points: rows.reduce((sum, r) => sum + (r.points ?? 0), 0),
+        maxPoints: row.maxPoints,
+        isCorrect: isSkipped ? false : (rows[0]?.is_correct ?? null),
+        isSkipped,
+        textAnswer: rows.find((r) => r.text_answer !== null)?.text_answer ?? null,
+        // Все выбранные варианты, а не первый попавшийся
+        selectedOptionIds: rows
+          .map((r) => r.answer_option_id)
+          .filter((id): id is string => id !== null),
+        options: allOptions
+          .filter((opt) => opt.question_id === row.questionId)
+          .map((opt) => ({
+            id: opt.id,
+            text: opt.text,
+            imageUrl: opt.image_url,
+            isCorrect: opt.is_correct,
+          })),
+      };
+    });
 
     const timing = getAttemptTiming({
       startedAt: attempt.started_at,

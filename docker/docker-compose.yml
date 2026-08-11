@@ -1,0 +1,39 @@
+# Запуск из корня репозитория:
+#   docker compose -f docker/docker-compose.yml up --build
+#
+# База данных сюда намеренно не включена — приложение ходит во внешний
+# postgres по DATABASE_URL из server/.env.
+
+services:
+  server:
+    build:
+      context: ../server
+      dockerfile: ../docker/server.Dockerfile
+    env_file:
+      - ../server/.env
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      # nginx клиента стоит перед сервером — один хоп до реального IP
+      TRUST_PROXY: 1
+    ports:
+      - "5000:5000"
+    volumes:
+      - uploads:/app/uploads
+    restart: unless-stopped
+
+  client:
+    build:
+      context: ../client
+      dockerfile: ../docker/client.Dockerfile
+      args:
+        # Адрес, по которому браузер видит сервер (не имя сервиса в compose)
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:5000}
+    ports:
+      - "8080:80"
+    depends_on:
+      - server
+    restart: unless-stopped
+
+volumes:
+  uploads:

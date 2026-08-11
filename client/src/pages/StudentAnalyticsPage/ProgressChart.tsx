@@ -117,7 +117,7 @@ export function ProgressChart({ points }: { points: TimelinePoint[] }) {
         <path
           d={linePath}
           fill="none"
-          stroke="#4f46e5"
+          stroke="#ff8600"
           strokeWidth={2}
           strokeLinecap="round"
           strokeLinejoin="round"

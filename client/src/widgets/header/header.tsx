@@ -15,8 +15,6 @@ export const Header = () => {
   return (
     <div className="header flex w-full items-center gap-3 p-4 shadow-lg bg-white">
       {/* Бургер показываем только там, где на странице есть сайдбар */}
-
-      <Logo />
       {isMounted && (
         <button
           type="button"
@@ -28,6 +26,12 @@ export const Header = () => {
           <Menu size={22} />
         </button>
       )}
+
+      {/* Логотип живет в сайдбаре, когда тот есть. На узких экранах сайдбар
+          уезжает за край, поэтому там шапка снова берет логотип на себя. */}
+      <div className={isMounted ? "lg:hidden" : undefined}>
+        <Logo />
+      </div>
       <div className="header__links flex items-center gap-2 ml-auto">
         {user?.role === "TEACHER" && (
           <NavLink

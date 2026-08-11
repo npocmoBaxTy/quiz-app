@@ -3,7 +3,8 @@
 // Вариант ответа
 export interface AttemptOption {
   id: string;
-  text: string;
+  text: string | null;
+  imageUrl: string | null;
   isCorrect: boolean;
 }
 
@@ -18,17 +19,24 @@ export interface QuizAttemptListItem {
   overtimeSeconds: number;
 }
 
-// Ответ студента на конкретный вопрос
+// Разбор одного вопроса билета. Одна запись на вопрос, даже если студент
+// выбрал несколько вариантов или не ответил вовсе.
 export interface AttemptAnswer {
-  answerId: string;
   questionId: string;
-  questionText: string;
-  questionType: "single" | "multiple" | "text"; // Ваши типы вопросов
+  questionText: string | null;
+  questionType: "single" | "multiple" | "text" | null;
+  questionImageUrl: string | null;
+  /** Набрано за вопрос */
   points: number;
-  isCorrect: boolean;
-  selectedOptionId: string | null;
+  /** Максимум за вопрос по билету; null у попыток, сданных до фиксации билета */
+  maxPoints: number | null;
+  isCorrect: boolean | null;
+  /** Вопрос был в билете, но студент его не тронул */
+  isSkipped: boolean;
   textAnswer: string | null;
-  options?: AttemptOption[]; // Опционально, т.к. для текстовых вопросов их нет
+  /** Все выбранные студентом варианты */
+  selectedOptionIds: string[];
+  options?: AttemptOption[]; // Для текстовых вопросов их нет
 }
 
 // Данные о самой попытке

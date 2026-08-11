@@ -15,6 +15,7 @@ import aiGenerateRoutes from "./../modules/generateAI/generateAI.routes.js";
 import studentResultsRoutes from "./../modules/studentsResults/studentResults.routes.js";
 import uploadRoutes from "./../modules/upload/upload.routes.js";
 import profileRoutes from "./../modules/profile/profile.routes.js";
+import questionBankRoutes from "./../modules/questionBank/questionBank.routes.js";
 
 const router = Router();
 
@@ -33,5 +34,6 @@ router.use("/ai", authMiddleware, aiGenerateRoutes);
 router.use("/student", authMiddleware, studentResultsRoutes);
 router.use("/upload", authMiddleware, uploadRoutes);
 router.use("/profile", profileRoutes);
+router.use("/question-bank", authMiddleware, questionBankRoutes);
 
 export default router;

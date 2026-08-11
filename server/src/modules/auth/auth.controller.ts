@@ -9,6 +9,7 @@ import {
 } from "./auth.repository.js";
 import jwt from "jsonwebtoken";
 import { signTokens } from "../../config/auth.js";
+import { env } from "../../config/env.js";
 
 export async function groupsController(req: Request, res: Response) {
   try {
@@ -94,7 +95,7 @@ export async function loginController(req: Request, res: Response) {
 }
 
 //Контроллер Рефреша токена
-const REFRESH_SECRET = process.env.REFRESH_SECRET as string;
+const REFRESH_SECRET = env.refreshSecret;
 export async function refreshController(req: Request, res: Response) {
   try {
     const token = req.cookies.refreshToken;

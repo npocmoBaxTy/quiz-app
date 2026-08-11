@@ -2,7 +2,7 @@ import { memo } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { Trash2, AlertCircle } from "lucide-react"; // Добавили красивые иконки
 import { useTranslation } from "react-i18next";
-import type { Answer } from "../../types";
+import { isQuestionReady } from "../../utils/isQuestionReady";
 
 type Props = {
   index: number;
@@ -23,37 +23,7 @@ export const QuestionSummary = memo(
     const answers =
       useWatch({ control, name: `questions.${index}.answers` }) || [];
 
-    // Функция проверки готовности (та самая логика, что была в старой шапке)
-    const checkIsReady = () => {
-      // 1. Текст вопроса обязателен
-      if (!questionText?.trim()) return false;
-
-      // 2. Если тип текстовый (эссе) — больше ничего не нужно
-      if (questionType === "text") return true;
-
-      // 3. Проверки для тестовых вопросов
-      const hasMinAnswers = answers.length >= 2;
-
-      // 🔥 НОВОЕ: Проверяем, что текст есть абсолютно в каждом варианте ответа
-      const allAnswersHaveText = answers.every((a: Answer) => !!a.text?.trim());
-
-      // Считаем количество правильных ответов
-      const correctCount = answers.filter((a: Answer) => a.isCorrect).length;
-
-      if (questionType === "single") {
-        // Вопрос готов только если: есть 2+ ответа И во всех есть текст И выбран ровно 1 правильный
-        return hasMinAnswers && allAnswersHaveText && correctCount === 1;
-      }
-
-      if (questionType === "multiple") {
-        // То же самое, но правильных ответов может быть 1 или больше
-        return hasMinAnswers && allAnswersHaveText && correctCount >= 1;
-      }
-
-      return false;
-    };
-
-    const isReady = checkIsReady();
+    const isReady = isQuestionReady({ questionText, questionType, answers });
 
     return (
       <div

@@ -1,0 +1,12 @@
+node_modules
+dist
+generated
+uploads
+.env
+.env.*
+!.env.example
+.agents
+.claude
+.windsurf
+skills-lock.json
+*.log

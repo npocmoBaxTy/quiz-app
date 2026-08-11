@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { env } from "../config/env.js";
 
 interface AuthPayload extends JwtPayload {
   userId: string;
@@ -17,10 +18,7 @@ export function authMiddleware(
   }
 
   try {
-    const payload = jwt.verify(
-      token,
-      process.env.JWT_SECRET as string,
-    ) as AuthPayload;
+    const payload = jwt.verify(token, env.jwtSecret) as AuthPayload;
 
     (req as any).user = payload;
 

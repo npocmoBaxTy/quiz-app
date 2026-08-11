@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
@@ -22,7 +22,7 @@ import { useAuthStore } from "@/features/auth/store/authstore";
 import { useGroups } from "@/features/auth/hooks/useGroups";
 import { useStudentResultsList } from "../QuizesListPage/ResultsList/api";
 import { useProfile, useUpdateProfile, useChangePassword, useUploadAvatar } from "./hooks/useProfile";
-import type { ApiErrorPayload } from "./api";
+import type { ApiErrorPayload, ProfileData } from "./api";
 
 const MAX_AVATAR_SIZE_BYTES = 5 * 1024 * 1024;
 
@@ -52,12 +52,15 @@ export default function StudentProfilePage() {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    useEffect(() => {
-        if (profile) {
-            setFullName(profile.full_name);
-            setGroupId(profile.group?.id ?? "");
-        }
-    }, [profile]);
+    // Синхронизируем форму с загруженным профилем во время рендера, а не в
+    // эффекте: эффект давал лишний каскадный рендер с пустыми полями.
+    // Условие срабатывает при смене ссылки на profile — ровно как раньше.
+    const [syncedProfile, setSyncedProfile] = useState<ProfileData | undefined>(undefined);
+    if (profile && profile !== syncedProfile) {
+        setSyncedProfile(profile);
+        setFullName(profile.full_name);
+        setGroupId(profile.group?.id ?? "");
+    }
 
     const completedTests = resultsResponse?.meta.total ?? 0;
     const averageScore = useMemo(() => {
