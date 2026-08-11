@@ -72,6 +72,25 @@ docker compose -f docker/docker-compose.yml up --build
 VITE_API_URL=https://api.example.com docker compose -f docker/docker-compose.yml build client
 ```
 
+## Деплой на Render
+
+В корне лежит `render.yaml` — Dashboard → New → Blueprint → выбрать этот
+репозиторий. Создаются два сервиса: `quiz-api` (Docker, с диском под загрузки)
+и `quiz-web` (статика).
+
+Домены нужны друг другу, поэтому проходов два:
+
+1. Создать Blueprint, заполнить запрошенные секреты (`DATABASE_URL`,
+   `DIRECT_URL`, `JWT_SECRET`, `REFRESH_SECRET`). `CORS_ORIGIN` и
+   `VITE_API_URL` на этом шаге можно оставить любыми.
+2. Дождаться выдачи адресов и вписать их крест-накрест:
+   `CORS_ORIGIN` у `quiz-api` = адрес `quiz-web`,
+   `VITE_API_URL` у `quiz-web` = адрес `quiz-api`.
+   После смены `VITE_API_URL` нужен **Manual Deploy**, а не рестарт:
+   значение вшивается в бандл на сборке.
+
+Миграции применит entrypoint контейнера при старте.
+
 ## Деплой: что важно не забыть
 
 1. **Миграции** применяет entrypoint контейнера (`prisma migrate deploy`)

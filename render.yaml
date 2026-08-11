@@ -1,0 +1,81 @@
+# Render Blueprint: https://render.com/docs/blueprint-spec
+# Dashboard -> New -> Blueprint -> выбрать этот репозиторий.
+# Значения с `sync: false` Render спросит при создании — в git они не хранятся.
+#
+# Регион singapore выбран под базу: Supabase-проект живёт в ap-southeast-1,
+# и держать приложение рядом с БД важнее, чем рядом с пользователями.
+
+services:
+  # ---------- API ----------
+  - type: web
+    name: quiz-api
+    runtime: docker
+    region: singapore
+    # starter, а не free: диск для загруженных картинок доступен только на
+    # платных планах, а free-инстанс ещё и засыпает после 15 минут простоя.
+    plan: starter
+    dockerfilePath: ./docker/server.Dockerfile
+    dockerContext: ./server
+    healthCheckPath: /api/health
+    autoDeploy: true
+
+    disk:
+      name: uploads
+      mountPath: /app/uploads
+      sizeGB: 1
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Render терминирует TLS на своём прокси — без этого express-rate-limit
+      # посчитает всех пользователей за один IP.
+      - key: TRUST_PROXY
+        value: "1"
+      - key: DATABASE_SSL
+        value: "true"
+      # Миграции применяет entrypoint контейнера перед стартом приложения
+      - key: RUN_MIGRATIONS
+        value: "true"
+      - key: UPLOADS_DIR
+        value: /app/uploads
+
+      # Пулер Supabase (порт 6543)
+      - key: DATABASE_URL
+        sync: false
+      # Прямое подключение (порт 5432) — нужно миграциям, через пулер они виснут
+      - key: DIRECT_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: REFRESH_SECRET
+        sync: false
+      # Необязательный: без него не работает только AI-генерация вопросов
+      - key: GEMINI_API_KEY
+        sync: false
+
+      # Домен фронтенда. Заполняется вторым проходом: на момент первого
+      # деплоя адрес quiz-web ещё неизвестен.
+      - key: CORS_ORIGIN
+        sync: false
+
+  # ---------- Клиент ----------
+  - type: web
+    name: quiz-web
+    runtime: static
+    rootDir: client
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    autoDeploy: true
+
+    envVars:
+      # Вшивается в бандл при сборке: после смены нужен Manual Deploy,
+      # рестарт ничего не изменит.
+      - key: VITE_API_URL
+        sync: false
+
+    routes:
+      # SPA на react-router: любой путь отдаём index.html, иначе перезагрузка
+      # страницы на /quiz/123 вернёт 404.
+      - type: rewrite
+        source: /*
+        destination: /index.html
