@@ -62,6 +62,9 @@ docker compose -f docker/docker-compose.yml up --build
 # клиент: http://localhost:8080, API: http://localhost:5000
 ```
 
+Контейнер сервера при старте сам применяет миграции и только потом
+поднимает приложение — см. `server/docker-entrypoint.sh`.
+
 `VITE_API_URL` подставляется в бандл во время сборки образа, поэтому для
 другого домена API образ клиента нужно пересобрать:
 
@@ -71,8 +74,13 @@ VITE_API_URL=https://api.example.com docker compose -f docker/docker-compose.yml
 
 ## Деплой: что важно не забыть
 
-1. **Миграции** применяются отдельным шагом, в образ они не зашиты:
+1. **Миграции** применяет entrypoint контейнера (`prisma migrate deploy`)
+   перед стартом приложения. Для этого в окружении обязателен `DIRECT_URL`:
+   через пулер `migrate deploy` зависает. Отключается через
+   `RUN_MIGRATIONS=false` — тогда накатывайте их сами:
    `DIRECT_URL=... npm run prisma:deploy`.
+   При нескольких репликах гонки нет: Prisma берёт advisory lock, лишние
+   инстансы дожидаются первого.
 2. **`TRUST_PROXY`** обязателен за nginx / Render / Railway, иначе лимит
    попыток входа станет общим на всех пользователей.
 3. **Загруженные картинки** лежат на диске сервера (`UPLOADS_DIR`, по умолчанию

@@ -1,0 +1,4 @@
+# Shell-скрипты уезжают в linux-контейнеры: с CRLF они там не запускаются
+# ("no such file or directory" на шебанге).
+*.sh text eol=lf
+docker-entrypoint.sh text eol=lf

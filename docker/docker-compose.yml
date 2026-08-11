@@ -9,6 +9,7 @@ services:
     build:
       context: ../server
       dockerfile: ../docker/server.Dockerfile
+    # Отсюда же берётся DIRECT_URL — он нужен entrypoint'у для миграций
     env_file:
       - ../server/.env
     environment:
@@ -16,6 +17,9 @@ services:
       PORT: 5000
       # nginx клиента стоит перед сервером — один хоп до реального IP
       TRUST_PROXY: 1
+      # Миграции применяются при старте контейнера. false — если вы
+      # накатываете их отдельным шагом в CI.
+      RUN_MIGRATIONS: "true"
     ports:
       - "5000:5000"
     volumes:
