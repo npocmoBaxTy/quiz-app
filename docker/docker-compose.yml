@@ -27,6 +27,8 @@ services:
       - uploads:/app/uploads
     restart: unless-stopped
 
+  # Нужен только для раздельного хостинга: образ server уже содержит клиент
+  # и отдаёт всё приложение сам на своём порту.
   client:
     build:
       context: ../client

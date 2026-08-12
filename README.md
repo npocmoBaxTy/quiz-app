@@ -57,7 +57,26 @@ cd client && npm run build                # -> client/dist, раздаётся �
 ## Docker
 
 Образ сервера собирается с контекстом **корня репозитория** (пути внутри
-Dockerfile идут с префиксом `server/`), клиента — с контекстом `client/`.
+Dockerfile идут с префиксом `server/`) и включает в себя собранный клиент:
+он попадает в `/app/client-dist`, откуда `server.ts` раздаёт его сам, с
+fallback на `index.html` для клиентских маршрутов.
+
+Поэтому одного контейнера достаточно для всего приложения:
+
+```bash
+docker build -f docker/server.Dockerfile -t quiz-app .
+docker run -p 5000:5000 --env-file server/.env quiz-app
+# всё приложение на http://localhost:5000
+```
+
+`VITE_API_URL` при такой сборке пустой — запросы идут на тот же origin,
+поэтому CORS и междоменные куки не задействованы вообще. Для раздельного
+хостинга адрес API передаётся аргументом сборки:
+
+```bash
+docker build -f docker/server.Dockerfile \
+  --build-arg VITE_API_URL=https://api.example.com -t quiz-app .
+```
 
 ```bash
 # из корня репозитория
