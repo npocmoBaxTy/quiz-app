@@ -61,6 +61,11 @@ export const env = {
   trustProxy: parseTrustProxy(process.env.TRUST_PROXY),
   /** Каталог загрузок относительно рабочей директории процесса. */
   uploadsDir: process.env.UPLOADS_DIR ?? "uploads",
+  /**
+   * Каталог со собранным клиентом. Если он существует, сервер раздаёт SPA
+   * сам; если нет — работает только как API, и статику отдаёт кто-то другой.
+   */
+  clientDist: process.env.CLIENT_DIST ?? "client-dist",
   /** Необязательный: без него роут AI-генерации отвечает понятной ошибкой. */
   geminiApiKey: process.env.GEMINI_API_KEY ?? "",
 }

@@ -5,3 +5,5 @@ node_modules
 /dist
 /generated/prisma
 /uploads
+# Сборка клиента, если её кладут рядом для раздачи одним сервисом
+/client-dist
