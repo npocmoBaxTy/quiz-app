@@ -20,19 +20,19 @@
         "unknownError": "Произошла неизвестная ошибка при доступе к камере."
     },
     "navigation": {
-        "dashboard": "Dashboard",
+        "dashboard": "Панель управления",
         "quizes": "Тесты",
-        "students": "Students",
+        "students": "Студенты",
         "welcome": "Добро пожаловать",
         "span": "Выберите вашу роль для входа в систему контроля знаний",
-        "settings": "Settings"
+        "settings": "Настройки"
     },
     "buttons": {
-        "start": "Начать Тест",
+        "start": "Начать тест",
         "preview": "Просмотреть тест",
-        "submit": "Submit",
-        "next": "Next",
-        "save": "Save"
+        "submit": "Отправить",
+        "next": "Далее",
+        "save": "Сохранить"
     },
     "studentCard": {
         "student": "Я - Студент",

@@ -29,6 +29,7 @@
     },
     "buttons": {
         "start": "Start",
+        "preview": "Preview test",
         "submit": "Submit",
         "next": "Next",
         "save": "Save"

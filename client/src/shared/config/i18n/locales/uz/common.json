@@ -20,18 +20,19 @@
         "unknownError": "Kameraga kirishda noma'lum xatolik yuz berdi."
     },
     "navigation": {
-        "dashboard": "Dashboard",
+        "dashboard": "Boshqaruv paneli",
         "quizes": "Testlar",
-        "students": "Students",
+        "students": "Talabalar",
         "welcome": "Xush kelibsiz",
         "span": "Bilim nazorati tizimiga kirish uchun rolingizni tanlang",
-        "settings": "Settings"
+        "settings": "Sozlamalar"
     },
     "buttons": {
-        "start": "Start",
-        "submit": "Submit",
-        "next": "Next",
-        "save": "Save"
+        "start": "Boshlash",
+        "preview": "Testni ko‘rish",
+        "submit": "Yuborish",
+        "next": "Keyingi",
+        "save": "Saqlash"
     },
     "studentCard": {
         "student": "Men - Student",
