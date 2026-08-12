@@ -31,10 +31,14 @@ lerna-debug.log*
 *.sln
 *.sw?
 
-# Agent skill files auto-installed by `prisma init`.
+# Каталоги AI-ассистентов: локальные настройки и скиллы, которые ставятся
+# автоматически (например `prisma init`). Общего кода в них нет.
 # Ведущий ** обязателен: без него шаблон со слэшем внутри якорится к корню
-# репозитория и не покрывает server/.agents/skills.
-**/.claude/skills/
-**/.agents/skills/
-**/.windsurf/skills/
+# репозитория и не покрывает server/.agents.
+**/.claude/
+**/.agents/
+**/.windsurf/
+**/.cursor/
+**/.aider*
 **/skills-lock.json
+**/CLAUDE.local.md
