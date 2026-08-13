@@ -7,7 +7,7 @@ export const Logo = () => {
                 <div className="bg-(--main-blue) rounded-lg flex items-center justify-center text-white ">
                     <div className="w-9 h-9 shadow-xl text-xl bg-[#ff8600] rounded-lg flex items-center justify-center text-white font-bold">S</div>
                 </div>
-                <span className="text-2xl font-medium tracking-tight text-slate-700">
+                <span className="text-2xl font-medium tracking-tight text-slate-700 hidden md:block">
                     SP<span className="text-(--primary-blue) font-medium">EB</span>
                 </span>
             </NavLink>
