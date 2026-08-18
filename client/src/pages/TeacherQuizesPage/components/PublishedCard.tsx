@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Clock,
   ScrollText,
@@ -7,14 +8,17 @@ import {
   Users,
   Target,
   BarChart3,
+  Trash2,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
+import { DeleteQuizDialog } from "@/features/quizDelete";
 import { formatQuizDate } from "../hooks/formateDate";
 import type { Quiz } from "../types";
 
 export const PublishedCard = ({ quiz }: { quiz: Quiz }) => {
   const { t } = useTranslation();
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const isPublished = quiz.published;
 
   return (
@@ -96,7 +100,25 @@ export const PublishedCard = ({ quiz }: { quiz: Quiz }) => {
           )}
           {isPublished ? t("buttons.preview") : t("teacherQuizzes.card.edit")}
         </NavLink>
+        <button
+          type="button"
+          onClick={() => setConfirmDelete(true)}
+          title={t("teacherQuizzes.delete.title")}
+          aria-label={t("teacherQuizzes.delete.title")}
+          className="shrink-0 rounded-xl border border-(--surface-high) p-2.5 text-(--text-muted) transition-colors hover:border-(--danger-red)/30 hover:bg-(--danger-dim) hover:text-(--danger-red)"
+        >
+          <Trash2 size={15} />
+        </button>
       </div>
+
+      {confirmDelete && (
+        <DeleteQuizDialog
+          quizId={quiz.id}
+          title={quiz.title}
+          attemptsCount={quiz.attemptsCount}
+          onClose={() => setConfirmDelete(false)}
+        />
+      )}
     </div>
   );
 };

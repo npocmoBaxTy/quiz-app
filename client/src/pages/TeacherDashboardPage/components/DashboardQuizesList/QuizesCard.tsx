@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
@@ -10,11 +11,13 @@ import {
   Trash2,
 } from "lucide-react";
 import type { Quiz } from "../../types";
+import { DeleteQuizDialog } from "@/features/quizDelete";
 import { formatQuizDate } from "@/pages/TeacherQuizesPage/hooks/formateDate";
 
 // Замените any на ваш интерфейс Quiz, если он у вас описан
 export function QuizCard({ quiz }: { quiz: Quiz }) {
   const { t } = useTranslation();
+  const [confirmDelete, setConfirmDelete] = useState(false);
   return (
     <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-md hover:border-blue-300 transition-all group flex flex-col">
       <div className="p-5 flex-1">
@@ -85,12 +88,24 @@ export function QuizCard({ quiz }: { quiz: Quiz }) {
 
         {/* Удаление */}
         <button
+          type="button"
+          onClick={() => setConfirmDelete(true)}
           className="p-2 text-slate-400 hover:text-red-600 shrink-0 bg-white border border-slate-200 hover:border-red-200 hover:bg-red-50 rounded-lg transition-colors"
           title={t("teacherDashboard.quizCard.deleteTitle")}
+          aria-label={t("teacherDashboard.quizCard.deleteTitle")}
         >
           <Trash2 size={16} />
         </button>
       </div>
+
+      {confirmDelete && (
+        <DeleteQuizDialog
+          quizId={quiz.id}
+          title={quiz.title}
+          attemptsCount={quiz.attemptsCount}
+          onClose={() => setConfirmDelete(false)}
+        />
+      )}
     </div>
   );
 }

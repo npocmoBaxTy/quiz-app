@@ -1,25 +1,14 @@
-# Запуск из корня репозитория:
-#   docker compose -f docker/docker-compose.yml up --build
-#
-# База данных сюда намеренно не включена — приложение ходит во внешний
-# postgres по DATABASE_URL из server/.env.
-
 services:
   server:
     build:
-      # Контекст — корень репозитория, пути внутри Dockerfile с префиксом server/
       context: ..
       dockerfile: docker/server.Dockerfile
-    # Отсюда же берётся DIRECT_URL — он нужен entrypoint'у для миграций
     env_file:
       - ../server/.env
     environment:
       NODE_ENV: production
       PORT: 5000
-      # nginx клиента стоит перед сервером — один хоп до реального IP
       TRUST_PROXY: 1
-      # Миграции применяются при старте контейнера. false — если вы
-      # накатываете их отдельным шагом в CI.
       RUN_MIGRATIONS: "true"
     ports:
       - "5000:5000"
@@ -27,14 +16,11 @@ services:
       - uploads:/app/uploads
     restart: unless-stopped
 
-  # Нужен только для раздельного хостинга: образ server уже содержит клиент
-  # и отдаёт всё приложение сам на своём порту.
   client:
     build:
       context: ../client
       dockerfile: ../docker/client.Dockerfile
       args:
-        # Адрес, по которому браузер видит сервер (не имя сервиса в compose)
         VITE_API_URL: ${VITE_API_URL:-http://localhost:5000}
     ports:
       - "8080:80"

@@ -338,6 +338,16 @@
             "avgScore": "O‘rt. ball",
             "results": "Natijalar",
             "edit": "Tahrirlash"
+        },
+        "delete": {
+            "title": "Testni o‘chirish",
+            "confirm": "«{{title}}» testi barcha savollari bilan birga butunlay o‘chiriladi.",
+            "attemptsWarning": "Test bilan birga talabalarning urinishlari va natijalari ham o‘chiriladi: {{count}}.",
+            "cancel": "Bekor qilish",
+            "submit": "O‘chirish",
+            "deleting": "O‘chirilmoqda...",
+            "success": "Test o‘chirildi",
+            "error": "Testni o‘chirib bo‘lmadi"
         }
     },
     "quizAttempts": {

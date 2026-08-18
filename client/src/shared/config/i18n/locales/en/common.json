@@ -338,6 +338,16 @@
             "avgScore": "Avg. score",
             "results": "Results",
             "edit": "Edit"
+        },
+        "delete": {
+            "title": "Delete quiz",
+            "confirm": "The quiz “{{title}}” will be deleted permanently along with all its questions.",
+            "attemptsWarning": "Student attempts and their results will be deleted too: {{count}}.",
+            "cancel": "Cancel",
+            "submit": "Delete",
+            "deleting": "Deleting...",
+            "success": "Quiz deleted",
+            "error": "Failed to delete the quiz"
         }
     },
     "quizAttempts": {
