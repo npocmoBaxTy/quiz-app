@@ -20,9 +20,32 @@ const ALLOWED_MIME_TYPES = new Set([
   "image/gif",
 ]);
 
+const ALLOWED_DOCUMENT_MIME_TYPES = new Set([
+  // PDF
+  "application/pdf",
+
+  // Microsoft Word
+  "application/msword", // .doc
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+
+  // Microsoft Excel
+  "application/vnd.ms-excel", // .xls
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
+]);
+
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => {
     cb(null, UPLOADS_DIR);
+  },
+  filename: (_req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase();
+    cb(null, `${randomUUID()}${ext}`);
+  },
+});
+
+const docsStorage = multer.diskStorage({
+  destination: (_req, _file, cb) => {
+    cb(null, env.docsDir);
   },
   filename: (_req, file, cb) => {
     const ext = path.extname(file.originalname).toLowerCase();
@@ -36,6 +59,18 @@ export const uploadImage = multer({
   fileFilter: (_req, file, cb) => {
     if (!ALLOWED_MIME_TYPES.has(file.mimetype)) {
       cb(new Error("Разрешены только изображения (png, jpeg, webp, gif)"));
+      return;
+    }
+    cb(null, true);
+  },
+});
+
+export const uploadDocs = multer({
+  storage: docsStorage,
+  limits: { fileSize: 25 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    if (!ALLOWED_DOCUMENT_MIME_TYPES.has(file.mimetype)) {
+      cb(new Error("Разрешены только документы (pdf, doc, docx, xls, xlsx)"));
       return;
     }
     cb(null, true);

@@ -18,6 +18,7 @@ import { ProtectedRoute } from "@/shared/lib/router/ProtectedRoute";
 import { Main } from "@/widgets/main/homePage";
 import { Toaster } from "react-hot-toast";
 import { createBrowserRouter, ScrollRestoration } from "react-router-dom";
+import StudentResourceTab from "@/pages/TeacherDashboardPage/components/ResourcesTab/StudentResourceTab";
 
 export const router = createBrowserRouter([
   // ==========================================
@@ -90,6 +91,17 @@ export const router = createBrowserRouter([
       <ProtectedRoute allowedRoles={["STUDENT"]}>
         <>
           <StudentProfilePage />
+          <ScrollRestoration />
+        </>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/student/resources",
+    element: (
+      <ProtectedRoute allowedRoles={["STUDENT"]}>
+        <>
+          <StudentResourceTab />
           <ScrollRestoration />
         </>
       </ProtectedRoute>

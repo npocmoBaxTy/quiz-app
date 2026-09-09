@@ -1,7 +1,7 @@
 import { useAuthStore } from "@/features/auth/store/authstore";
 import { useSidebarStore } from "@/shared/store/sidebarStore";
 import { Logo } from "@/shared/ui/Logo/Logo";
-import { Home, List, Settings, ChartLine, X } from "lucide-react";
+import { Home, List, Settings, ChartLine, X, File } from "lucide-react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, useLocation } from "react-router-dom";
@@ -44,8 +44,8 @@ export const Sidebar = () => {
   // Универсальная функция для стилизации пунктов меню
   const getNavLinkClass = ({ isActive }: { isActive: boolean }) => {
     return `flex items-center gap-4 px-3 py-3 rounded-xl transition-all ${isActive
-        ? "text-slate-900 bg-slate-50/80 font-semibold" // Стили активной вкладки
-        : "text-slate-500 hover:text-slate-900 hover:bg-slate-50 font-medium" // Стили неактивной вкладки
+      ? "text-slate-900 bg-slate-50/80 font-semibold" // Стили активной вкладки
+      : "text-slate-500 hover:text-slate-900 hover:bg-slate-50 font-medium" // Стили неактивной вкладки
       }`;
   };
 
@@ -96,6 +96,10 @@ export const Sidebar = () => {
           <NavLink to="/student/profile" className={getNavLinkClass}>
             <Settings size={20} className="opacity-80" />
             <span>{t("sidebar.settings", "Настройки")}</span>
+          </NavLink>
+          <NavLink to="/student/resources" className={getNavLinkClass}>
+            <File size={20} className="opacity-80" />
+            <span>{t("teacherDashboard.aside.resource", "Ресурсы")}</span>
           </NavLink>
         </nav>
 

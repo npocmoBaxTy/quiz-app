@@ -13,8 +13,9 @@ import { LiveActivityFeed } from "./components/LiveActivityFeed";
 import { TeacherQuizzesTab } from "./components/DashboardQuizesList/DashboardQuizesList";
 import { StudentsTab } from "./components/StudentsTab/StudentsTab";
 import { SettingsTab } from "./components/SettingsTab/SettingsTab";
+import ResourcesTab from "./components/ResourcesTab/ResourcesTab";
 
-const TABS = ["dashboard", "quizzes", "students", "settings"] as const;
+const TABS = ["dashboard", "quizzes", "students", "settings", "resource"] as const;
 type Tab = (typeof TABS)[number];
 
 export default function TeacherDashboard() {
@@ -95,6 +96,7 @@ export default function TeacherDashboard() {
       {activeTab === "quizzes" && <TeacherQuizzesTab />}
       {activeTab === "students" && <StudentsTab />}
       {activeTab === "settings" && <SettingsTab />}
+      {activeTab === "resource" && <ResourcesTab />}
     </div>
   );
 }

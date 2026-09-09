@@ -175,3 +175,31 @@ model users {
   quizzes          quizzes[]
   refresh_tokens   refresh_tokens[]
 }
+
+// Таблица категорий (например: "Тесты", "Учебные пособия")
+model DocumentCategory {
+  id        Int             @id @default(autoincrement())
+  name      String          @db.VarChar(255)
+  
+  // Связь: в одной категории может быть много документов
+  documents StudyDocument[] 
+  
+  createdAt DateTime        @default(now()) @map("created_at")
+
+  @@map("document_categories")
+}
+
+// Таблица самих учебных материалов/документов
+model StudyDocument {
+  id         Int              @id @default(autoincrement())
+  title      String           @db.VarChar(500)
+  fileUrl    String           @map("file_url") @db.Text // Ссылка на загруженный файл
+  
+  // Связь с категорией (Foreign Key)
+  categoryId Int              @map("category_id")
+  category   DocumentCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  
+  createdAt  DateTime         @default(now()) @map("created_at")
+
+  @@map("study_documents")
+}

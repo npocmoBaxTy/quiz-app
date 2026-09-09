@@ -16,6 +16,8 @@ import studentResultsRoutes from "./../modules/studentsResults/studentResults.ro
 import uploadRoutes from "./../modules/upload/upload.routes.js";
 import profileRoutes from "./../modules/profile/profile.routes.js";
 import questionBankRoutes from "./../modules/questionBank/questionBank.routes.js";
+import studyCategoriesRoutes from "./../modules/resources/categories.routes.js";
+import studyResourcesRoutes from "./../modules/resources/resources.routes.js";
 
 const router = Router();
 
@@ -35,5 +37,7 @@ router.use("/student", authMiddleware, studentResultsRoutes);
 router.use("/upload", authMiddleware, uploadRoutes);
 router.use("/profile", profileRoutes);
 router.use("/question-bank", authMiddleware, questionBankRoutes);
+router.use("/study-categories", authMiddleware, studyCategoriesRoutes);
+router.use("/study-documents", authMiddleware, studyResourcesRoutes);
 
 export default router;

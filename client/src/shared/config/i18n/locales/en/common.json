@@ -255,6 +255,7 @@
             "myQuizzes": "My quizzes",
             "students": "Students",
             "settings": "Settings",
+            "resource":"Resources",
             "logout": "Log out"
         },
         "header": {

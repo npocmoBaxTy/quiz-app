@@ -1,6 +1,6 @@
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 
-dotenv.config()
+dotenv.config();
 
 /**
  * Обязательные переменные проверяем на старте, а не в момент первого запроса:
@@ -8,22 +8,22 @@ dotenv.config()
  * залогиниться.
  */
 function required(name: string): string {
-  const value = process.env[name]
+  const value = process.env[name];
   if (!value) {
     throw new Error(
       `Не задана обязательная переменная окружения ${name}. Список всех переменных — в server/.env.example`,
-    )
+    );
   }
-  return value
+  return value;
 }
 
 function parsePort(raw: string | undefined): number {
-  if (!raw) return 5000
-  const port = Number(raw)
+  if (!raw) return 5000;
+  const port = Number(raw);
   if (!Number.isInteger(port) || port < 1 || port > 65535) {
-    throw new Error(`PORT должен быть числом от 1 до 65535, получено: ${raw}`)
+    throw new Error(`PORT должен быть числом от 1 до 65535, получено: ${raw}`);
   }
-  return port
+  return port;
 }
 
 /**
@@ -32,17 +32,19 @@ function parsePort(raw: string | undefined): number {
  * пользователей и лимит станет общим. Значение — число хопов до клиента.
  */
 function parseTrustProxy(raw: string | undefined): number | boolean {
-  if (!raw) return false
-  if (raw === "true") return true
-  if (raw === "false") return false
-  const hops = Number(raw)
+  if (!raw) return false;
+  if (raw === "true") return true;
+  if (raw === "false") return false;
+  const hops = Number(raw);
   if (!Number.isInteger(hops) || hops < 0) {
-    throw new Error(`TRUST_PROXY должен быть true, false или числом хопов, получено: ${raw}`)
+    throw new Error(
+      `TRUST_PROXY должен быть true, false или числом хопов, получено: ${raw}`,
+    );
   }
-  return hops
+  return hops;
 }
 
-const nodeEnv = process.env.NODE_ENV ?? "development"
+const nodeEnv = process.env.NODE_ENV ?? "development";
 
 export const env = {
   nodeEnv,
@@ -61,6 +63,7 @@ export const env = {
   trustProxy: parseTrustProxy(process.env.TRUST_PROXY),
   /** Каталог загрузок относительно рабочей директории процесса. */
   uploadsDir: process.env.UPLOADS_DIR ?? "uploads",
+  docsDir: process.env.DOCS_DIR ?? "uploads/documents",
   /**
    * Каталог со собранным клиентом. Если он существует, сервер раздаёт SPA
    * сам; если нет — работает только как API, и статику отдаёт кто-то другой.
@@ -68,4 +71,4 @@ export const env = {
   clientDist: process.env.CLIENT_DIST ?? "client-dist",
   /** Необязательный: без него роут AI-генерации отвечает понятной ошибкой. */
   geminiApiKey: process.env.GEMINI_API_KEY ?? "",
-}
+};

@@ -1,7 +1,7 @@
 import { useAuthStore } from "@/features/auth/store/authstore";
 import { useSidebarStore } from "@/shared/store/sidebarStore";
 import { Logo } from "@/shared/ui/Logo/Logo";
-import { BarChart2, FileText, Users, Settings, LogOut, X } from "lucide-react";
+import { BarChart2, FileText, Users, Settings, LogOut, X, File } from "lucide-react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
@@ -72,6 +72,12 @@ export const TeacherSidebar = () => {
       label: t("teacherDashboard.aside.settings"),
       active: isDashboard && tab === "settings",
     },
+    {
+      to: `${DASHBOARD_PATH}?tab=resource`,
+      icon: File,
+      label: t("teacherDashboard.aside.resource"),
+      active: isDashboard && tab === "resource",
+    },
   ];
 
   return (
@@ -106,8 +112,8 @@ export const TeacherSidebar = () => {
               key={label}
               to={to}
               className={`flex items-center gap-3 w-full p-3 rounded-lg transition-all font-medium ${active
-                  ? "bg-blue-50 text-blue-700"
-                  : "text-slate-500 hover:bg-slate-100 hover:text-slate-800"
+                ? "bg-blue-50 text-blue-700"
+                : "text-slate-500 hover:bg-slate-100 hover:text-slate-800"
                 }`}
             >
               <Icon
